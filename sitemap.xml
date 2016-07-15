@@ -16,19 +16,7 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/projects/vision-pipeline/</loc>
-  </url>
-  
-  <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/projects/constraint-db/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/projects/mobile-recommender/</loc>
   </url>
   
   <url>
@@ -36,11 +24,23 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/mobile-recommender/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/projects/pixel-packing/</loc>
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+    <loc>http://db.science.uoit.ca/projects/vision-pipeline/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/constraint-db/</loc>
   </url>
   
   <url>

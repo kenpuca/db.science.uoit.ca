@@ -12,6 +12,10 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/courses/algorithms/insert-sort/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/people/kenpu/</loc>
   </url>
   
@@ -20,11 +24,19 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/slides/algorithms/intro/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/projects/open-data/</loc>
   </url>
   
   <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</loc>
   </url>
   
   <url>

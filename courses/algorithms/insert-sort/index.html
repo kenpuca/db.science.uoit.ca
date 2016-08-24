@@ -15,16 +15,22 @@
 
 		
         <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/zenburn.css">
-        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
 
 		
 		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
-            link.href = window.location.search.match( /print-pdf/gi ) ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+
+        
 	</head>
 	<body>
         <div class="reveal">
@@ -619,12 +625,17 @@ completely sorted by <code>insertion_sort</code>.</p>
         </div>
 
         <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+
         <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
         <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
 
 		<script>
         
-        function isBreak($p) {
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
             var a = $p.find("a:first");
             if(a.size() > 0 &&
                     a.text() == "!" && 
@@ -640,11 +651,14 @@ completely sorted by <code>insertion_sort</code>.</p>
             var $section = $("<section>");
             for(var i=0; i < $elems.length; i++) {
                 var $elem = $($elems[i]);
-                if(isBreak($elem)) {
+                if(isBreak($elem, $section)) {
                     $section.appendTo($reveal);
                     $elem.appendTo($section)
                         .wrap("<aside class='notes'>");
                     $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
                 } else {
                     $elem.appendTo($section);
                 }
@@ -675,10 +689,14 @@ completely sorted by <code>insertion_sort</code>.</p>
                         async: true },
                     { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
                         async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-                    { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js',
-                        async: false },
+                    
+                        { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js', async: false },
+                    
                     { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
-                    { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true }
+                    { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js',
+                        async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', 
+                        async: true}
 				]
 			});
         }

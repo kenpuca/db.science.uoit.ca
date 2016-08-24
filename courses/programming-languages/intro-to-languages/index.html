@@ -1,9 +1,10 @@
-<!doctype html>
+
+    <!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Symposium</title>
+        <title></title>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
@@ -30,77 +31,85 @@
         <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
 
         
-<style>
-.reveal:after {
-    content: "Symposium on Teaching, Faculty of Science, 2016" !important;
-}
-</style>
-        
 	</head>
 	<body>
         <div class="reveal">
             <div class="slides">
 
-<h1 id="instant-gratification">Instant gratification</h1>
+<h1 id="computation-in-practice">Computation in practice</h1>
 
-<div style=height:400px></div>
+<ul>
+<li><p>Languages based on stateful computation</p></li>
 
-<h2 id="ken-pu">Ken Pu</h2>
+<li><p>Languages based on functional computation</p></li>
 
-<h1 id="tl-tr">TL;TR</h1>
+<li><p>Hybrid languages</p></li>
+</ul>
+
+<h1 id="break"><a href="break">!</a></h1>
+
+<h1 id="stateful-computation">Stateful computation</h1>
+
+<p><a href="columns 4:">!</a></p>
+
+<p>Languages</p>
 
 <blockquote>
 <ul>
-<li><p>Instant gratification is a powerful equalizer
-<br><br></p></li>
-
-<li><p>Instant gratification is dangerous
-<br><br></p></li>
-
-<li><p>Technology is almost there
-<br><br></p></li>
-
-<li><p>Yes, you can use it now</p></li>
+<li>Javascript</li>
+<li>Python</li>
 </ul>
 </blockquote>
 
-<h1 id="the-equalizer-1">The equalizer (1)</h1>
-
-<p><a href="columns 5:2:5">!</a></p>
-
-<p><img class="fragment" src="degrasse.jpg"></img></p>
-
-<p><a href="split">!</a></p>
-
-<div style=margin-top:200px;font-size:500%>=</div>
-
-<p><a href="split">!</a></p>
-
-<p><img class="fragment" src="Instant-Gratification.jpg"></img></p>
-
-<h1 id="the-equalizer-2">The equalizer (2)</h1>
-
-<p><a href="columns 10:">!</a></p>
-
-<p><img src="engineer.jpg"></img></p>
+<p>Task</p>
 
 <blockquote>
-<p>Google Engineer</p>
+<p>Quicksort</p>
 </blockquote>
 
 <p><a href="split">!</a></p>
 
-<div style=font-size:500%>=</div>
+<pre><code class="language-python">X = [6, 3, 4, 8, 1, 4]
 
-<h1 id="the-equalizer-2-1">The equalizer (2)</h1>
+def quicksort(X, i, j):
+  if i &lt; j:
+    p = partition(X, i, j)
+    quicksort(X, i, p-1)
+    quicksort(X, p+1, j)
 
-<p><img style=height:500px src="women-in-cs.jpg"></img></p>
+def partition(X, i, j):
+  pivot = X[j]
+  m = i
+  for n in range(i, j):
+    if X[n] &lt;= pivot:
+      X[m], X[n] = X[n], X[m]
+      m += 1
+  X[m], X[j] = X[j], X[m]
+  return m
 
-<h1 id="example-1">Example (1)</h1>
+def QuickSort(X):
+  return quicksort(X, 0, len(X)-1)
+</code></pre>
 
-<blockquote>
-<p>Common table expressions in SQL</p>
-</blockquote>
+<h1 id="break-1"><a href="break">!</a></h1>
+
+<div pdf="qsort-py.pdf"></div>
+
+<h1 id="break-2"><a href="break">!</a></h1>
+
+<h1 id="python-v-s-javascript">Python v.s. Javascript</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<script
+src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.py"></script>
+
+<p><a href="split">!</a></p>
+
+<div style=height:600px;overflow:auto>
+<script
+src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.js"></script>
+</div>
 </div>
         </div>
 
@@ -170,7 +179,7 @@
                     { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
                         async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
                     
-                        
+                        { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js', async: false },
                     
                     { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
                     { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js',
@@ -183,4 +192,5 @@
 		</script>
 	</body>
 </html>
+
 

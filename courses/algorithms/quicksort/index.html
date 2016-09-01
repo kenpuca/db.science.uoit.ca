@@ -36,80 +36,168 @@
         <div class="reveal">
             <div class="slides">
 
-<h1 id="computation-in-practice">Computation in practice</h1>
+<h1 id="quicksort">Quicksort</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="quicksort-1">Quicksort</h1>
 
 <ul>
-<li><p>Languages based on stateful computation</p></li>
-
-<li><p>Languages based on functional computation</p></li>
-
-<li><p>Hybrid languages</p></li>
-</ul>
-
-<h1 id="break"><a href="break">!</a></h1>
-
-<h1 id="stateful-computation">Stateful computation</h1>
-
-<p><a href="columns 4:">!</a></p>
-
-<p>Languages</p>
+<li><p>Divide and conquer</p>
 
 <blockquote>
+<p>Given a list $L$, we divide the sorting problem into two sub-problems.</p>
+
+<ol>
+<li><p>Sort the elements in $L$ smaller than $x$: $L_1$</p></li>
+
+<li><p>Sort the elements in $L$ larger than $x$: $L_2$</p></li>
+</ol>
+</blockquote></li>
+
+<li><p>Combine</p>
+
+<blockquote>
+<p><code>$\mathrm{sorted}(L) = \mathrm{sorted}(L_1) \oplus \{x\} \oplus \mathrm{sorted}(L_2)$</code></p>
+</blockquote></li>
+</ul>
+
+<h1 id="partition">Partition</h1>
+
+<p>Given a list <code>$L$</code> and an element $x$ in $L$, <em>partitioning</em> $L[p \dots r]$ by the <em>pivot</em>
+element $x$ does the following:</p>
+
+<blockquote>
+<p>Rearrange the elements in $L[p\dots r]$ so that there exists a position $q$
+such that <em>after</em> rearrangment:</p>
+
+<ol>
+<li>$L[q] = x$</li>
+<li>$\forall i\in [p, q-1],\ L[i] \leq x$</li>
+<li>$\forall i\in [q+1, r],\ L[i] \geq x$</li>
+<li><a href="comfort">!</a></li>
+</ol>
+</blockquote>
+
+<p><a href="break">!</a></p>
+
+<h2 id="version-0-1-simple-but-takes-more-memory">Version 0.1: simple, but takes more memory</h2>
+
+<p>Let&rsquo;s implement <code>partition(L, p, r)</code> with the minimal effort:</p>
+
 <ul>
-<li>Javascript</li>
-<li>Python</li>
+<li>Pick $x = L[r]$</li>
+<li>Filter the list for smaller elements: <code>$L_1 = \{y\in L[p\dots r-1]: y\leq x\}$</code></li>
+<li>Filter the list for larger elements: <code>$L_2 = \{y\in L[p\dots r-1]: y &gt; x\}$</code></li>
+<li>Reconstruct: <code>$L[p \dots r] = L_1 \oplus \{x\} \oplus L_2$</code></li>
+<li><a href="comfort">!</a></li>
 </ul>
-</blockquote>
 
-<p>Task</p>
-
-<blockquote>
-<p>Quicksort</p>
-</blockquote>
-
-<p><a href="split">!</a></p>
-
-<pre><code class="language-python">X = [6, 3, 4, 8, 1, 4]
-
-def quicksort(X, i, j):
-  if i &lt; j:
-    p = partition(X, i, j)
-    quicksort(X, i, p-1)
-    quicksort(X, p+1, j)
-
-def partition(X, i, j):
-  pivot = X[j]
-  m = i
-  for n in range(i, j):
-    if X[n] &lt;= pivot:
-      X[m], X[n] = X[n], X[m]
-      m += 1
-  X[m], X[j] = X[j], X[m]
-  return m
-
-def QuickSort(X):
-  return quicksort(X, 0, len(X)-1)
+<pre><code class="language-python">def partition(L, p, r):
+    x = L[r]
+    L1 = [y for y in L[p:r] if y &lt;= x]
+    L2 = [y for y in L[p:r] if y &gt; x]
+    L[p:r] = L1 + [x] + L2
 </code></pre>
 
-<h1 id="break-1"><a href="break">!</a></h1>
+<p><a href="break">!</a></p>
 
-<div pdf="qsort-py.pdf"></div>
+<h2 id="version-0-2-more-involved-but-takes-no-additional-memory">Version 0.2: more involved, but takes no additional memory</h2>
 
-<h1 id="break-2"><a href="break">!</a></h1>
+<p><a href="columns 8:">!</a></p>
 
-<h1 id="python-v-s-javascript">Python v.s. Javascript</h1>
-
-<p><a href="columns 6:">!</a></p>
-
-<script
-src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.py"></script>
+<pre><code class="language-python clipboard">def partition(L, p, r):
+    x = L[r]
+    i = p - 1
+    for j in range(p, r):
+        if L[j] &lt;= x:
+            i += 1
+            L[i], L[j] = L[j], L[i]
+    L[i+1], L[r] = L[r], L[i]
+</code></pre>
 
 <p><a href="split">!</a></p>
 
-<div style=height:600px;overflow:auto>
-<script
-src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.js"></script>
-</div>
+<p>It only involves element swapping, so it requires <em>zero</em> additional memory.</p>
+
+<hr />
+
+<p>But its correctness is much less obvious.</p>
+
+<h1 id="analysis-of-partition">Analysis of partition</h1>
+
+<p><a href="columns 7:">!</a></p>
+
+<pre><code class="language-python clipboard">def partition(L, p, r):
+    x = L[r]
+    i = p - 1
+    for j in range(p, r):
+        if L[j] &lt;= x:
+            i += 1
+            L[i], L[j] = L[j], L[i]
+    L[i+1], L[r] = L[r], L[i]
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>Bookkeeping is the key:</p>
+
+<ul>
+<li><a href="comfort">!</a></li>
+<li>$p$ and $r$ are the boundaries of the sublist to be partitioned.</li>
+<li>$r$ also holds the value of the pivot element.</li>
+<li>Elements in $[p\dots j]$ are processed.</li>
+<li>$i$ is a marker of the boundary between smaller and larger elements.</li>
+</ul>
+
+<h1 id="analysis-of-partition-1">Analysis of partition</h1>
+
+<p><a href="columns 7:">!</a></p>
+
+<pre><code class="language-python clipboard">def partition(L, p, r):
+    x = L[r]
+    i = p - 1
+    for j in range(p, r):
+        if L[j] &lt;= x:
+            i += 1
+            L[i], L[j] = L[j], L[i]
+    L[i+1], L[r] = L[r], L[i]
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>Loop invariance:</p>
+
+<blockquote>
+<p>After each iteration, $L[p, j]$ is properly partitioned:</p>
+
+<ul>
+<li>$L[p, i] \leq x$</li>
+<li>$L[i+1, j] &gt; x$</li>
+<li><a href="comfort">!</a></li>
+</ul>
+</blockquote>
+
+<h1 id="quicksort-2">Quicksort</h1>
+
+<pre><code class="language-python">def quicksort(L, p, r):
+    if p &lt; r:
+        k = partition(L, p, r)
+        quicksort(L, p, k-1)
+        quicksort(L, k+1, r)
+</code></pre>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li><p>Partition: a simple version</p></li>
+
+<li><p>Partition: a zero-memory version</p></li>
+
+<li><p>Quicksort: a recursive sorting algorithm</p></li>
+</ul>
 </div>
         </div>
 

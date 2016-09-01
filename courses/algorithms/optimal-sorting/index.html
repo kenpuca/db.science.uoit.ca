@@ -36,80 +36,11 @@
         <div class="reveal">
             <div class="slides">
 
-<h1 id="computation-in-practice">Computation in practice</h1>
+<h1 id="optimal-comparison-based-sorting-br-v-s-br-numerical-sorting">Optimal Comparison Based Sorting <br> v.s. <br>  Numerical Sorting</h1>
 
-<ul>
-<li><p>Languages based on stateful computation</p></li>
+<p><a href="highlight">!</a></p>
 
-<li><p>Languages based on functional computation</p></li>
-
-<li><p>Hybrid languages</p></li>
-</ul>
-
-<h1 id="break"><a href="break">!</a></h1>
-
-<h1 id="stateful-computation">Stateful computation</h1>
-
-<p><a href="columns 4:">!</a></p>
-
-<p>Languages</p>
-
-<blockquote>
-<ul>
-<li>Javascript</li>
-<li>Python</li>
-</ul>
-</blockquote>
-
-<p>Task</p>
-
-<blockquote>
-<p>Quicksort</p>
-</blockquote>
-
-<p><a href="split">!</a></p>
-
-<pre><code class="language-python">X = [6, 3, 4, 8, 1, 4]
-
-def quicksort(X, i, j):
-  if i &lt; j:
-    p = partition(X, i, j)
-    quicksort(X, i, p-1)
-    quicksort(X, p+1, j)
-
-def partition(X, i, j):
-  pivot = X[j]
-  m = i
-  for n in range(i, j):
-    if X[n] &lt;= pivot:
-      X[m], X[n] = X[n], X[m]
-      m += 1
-  X[m], X[j] = X[j], X[m]
-  return m
-
-def QuickSort(X):
-  return quicksort(X, 0, len(X)-1)
-</code></pre>
-
-<h1 id="break-1"><a href="break">!</a></h1>
-
-<div pdf="qsort-py.pdf"></div>
-
-<h1 id="break-2"><a href="break">!</a></h1>
-
-<h1 id="python-v-s-javascript">Python v.s. Javascript</h1>
-
-<p><a href="columns 6:">!</a></p>
-
-<script
-src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.py"></script>
-
-<p><a href="split">!</a></p>
-
-<div style=height:600px;overflow:auto>
-<script
-src="https://gist.github.com/kenpu/e2e3fcc9feea16fb14a84c7ec98cdd75.js?file=qsort.js"></script>
-</div>
+<h1 id="lower-bounds-for-sorting">Lower Bounds for Sorting</h1>
 </div>
         </div>
 

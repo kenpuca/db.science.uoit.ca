@@ -32,7 +32,7 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/courses/programming-languages/intro-to-languages/</loc>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/old/intro-to-languages/</loc>
   </url>
   
   <url>
@@ -48,7 +48,11 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/slides/algorithms/intro/</loc>
+    <loc>http://db.science.uoit.ca/courses/algorithms/bucket-sort/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
   </url>
   
   <url>
@@ -60,7 +64,15 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/courses/algorithms/sorting-numbers/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/tour-of-languages/</loc>
   </url>
   
   <url>

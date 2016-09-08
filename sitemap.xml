@@ -44,6 +44,10 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/sandbox/slide/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/</loc>
   </url>
   
@@ -61,6 +65,10 @@
   
   <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/sandbox/article/</loc>
   </url>
   
   <url>

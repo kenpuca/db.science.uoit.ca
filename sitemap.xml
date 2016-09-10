@@ -56,6 +56,10 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/lisp-clojure/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
   </url>
   
@@ -69,6 +73,10 @@
   
   <url>
     <loc>http://db.science.uoit.ca/sandbox/article/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/writings/sandbox/</loc>
   </url>
   
   <url>

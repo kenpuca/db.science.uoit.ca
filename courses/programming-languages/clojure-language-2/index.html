@@ -41,23 +41,437 @@
 
 <p><a href="highlight">!</a></p>
 
-<p>We will be covering the <em>rest</em> of the Clojure syntax.</p>
+<h1 id="data-in-clojure">Data in Clojure</h1>
+
+<p>$\mathbf{D}$(<code>clojure</code>) = a sequence of (nested) <em>data</em></p>
+
+<pre><code class="language-clojure">(1 2 3)
+(&quot;abc&quot; &quot;def&quot;)
+[&quot;abc&quot; (&quot;def&quot; 1 2 3)]
+</code></pre>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>Let&rsquo;s explore the definitions of <em>data</em>.</p>
+
+<h1 id="data-in-clojure-1">Data in Clojure</h1>
+
+<p>Atoms</p>
+
+<blockquote>
+<ul>
+<li>Numbers: 3.1415, 100, <code>2/3</code>, 100N, 3.1415M</li>
+<li>Strings: <code>&quot;hello world&quot;</code></li>
+<li>Characters: <code>\a \b \c</code></li>
+<li>Symbols: <code>name</code>, <code>π</code></li>
+<li>Keywords: <code>:name</code></li>
+<li>Nil value: <code>nil</code></li>
+</ul>
+</blockquote>
+
+<h1 id="lists">Lists</h1>
+
+<blockquote>
+<pre><code>( ... )
+</code></pre>
+</blockquote>
+
+<p>Lists are <em>linked lists</em>.</p>
 
 <ul>
-<li><a href="comfort">!</a></li>
+<li>They are super efficient for prepend and append at the ends of the lists.</li>
+<li>But they are not efficient for random access.</li>
+</ul>
 
-<li><p>Native data structures beyond just lists:</p>
+<h1 id="lists-1">Lists</h1>
+
+<p><em>Important</em></p>
+
+<ul>
+<li>Clojure, by default, interpretates lists as function invocations.</li>
+<li>A list that is <em>just a list</em> needs to be quoted.</li>
+</ul>
+
+<p><a href="&amp;&amp;&amp;&amp;&amp;">!</a></p>
+
+<pre><code class="language-clojure">(println &quot;hello&quot; &quot;world&quot;)
+</code></pre>
+
+<p><a href="note">!</a> This is a function invocation.</p>
+
+<pre><code class="language-clojure">(quote (println &quot;hello&quot; &quot;world&quot;))
+</code></pre>
+
+<p><a href="note">!</a> This is a list of three elements.</p>
+
+<pre><code class="language-clojure">'(println &quot;hello&quot; &quot;world&quot;))
+</code></pre>
+
+<p><a href="note">!</a> This is the preferred way of quoting a list.</p>
+
+<h1 id="vectors">Vectors</h1>
+
+<blockquote>
+<pre><code>[ ... ]
+</code></pre>
+</blockquote>
+
+<p>Vectors are <em>arrays</em>.</p>
+
+<ul>
+<li>They are efficient for random access.</li>
+<li>But they are more costly for insertion in the middle and possibly at the ends.</li>
+</ul>
+
+<h1 id="hash-maps">Hash-maps</h1>
+
+<blockquote>
+<pre><code>{ &lt;key&gt; &lt;value&gt; &lt;key&gt; &lt;value&gt; ... }
+</code></pre>
+</blockquote>
+
+<p>Hash-map are <em>hash maps</em> :)</p>
+
+<ul>
+<li>They are efficient for key look-up, but</li>
+<li>they are potential memory intensive.</li>
+</ul>
+
+<h1 id="hash-maps-1">Hash-maps</h1>
+
+<p>Idiomatic Clojure prefers to use <em>keywords</em> as keys.</p>
+
+<blockquote>
+<ul>
+<li><p>It makes the code readable.</p></li>
+
+<li><p>Keyword lookup is also more efficient than strings.</p></li>
+</ul>
+
+<p><a href="note">!</a></p>
+</blockquote>
+
+<pre><code class="language-clojure">{:name   &quot;Ken Pu&quot;
+ :office &quot;UA4041&quot;
+ :role   :instructor}
+</code></pre>
+
+<h1 id="sets">Sets</h1>
+
+<blockquote>
+<pre><code>#{ ... }
+</code></pre>
+</blockquote>
+
+<p>Duplicates are <em>not</em> allowed.  Order doesn&rsquo;t matter.</p>
+
+<blockquote>
+<pre><code>(= #{3 2 1} #{1 2 3}) ; true
+</code></pre>
+</blockquote>
+
+<h1 id="an-example">An example</h1>
+
+<pre><code class="language-clojure sm">{:type &quot;a relational database&quot;
+ :name &quot;csci3055u assignments&quot;
+ :tuples [ {:name &quot;assignment 1&quot;
+            :due-date (&quot;October&quot; 21 2016)
+            :url &quot;http://...&quot;}
+
+           {:name &quot;assignment 2&quot;
+            :due-date (&quot;November&quot; 20 2016)
+            :url &quot;http://...&quot;}
+
+           {:name &quot;assignment 3&quot;
+            :due-date (&quot;December&quot; 6 2016)
+            :url nil}
+         ]
+}
+</code></pre>
+
+<p><a href="note">!</a> A data value that describes a relational table.</p>
+
+<h1 id="functional-programming-in-clojure">Functional Programming in Clojure</h1>
+
+<p><a href="highlight">!</a></p>
+
+<p>This is really important.</p>
+
+<ul>
+<li><p>Don&rsquo;t worry about the syntax.</p></li>
+
+<li><p>Focus on the <em>way</em> of read-only data.</p></li>
+</ul>
+
+<h1 id="functional-programming-in-clojure-1">Functional Programming in Clojure</h1>
+
+<p><em>Data</em> is (almost always) <em>immutable</em>.</p>
+
+<p><strong>Example</strong>:</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<p>Consider data:</p>
+
+<pre><code class="language-clojure sm">{:name &quot;Albert Einstein&quot;
+ :profession &quot;Patent Clerk&quot;
+ :age 24
+ :publication [&quot;Relativity&quot;
+               &quot;Speed of light&quot;]}
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>How can we update the <code>:profession</code> field, or age?</p>
+
+<blockquote>
+<ul>
+<li>We cannot.</li>
+<li>Clojure only supports convenient ways for us to
+to create a copy of the data with a modified <code>:office</code>
+field.</li>
+</ul>
+</blockquote>
+
+<h1 id="preview-of-what-s-to-come">Preview of what&rsquo;s to come&hellip;</h1>
+
+<pre><code class="language-clojure sm">(def person {:name &quot;Albert Einstein&quot;
+             :profession &quot;Patent Clerk&quot;
+             :age 24
+             :publication [&quot;Relativity&quot;]})
+</code></pre>
+
+<pre><code class="language-clojure sm">(assoc person :profession &quot;Physicist&quot;)
+</code></pre>
+
+<blockquote>
+<p><a href="note 5">!</a>
+This does not change the person (as it cannot be changed - <strong>ever</strong>).
+Instead, <code>(assoc ...)</code> creates a new clone with the delta change of setting
+<code>:profession</code> being <code>Physicist</code>.</p>
+</blockquote>
+
+<pre><code class="language-clojure sm">(update person :age inc)
+</code></pre>
+
+<blockquote>
+<p><a href="note 5">!</a>
+This makes a copy of <code>person</code>, with the change of incremental <code>:age</code> by <strong>one</strong>.</p>
+</blockquote>
+
+<h1 id="functional-programming">Functional programming</h1>
+
+<ul>
+<li><p><a href="comfort">!</a></p></li>
+
+<li><p>Don&rsquo;t worry about &ldquo;waste&rdquo; of memory (for now).</p></li>
+
+<li><p>If you need to change data,</p>
+
+<blockquote>
+<p>Make a copy of the data, but with the change applied.</p>
+
+<p>No procedures, only functions.</p>
+</blockquote></li>
+
+<li><p>Functional programming has many benefits&hellip;</p></li>
+</ul>
+
+<h1 id="programs-in-clojure">Programs in Clojure</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="function-invocations">Function invocations</h1>
+
+<p>General form:</p>
+
+<pre><code>( &lt;fn&gt; &lt;arg&gt; ... )
+</code></pre>
+
+<p>Examples:</p>
+
+<pre><code class="language-clojure sm">(list 1 2 3)
+; (1 2 3)
+</code></pre>
+
+<p><a href="note">!</a> <code>list</code> constructs a list consisting of its arguments.</p>
+
+<pre><code class="language-clojure sm">(vector 1 2 3)
+; [1 2 3]
+</code></pre>
+
+<p><a href="note">!</a> <code>vector</code> is like <code>list</code>, but returns a vector.</p>
+
+<pre><code class="language-clojure sm">(range 10)
+; (1 2 3 4 5 6 7 8 9)
+</code></pre>
+
+<p><a href="note">!</a> Returns a list of a sequence of number.</p>
+
+<h1 id="function-invocation-aka-function-application">Function invocation - aka function application</h1>
+
+<p>We are going to meet our first <em>higher order</em> function: <code>apply</code>.</p>
+
+<pre><code class="language-clojure">(apply &lt;func&gt; &lt;arg-list&gt;)
+</code></pre>
+
+<p>is equivalent to:</p>
+
+<pre><code>(&lt;func&gt; &lt;arg&gt; &lt;arg&gt; ...)
+</code></pre>
+
+<h1 id="function-declaration">Function declaration</h1>
+
+<pre><code class="language-clojure">(defn f [args...] body)
+</code></pre>
+
+<p><a href="note">!</a> Binding a function to a symbol as in the global scope.</p>
+
+<hr />
+
+<pre><code class="language-clojure">(fn [args ...] body)
+</code></pre>
+
+<p><a href="note">!</a> Creating an anonymous function.</p>
+
+<hr />
+
+<pre><code class="language-clojure">#( ... )
+</code></pre>
+
+<p><a href="note">!</a> Creating an anonymous function.  In the local scope, the input arguments are bound to the symbols <code>%1</code>, <code>%2</code>, etc.  If there is only one argument, then it&rsquo;s bound to <code>%</code>.</p>
+
+<h1 id="function-declaration-1">Function declaration</h1>
+
+<p>Recommended way:</p>
+
+<pre><code class="language-clojure">(defn add [x y]
+  (+ x y))
+</code></pre>
+
+<p>More indirect, but still quite readable:</p>
+
+<pre><code class="language-clojure">(def add
+  (fn [x y] (+ x y)))
+</code></pre>
+
+<p>Not recommended for this:</p>
+
+<pre><code class="language-clojure">(def add #(+ %1 %2))
+</code></pre>
+
+<p><a href="note">!</a> Irresponsible show-off of deep knowledge of Clojure syntax can quickly turn into unreadable spaghetti code.</p>
+
+<h1 id="more-on-function-declarations-variadic-arguments">More on function declarations: variadic arguments</h1>
+
+<p>A function can have multiple versions:</p>
+
+<pre><code class="language-clojure">(defn f
+  ([arg] body)
+  ([arg arg] body)
+  ([arg arg arg] body))
+</code></pre>
+
+<p>A function can also have non-deterministic number of arguments, and bind all the arguments in an array.</p>
+
+<pre><code class="language-clojure">(defn f [arg arg &amp; args] body)
+</code></pre>
+
+<p><a href="note">!</a> In the scope of <code>body</code>, the symbol <code>args</code> is bound to a list consisting of the third, fourth, fifth arguments, and so on.</p>
+
+<h1 id="branching">Branching</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(if &lt;cond&gt; &lt;expr&gt; &lt;expr&gt;)
+</code></pre>
+</blockquote>
+
+<p>Example:</p>
+
+<pre><code class="language-clojure">(defn larger [x y]
+  (if (&lt; x y) y x))
+</code></pre>
+
+<pre><code class="language-clojure">(defn largest [&amp; xs]
+  (if (= (count xs) 1)
+    (first xs)
+    (larger (first xs) (apply largest (rest xs)))))
+</code></pre>
+
+<h1 id="branching-case-by-case">Branching: case by case</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(cond
+  &lt;cond&gt; &lt;expr&gt;
+  &lt;cond&gt; &lt;expr&gt;
+  ...
+  :else &lt;expr&gt;)
+</code></pre>
+</blockquote>
+
+<p>Example:</p>
+
+<pre><code class="language-clojure">(defn compare [x y]
+  (cond
+    (&lt; x y) -1
+    (&gt; x y) 1
+    :else   0))
+</code></pre>
+
+<h1 id="iteration-a-first-look">Iteration: a first look</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(for [i expr] body)
+</code></pre>
+</blockquote>
 
 <ol>
-<li>vector</li>
-<li>set</li>
-<li>hash-map</li>
-</ol></li>
+<li><code>expr</code> must evaluate to a sequence of elements.</li>
+<li><code>i</code> is the symbol that exists in the scope of <code>body</code>.  It is bound to elements in <code>expr</code> during each iteration.</li>
+<li>At each iteration <code>body</code> is evaluated.</li>
+<li><a href="comfort">!</a></li>
+</ol>
 
-<li><p>Iteration and branching</p></li>
+<p><strong>Note</strong>:</p>
 
-<li><p>Functions and higher order functions</p></li>
-</ul>
+<blockquote>
+<p><code>(for ...)</code> is an expression.  It is evaluated to a <em>lazy</em> sequence, consisting of elements of each evaluation of <code>body</code>.</p>
+</blockquote>
+
+<h1 id="for-loop">For-loop</h1>
+
+<p>Example:</p>
+
+<pre><code class="language-clojure">(for [i (range 10)]
+  (str &quot;Hi, this is the &quot; i &quot;th iteration.&quot;))
+</code></pre>
+
+<h1 id="more-iterations">More iterations:</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(doseq [i expr] body)
+</code></pre>
+</blockquote>
+
+<p>It is very similar to <code>(for [i expr] body)</code>, but it&rsquo;s non-functional.</p>
+
+<p><code>(doseq ...)</code> iterates over <code>expr</code>, and evaluates <code>body</code> for each iteration.</p>
+
+<p><a href="box">!</a> But the result of each evaluation is <strong>THROWN AWAY</strong>&hellip;</p>
+
+<h1 id="more-iterations-1">More iterations</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(dotimes [i n] body)
+</code></pre>
+</blockquote>
+
+<p>This is equivalent to:</p>
+
+<blockquote>
+<pre><code class="language-clojure">(doseq [i (range n)] body)
+</code></pre>
+</blockquote>
 </div>
         </div>
 

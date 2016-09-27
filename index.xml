@@ -2865,23 +2865,437 @@ $$&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;We will be covering the &lt;em&gt;rest&lt;/em&gt; of the Clojure syntax.&lt;/p&gt;
+&lt;h1 id=&#34;data-in-clojure&#34;&gt;Data in Clojure&lt;/h1&gt;
+
+&lt;p&gt;$\mathbf{D}$(&lt;code&gt;clojure&lt;/code&gt;) = a sequence of (nested) &lt;em&gt;data&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(1 2 3)
+(&amp;quot;abc&amp;quot; &amp;quot;def&amp;quot;)
+[&amp;quot;abc&amp;quot; (&amp;quot;def&amp;quot; 1 2 3)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s explore the definitions of &lt;em&gt;data&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;data-in-clojure-1&#34;&gt;Data in Clojure&lt;/h1&gt;
+
+&lt;p&gt;Atoms&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Numbers: 3.1415, 100, &lt;code&gt;2/3&lt;/code&gt;, 100N, 3.1415M&lt;/li&gt;
+&lt;li&gt;Strings: &lt;code&gt;&amp;quot;hello world&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Characters: &lt;code&gt;\a \b \c&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Symbols: &lt;code&gt;name&lt;/code&gt;, &lt;code&gt;π&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Keywords: &lt;code&gt;:name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Nil value: &lt;code&gt;nil&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;lists&#34;&gt;Lists&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;( ... )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Lists are &lt;em&gt;linked lists&lt;/em&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;They are super efficient for prepend and append at the ends of the lists.&lt;/li&gt;
+&lt;li&gt;But they are not efficient for random access.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;li&gt;&lt;p&gt;Native data structures beyond just lists:&lt;/p&gt;
+&lt;h1 id=&#34;lists-1&#34;&gt;Lists&lt;/h1&gt;
+
+&lt;p&gt;&lt;em&gt;Important&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Clojure, by default, interpretates lists as function invocations.&lt;/li&gt;
+&lt;li&gt;A list that is &lt;em&gt;just a list&lt;/em&gt; needs to be quoted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(println &amp;quot;hello&amp;quot; &amp;quot;world&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is a function invocation.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(quote (println &amp;quot;hello&amp;quot; &amp;quot;world&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is a list of three elements.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;&#39;(println &amp;quot;hello&amp;quot; &amp;quot;world&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is the preferred way of quoting a list.&lt;/p&gt;
+
+&lt;h1 id=&#34;vectors&#34;&gt;Vectors&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;[ ... ]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Vectors are &lt;em&gt;arrays&lt;/em&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;They are efficient for random access.&lt;/li&gt;
+&lt;li&gt;But they are more costly for insertion in the middle and possibly at the ends.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;hash-maps&#34;&gt;Hash-maps&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;{ &amp;lt;key&amp;gt; &amp;lt;value&amp;gt; &amp;lt;key&amp;gt; &amp;lt;value&amp;gt; ... }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Hash-map are &lt;em&gt;hash maps&lt;/em&gt; :)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;They are efficient for key look-up, but&lt;/li&gt;
+&lt;li&gt;they are potential memory intensive.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;hash-maps-1&#34;&gt;Hash-maps&lt;/h1&gt;
+
+&lt;p&gt;Idiomatic Clojure prefers to use &lt;em&gt;keywords&lt;/em&gt; as keys.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;It makes the code readable.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Keyword lookup is also more efficient than strings.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;{:name   &amp;quot;Ken Pu&amp;quot;
+ :office &amp;quot;UA4041&amp;quot;
+ :role   :instructor}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;sets&#34;&gt;Sets&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#{ ... }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Duplicates are &lt;em&gt;not&lt;/em&gt; allowed.  Order doesn&amp;rsquo;t matter.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;(= #{3 2 1} #{1 2 3}) ; true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;an-example&#34;&gt;An example&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;{:type &amp;quot;a relational database&amp;quot;
+ :name &amp;quot;csci3055u assignments&amp;quot;
+ :tuples [ {:name &amp;quot;assignment 1&amp;quot;
+            :due-date (&amp;quot;October&amp;quot; 21 2016)
+            :url &amp;quot;http://...&amp;quot;}
+
+           {:name &amp;quot;assignment 2&amp;quot;
+            :due-date (&amp;quot;November&amp;quot; 20 2016)
+            :url &amp;quot;http://...&amp;quot;}
+
+           {:name &amp;quot;assignment 3&amp;quot;
+            :due-date (&amp;quot;December&amp;quot; 6 2016)
+            :url nil}
+         ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; A data value that describes a relational table.&lt;/p&gt;
+
+&lt;h1 id=&#34;functional-programming-in-clojure&#34;&gt;Functional Programming in Clojure&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is really important.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Don&amp;rsquo;t worry about the syntax.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Focus on the &lt;em&gt;way&lt;/em&gt; of read-only data.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;functional-programming-in-clojure-1&#34;&gt;Functional Programming in Clojure&lt;/h1&gt;
+
+&lt;p&gt;&lt;em&gt;Data&lt;/em&gt; is (almost always) &lt;em&gt;immutable&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Consider data:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;{:name &amp;quot;Albert Einstein&amp;quot;
+ :profession &amp;quot;Patent Clerk&amp;quot;
+ :age 24
+ :publication [&amp;quot;Relativity&amp;quot;
+               &amp;quot;Speed of light&amp;quot;]}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;How can we update the &lt;code&gt;:profession&lt;/code&gt; field, or age?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;We cannot.&lt;/li&gt;
+&lt;li&gt;Clojure only supports convenient ways for us to
+to create a copy of the data with a modified &lt;code&gt;:office&lt;/code&gt;
+field.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;preview-of-what-s-to-come&#34;&gt;Preview of what&amp;rsquo;s to come&amp;hellip;&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(def person {:name &amp;quot;Albert Einstein&amp;quot;
+             :profession &amp;quot;Patent Clerk&amp;quot;
+             :age 24
+             :publication [&amp;quot;Relativity&amp;quot;]})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(assoc person :profession &amp;quot;Physicist&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;note 5&#34;&gt;!&lt;/a&gt;
+This does not change the person (as it cannot be changed - &lt;strong&gt;ever&lt;/strong&gt;).
+Instead, &lt;code&gt;(assoc ...)&lt;/code&gt; creates a new clone with the delta change of setting
+&lt;code&gt;:profession&lt;/code&gt; being &lt;code&gt;Physicist&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(update person :age inc)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;note 5&#34;&gt;!&lt;/a&gt;
+This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of incremental &lt;code&gt;:age&lt;/code&gt; by &lt;strong&gt;one&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;functional-programming&#34;&gt;Functional programming&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Don&amp;rsquo;t worry about &amp;ldquo;waste&amp;rdquo; of memory (for now).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you need to change data,&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Make a copy of the data, but with the change applied.&lt;/p&gt;
+
+&lt;p&gt;No procedures, only functions.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Functional programming has many benefits&amp;hellip;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;programs-in-clojure&#34;&gt;Programs in Clojure&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;function-invocations&#34;&gt;Function invocations&lt;/h1&gt;
+
+&lt;p&gt;General form:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;( &amp;lt;fn&amp;gt; &amp;lt;arg&amp;gt; ... )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(list 1 2 3)
+; (1 2 3)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; &lt;code&gt;list&lt;/code&gt; constructs a list consisting of its arguments.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(vector 1 2 3)
+; [1 2 3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; &lt;code&gt;vector&lt;/code&gt; is like &lt;code&gt;list&lt;/code&gt;, but returns a vector.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(range 10)
+; (1 2 3 4 5 6 7 8 9)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Returns a list of a sequence of number.&lt;/p&gt;
+
+&lt;h1 id=&#34;function-invocation-aka-function-application&#34;&gt;Function invocation - aka function application&lt;/h1&gt;
+
+&lt;p&gt;We are going to meet our first &lt;em&gt;higher order&lt;/em&gt; function: &lt;code&gt;apply&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(apply &amp;lt;func&amp;gt; &amp;lt;arg-list&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;is equivalent to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(&amp;lt;func&amp;gt; &amp;lt;arg&amp;gt; &amp;lt;arg&amp;gt; ...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;function-declaration&#34;&gt;Function declaration&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [args...] body)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Binding a function to a symbol as in the global scope.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(fn [args ...] body)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Creating an anonymous function.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;#( ... )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Creating an anonymous function.  In the local scope, the input arguments are bound to the symbols &lt;code&gt;%1&lt;/code&gt;, &lt;code&gt;%2&lt;/code&gt;, etc.  If there is only one argument, then it&amp;rsquo;s bound to &lt;code&gt;%&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;function-declaration-1&#34;&gt;Function declaration&lt;/h1&gt;
+
+&lt;p&gt;Recommended way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn add [x y]
+  (+ x y))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;More indirect, but still quite readable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def add
+  (fn [x y] (+ x y)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Not recommended for this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def add #(+ %1 %2))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Irresponsible show-off of deep knowledge of Clojure syntax can quickly turn into unreadable spaghetti code.&lt;/p&gt;
+
+&lt;h1 id=&#34;more-on-function-declarations-variadic-arguments&#34;&gt;More on function declarations: variadic arguments&lt;/h1&gt;
+
+&lt;p&gt;A function can have multiple versions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f
+  ([arg] body)
+  ([arg arg] body)
+  ([arg arg arg] body))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A function can also have non-deterministic number of arguments, and bind all the arguments in an array.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [arg arg &amp;amp; args] body)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; In the scope of &lt;code&gt;body&lt;/code&gt;, the symbol &lt;code&gt;args&lt;/code&gt; is bound to a list consisting of the third, fourth, fifth arguments, and so on.&lt;/p&gt;
+
+&lt;h1 id=&#34;branching&#34;&gt;Branching&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(if &amp;lt;cond&amp;gt; &amp;lt;expr&amp;gt; &amp;lt;expr&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn larger [x y]
+  (if (&amp;lt; x y) y x))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn largest [&amp;amp; xs]
+  (if (= (count xs) 1)
+    (first xs)
+    (larger (first xs) (apply largest (rest xs)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;branching-case-by-case&#34;&gt;Branching: case by case&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(cond
+  &amp;lt;cond&amp;gt; &amp;lt;expr&amp;gt;
+  &amp;lt;cond&amp;gt; &amp;lt;expr&amp;gt;
+  ...
+  :else &amp;lt;expr&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn compare [x y]
+  (cond
+    (&amp;lt; x y) -1
+    (&amp;gt; x y) 1
+    :else   0))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;iteration-a-first-look&#34;&gt;Iteration: a first look&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(for [i expr] body)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
 
 &lt;ol&gt;
-&lt;li&gt;vector&lt;/li&gt;
-&lt;li&gt;set&lt;/li&gt;
-&lt;li&gt;hash-map&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;expr&lt;/code&gt; must evaluate to a sequence of elements.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;i&lt;/code&gt; is the symbol that exists in the scope of &lt;code&gt;body&lt;/code&gt;.  It is bound to elements in &lt;code&gt;expr&lt;/code&gt; during each iteration.&lt;/li&gt;
+&lt;li&gt;At each iteration &lt;code&gt;body&lt;/code&gt; is evaluated.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;li&gt;&lt;p&gt;Iteration and branching&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Functions and higher order functions&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;(for ...)&lt;/code&gt; is an expression.  It is evaluated to a &lt;em&gt;lazy&lt;/em&gt; sequence, consisting of elements of each evaluation of &lt;code&gt;body&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;for-loop&#34;&gt;For-loop&lt;/h1&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(for [i (range 10)]
+  (str &amp;quot;Hi, this is the &amp;quot; i &amp;quot;th iteration.&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;more-iterations&#34;&gt;More iterations:&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(doseq [i expr] body)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It is very similar to &lt;code&gt;(for [i expr] body)&lt;/code&gt;, but it&amp;rsquo;s non-functional.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;(doseq ...)&lt;/code&gt; iterates over &lt;code&gt;expr&lt;/code&gt;, and evaluates &lt;code&gt;body&lt;/code&gt; for each iteration.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; But the result of each evaluation is &lt;strong&gt;THROWN AWAY&lt;/strong&gt;&amp;hellip;&lt;/p&gt;
+
+&lt;h1 id=&#34;more-iterations-1&#34;&gt;More iterations&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(dotimes [i n] body)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This is equivalent to:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(doseq [i (range n)] body)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
 </description>
     </item>
     

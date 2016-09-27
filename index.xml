@@ -2928,7 +2928,7 @@ $$&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is a list of three elements.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;&#39;(println &amp;quot;hello&amp;quot; &amp;quot;world&amp;quot;))
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;&#39;(println &amp;quot;hello&amp;quot; &amp;quot;world&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is the preferred way of quoting a list.&lt;/p&gt;
@@ -3037,7 +3037,7 @@ $$&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Consider data:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;{:name &amp;quot;Albert Einstein&amp;quot;
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;{:name &amp;quot;Albert Einstein&amp;quot;
  :profession &amp;quot;Patent Clerk&amp;quot;
  :age 24
  :publication [&amp;quot;Relativity&amp;quot;
@@ -3052,20 +3052,20 @@ $$&lt;/code&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;We cannot.&lt;/li&gt;
 &lt;li&gt;Clojure only supports convenient ways for us to
-to create a copy of the data with a modified &lt;code&gt;:office&lt;/code&gt;
+to create a copy of the data with a modified &lt;code&gt;:profession&lt;/code&gt;
 field.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 
 &lt;h1 id=&#34;preview-of-what-s-to-come&#34;&gt;Preview of what&amp;rsquo;s to come&amp;hellip;&lt;/h1&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(def person {:name &amp;quot;Albert Einstein&amp;quot;
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(def person {:name &amp;quot;Albert Einstein&amp;quot;
              :profession &amp;quot;Patent Clerk&amp;quot;
              :age 24
              :publication [&amp;quot;Relativity&amp;quot;]})
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(assoc person :profession &amp;quot;Physicist&amp;quot;)
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(assoc person :profession &amp;quot;Physicist&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
@@ -3075,7 +3075,7 @@ Instead, &lt;code&gt;(assoc ...)&lt;/code&gt; creates a new clone with the delta
 &lt;code&gt;:profession&lt;/code&gt; being &lt;code&gt;Physicist&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(update person :age inc)
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(update person :age inc)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;blockquote&gt;
@@ -3127,7 +3127,7 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; &lt;code&gt;vector&lt;/code&gt; is like &lt;code&gt;list&lt;/code&gt;, but returns a vector.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(range 10)
-; (1 2 3 4 5 6 7 8 9)
+; (0 1 2 3 4 5 6 7 8 9)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Returns a list of a sequence of number.&lt;/p&gt;
@@ -3692,7 +3692,7 @@ Why is it bad?&lt;/p&gt;
 (def two-circle
   (let [r    100
         area (* PI r r)]
-    (+ r r)))
+    (+ area area)))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Can you summarize why local symbol binding is more desirable to compute the value of &lt;code&gt;two-circle&lt;/code&gt;?&lt;/p&gt;

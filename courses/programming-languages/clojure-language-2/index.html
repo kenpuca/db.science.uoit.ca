@@ -104,7 +104,7 @@
 
 <p><a href="note">!</a> This is a list of three elements.</p>
 
-<pre><code class="language-clojure">'(println &quot;hello&quot; &quot;world&quot;))
+<pre><code class="language-clojure">'(println &quot;hello&quot; &quot;world&quot;)
 </code></pre>
 
 <p><a href="note">!</a> This is the preferred way of quoting a list.</p>
@@ -213,7 +213,7 @@
 
 <p>Consider data:</p>
 
-<pre><code class="language-clojure sm">{:name &quot;Albert Einstein&quot;
+<pre><code class="language-clojure sm clipboard">{:name &quot;Albert Einstein&quot;
  :profession &quot;Patent Clerk&quot;
  :age 24
  :publication [&quot;Relativity&quot;
@@ -228,20 +228,20 @@
 <ul>
 <li>We cannot.</li>
 <li>Clojure only supports convenient ways for us to
-to create a copy of the data with a modified <code>:office</code>
+to create a copy of the data with a modified <code>:profession</code>
 field.</li>
 </ul>
 </blockquote>
 
 <h1 id="preview-of-what-s-to-come">Preview of what&rsquo;s to come&hellip;</h1>
 
-<pre><code class="language-clojure sm">(def person {:name &quot;Albert Einstein&quot;
+<pre><code class="language-clojure sm clipboard">(def person {:name &quot;Albert Einstein&quot;
              :profession &quot;Patent Clerk&quot;
              :age 24
              :publication [&quot;Relativity&quot;]})
 </code></pre>
 
-<pre><code class="language-clojure sm">(assoc person :profession &quot;Physicist&quot;)
+<pre><code class="language-clojure sm clipboard">(assoc person :profession &quot;Physicist&quot;)
 </code></pre>
 
 <blockquote>
@@ -251,7 +251,7 @@ Instead, <code>(assoc ...)</code> creates a new clone with the delta change of s
 <code>:profession</code> being <code>Physicist</code>.</p>
 </blockquote>
 
-<pre><code class="language-clojure sm">(update person :age inc)
+<pre><code class="language-clojure sm clipboard">(update person :age inc)
 </code></pre>
 
 <blockquote>
@@ -303,7 +303,7 @@ This makes a copy of <code>person</code>, with the change of incremental <code>:
 <p><a href="note">!</a> <code>vector</code> is like <code>list</code>, but returns a vector.</p>
 
 <pre><code class="language-clojure sm">(range 10)
-; (1 2 3 4 5 6 7 8 9)
+; (0 1 2 3 4 5 6 7 8 9)
 </code></pre>
 
 <p><a href="note">!</a> Returns a list of a sequence of number.</p>

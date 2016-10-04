@@ -2587,9 +2587,11 @@ output.&lt;/p&gt;
 				&lt;ul class=list-group&gt;
 					&lt;li class=list-group-item&gt;
 						&lt;a href=&#34;big-o&#34;&gt;Asymptotic notations&lt;/a&gt;
-						&lt;span style=&#34;float:right&#34; class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
 					&lt;/li&gt;
-					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Recurrence equations&lt;/a&gt;&lt;/li&gt;
+					&lt;li class=list-group-item&gt;
+                        &lt;a href=&#34;recurrence-equation&#34;&gt;Recurrence equations&lt;/a&gt;
+						&lt;span style=&#34;float:right&#34; class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
+                    &lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Probabilistic analysis of randomized algorithms&lt;/a&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/div&gt;
@@ -2663,6 +2665,16 @@ output.&lt;/p&gt;
       
       <guid>http://db.science.uoit.ca/courses/algorithms/big-o/</guid>
       <description>
+
+&lt;h1 id=&#34;complexity-classes&#34;&gt;Complexity classes&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Asymptotic notations and complexity classes&lt;/li&gt;
+&lt;li&gt;Intuition&lt;/li&gt;
+&lt;li&gt;Properties&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h1 id=&#34;asymptotic-notation&#34;&gt;Asymptotic notation&lt;/h1&gt;
 
@@ -2840,7 +2852,92 @@ $$&lt;/code&gt;&lt;/p&gt;
 &lt;li&gt;&lt;p&gt;$\Theta(g(n))$ is the collection of &lt;strong&gt;all&lt;/strong&gt; the performance measures that are equivalent to $g(n)$.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;why-is&#34;&gt;Why is&lt;/h1&gt;
+&lt;h1 id=&#34;functions-we-use&#34;&gt;Functions we use:&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Polynomials:&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = \sum_{i=0}^d a_i n^i$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Exponentials:&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = a^n$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Logorithms&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = \log_a(n)$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Factorials&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = n!$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-exponents&#34;&gt;More about Exponents&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;comfortable&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(a^m)^n = a^{mn}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(a^m) (a^n) = a^{m+n}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\lim_{n\to\infty} \frac{n^d}{a^n} = 0$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-logorithms&#34;&gt;More about Logorithms&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;comfortable&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$a^{\log_a(n)} = n$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_a(mn) = \log_a(m) + \log_a(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_a(n^d) = d\cdot \log_a(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_b(a) \cdot \log_a(n) = \log_b(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$a^{\log_a (n)} = n^{\log_b(a)}$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-factorial&#34;&gt;More about Factorial&lt;/h1&gt;
+
+&lt;p&gt;Stirling&amp;rsquo;s approximation:&lt;/p&gt;
+
+&lt;p&gt;$$ n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n $$&lt;/p&gt;
+
+&lt;h1 id=&#34;comparisons&#34;&gt;Comparisons&lt;/h1&gt;
+
+&lt;p&gt;For any $a &amp;gt; 1$, $b &amp;gt; 0$ and $c &amp;gt; 1$, we have:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$$ 
+\mathcal{O}(\log_a(n)) \subseteq \mathcal{O}(n^b) \subseteq \mathcal{O}(c^n)
+$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;We can show that:&lt;/p&gt;
+
+&lt;p&gt;$$ n! \in\mathcal{O}(n^n) $$&lt;/p&gt;
+
+&lt;p&gt;In fact:&lt;/p&gt;
+
+&lt;p&gt;$$ \mathcal{O}(2^n) \subset \mathcal{O}(n^n) $$&lt;/p&gt;
+
+&lt;h1 id=&#34;notation&#34;&gt;Notation&lt;/h1&gt;
+
+&lt;p&gt;It&amp;rsquo;s convenient to treat complexity classes as &lt;em&gt;variables&lt;/em&gt; in equations.&lt;/p&gt;
+
+&lt;p&gt;So, we use the following notations:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If $f\in \mathcal{O}(g)$, we write it as equality $f=\mathcal{O}(g)$.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;test-your-understanding&#34;&gt;Test your understanding&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;If $f = \mathcal{O}(g)$ and $g = \mathcal{O}(h)$, can you prove that $f =
+\mathcal{O}(h)$?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Does it make sense intuitively?&lt;/p&gt;
+
+&lt;p&gt;Does it work out mathematically?&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;So that $n^2 + 10000= \mathcal{O}(n^3)$.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
     </item>
     
@@ -2851,6 +2948,149 @@ $$&lt;/code&gt;&lt;/p&gt;
       
       <guid>http://db.science.uoit.ca/courses/algorithms/bucket-sort/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Clojure 3</title>
+      <link>http://db.science.uoit.ca/courses/programming-languages/clojure-language-3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/courses/programming-languages/clojure-language-3/</guid>
+      <description>
+
+&lt;h1 id=&#34;clojure-part-iii&#34;&gt;Clojure Part III&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;data-read-write-transformation&#34;&gt;Data Read &amp;amp; &lt;del&gt;Write&lt;/del&gt; &amp;amp; Transformation&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;List&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vector&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Map&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Set&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;list&#34;&gt;List&lt;/h1&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(list ...)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(first seq)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(nth seq n)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Transformation&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(cons elem seq)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(conj seq elem ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(rest)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;vector&#34;&gt;Vector&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[ ... ]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vector ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vec seq)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read: Vectors are &lt;em&gt;functions&lt;/em&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(v n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(get v n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(nth v n)&lt;/code&gt;, &lt;code&gt;(first ...)&lt;/code&gt; still apply.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Transformation&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;conj&lt;/code&gt;, &lt;code&gt;cons&lt;/code&gt;, &lt;code&gt;rest&lt;/code&gt; still apply.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(assoc v n val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update v n func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(subvec v start end)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(replace map v)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;map&#34;&gt;Map&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;{ ... }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(hash-map ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(array-map ...)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read: maps are functions, and keywords are functions!!&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(m key)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(:keyword m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(get m key default-val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(keys m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vals m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(contains? m key)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Transform&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(assoc m key val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(assoc-in m [path] val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(dissoc m key)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(merge m1 m2 ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(merge-width f m1 m2 ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(select-keys m [keys])&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update m key func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update-in m [path] func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(rename-keys m rename-map)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;sequences&#34;&gt;Sequences&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -3242,6 +3482,26 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
     :else   0))
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h1 id=&#34;do-block&#34;&gt;DO block&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(do expr
+    expr
+    ...
+    expr)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Evaluates every expression in the &lt;code&gt;(do ...)&lt;/code&gt; form.  The &lt;code&gt;(do ...)&lt;/code&gt; form
+evaluates to the last expression.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(def x (do (println &amp;quot;Hello there.&amp;quot;)
+           (+ 1 2 3)))
+; 6
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h1 id=&#34;iteration-a-first-look&#34;&gt;Iteration: a first look&lt;/h1&gt;
 
 &lt;blockquote&gt;
@@ -3270,6 +3530,27 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
   (str &amp;quot;Hi, this is the &amp;quot; i &amp;quot;th iteration.&amp;quot;))
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h1 id=&#34;for-loop-super-charged&#34;&gt;For-loop super charged&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(for [sym seq-expr :when cond :while cond] body)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;:when cond&lt;/code&gt; causes the &lt;code&gt;for&lt;/code&gt; iteration to evaluate &lt;code&gt;body&lt;/code&gt; only when the
+condition is true.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;:while cond&lt;/code&gt; causes the &lt;code&gt;for&lt;/code&gt; iteration to terminate when the conditon
+becomes false.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(for [x (range 100)
+      y (range 100)
+      :when (= (+ x y) 42)]
+  (println x y))
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h1 id=&#34;more-iterations&#34;&gt;More iterations:&lt;/h1&gt;
 
 &lt;blockquote&gt;
@@ -3296,418 +3577,27 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
 &lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(doseq [i (range n)] body)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Clojure: the language</title>
-      <link>http://db.science.uoit.ca/courses/programming-languages/clojure-language/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/courses/programming-languages/clojure-language/</guid>
-      <description>
-
-&lt;h1 id=&#34;clojure-part-i&#34;&gt;Clojure: Part I&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Life cycle of Lisp code&lt;/li&gt;
-&lt;li&gt;Raw basics&lt;/li&gt;
-&lt;li&gt;Syntactic sugars&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;review-of-lisp&#34;&gt;Review of Lisp&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;A program is a (nested) list.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Not all lists are valid programs.  Only certain type of lists can be interpreted as programs.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Valid: &lt;code&gt;(+ 1 2 (* 3 5))&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Invalid: &lt;code&gt;(1 2 +)&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Sometimes the validity of a list depends on the dialect of Lisp:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;(defun add (a b) (+ a b))&lt;/code&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Valid for &lt;em&gt;Common Lisp&lt;/em&gt;, but not &lt;em&gt;Racket&lt;/em&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;(define (add a b) (+ a b))&lt;/code&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Valid for &lt;em&gt;Racket&lt;/em&gt;, but not &lt;em&gt;Common Lisp&lt;/em&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;lifecycle-of-lists-in-lisp&#34;&gt;Lifecycle of lists in Lisp&lt;/h1&gt;
-
-&lt;p&gt;The unified representation of programs using a data structure that programs can manipulate, Lisp has a uniquely self-referencial nature that makes it exceedingly powerful (and intellectually challenging).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; &lt;i style=font-size:200%;vertical-align:middle class=&#34;fa fa-bolt&#34;&gt;&lt;/i&gt; Lisp rewrites itself, and it &lt;em&gt;grows&lt;/em&gt; by itself.&lt;/p&gt;
-
-&lt;h1 id=&#34;two-phase-compilation&#34;&gt;Two-phase compilation&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&#34;lisp-pre-expand.jpg&#34; alt=&#34;pre-expanded&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;note 3&#34;&gt;!&lt;/a&gt; During expansion, functions, known as &lt;em&gt;macros&lt;/em&gt;, evaluate certain fragments in the program.  These fragments are the extensions to the language.&lt;/p&gt;
-
-&lt;h1 id=&#34;two-phase-compilation-1&#34;&gt;Two-phase compilation&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 7:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;lisp-post-expand.jpg&#34; alt=&#34;post-expanded&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;split note&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The macro functions converts the entire nested list to a valid Lisp program.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-lisp sm&#34;&gt;(... (macro (quote (... invalid-list ...))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;gets evaluated to:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-lisp sm&#34;&gt;(... (... valid-list ...))
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;core-clojure&#34;&gt;Core Clojure&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;List-only core syntax (low-level and verbose)&lt;/li&gt;
-&lt;li&gt;(Sensible) syntactic extensions&lt;/li&gt;
-&lt;li&gt;Tons of macros&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;clojure&#34;&gt;Clojure&lt;/h1&gt;
-
-&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; (Atoms)&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;An &lt;em&gt;atom&lt;/em&gt; is a value that can be an element of a list.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Let&amp;rsquo;s go through the different atoms of the core-clojure langauge.&lt;/p&gt;
-
-&lt;h1 id=&#34;numbers&#34;&gt;Numbers&lt;/h1&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Numbers&lt;/th&gt;
-&lt;th&gt;Example&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Long numbers&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;3.1415&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Ratio&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;1/3&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;BigInt&lt;/td&gt;
-&lt;td&gt;10000N&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;BigDecimal&lt;/td&gt;
-&lt;td&gt;3.1415M&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h1 id=&#34;strings&#34;&gt;Strings&lt;/h1&gt;
-
-&lt;p&gt;Simple strings:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;Hello world.&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;I say \&amp;quot;Hello\&amp;quot; to the world&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Multiline string:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;&amp;quot;Hello,
-This is a big world of long
-sentences.&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;character&#34;&gt;Character&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;\a
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;keywords&#34;&gt;Keywords&lt;/h1&gt;
-
-&lt;p&gt;Keywords are a staple of Clojure programs.  They are quick and efficient way to create &lt;em&gt;constants&lt;/em&gt;.
-They are similar to the Java &lt;code&gt;enum&lt;/code&gt; values.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 8:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Keywords have the same rule as variable names (aka &lt;em&gt;symbols&lt;/em&gt;), except they must start with &lt;code&gt;:&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;:red
-:blue
-:green
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;or&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;:big-red-apple
-:blue-sky
-:important-field!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;split note&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Later, we will introduce namespaces.  Like symbols, keywords can be specialized by a namespace.&lt;/p&gt;
-
-&lt;h1 id=&#34;symbols&#34;&gt;Symbols&lt;/h1&gt;
-
-&lt;p&gt;Symbols are variables which are labels referring to some data or function.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; It&amp;rsquo;s natural to think of Clojure symbols as variables.  But Clojure can do &lt;em&gt;more&lt;/em&gt; with its symbols than other languages can do with variables.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Clojure has some very relaxed rules in naming symbols:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;a                 ; looks like a variable.
-*a*               ; can have (almost) any characters except whitespaces
-int-&amp;gt;float        ; good names can be extremely satisfying
-java.lang/Integer ; a symbol that has a namespace &amp;quot;java.lang&amp;quot;, and name &amp;quot;Integer&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;more-about-symbols&#34;&gt;More about symbols&lt;/h1&gt;
-
-&lt;p&gt;&lt;em&gt;Var&lt;/em&gt; s are symbols which represent other expressions&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-nosyntax&#34;&gt;a =&amp;gt; 42
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(Almost) each time a &lt;em&gt;var&lt;/em&gt; appears, it is evaluated to its expression.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Other languages&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In other programming languages, one can &lt;em&gt;only&lt;/em&gt; access the expression referred by variables.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Lisp&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In Lisp, we can (and need) to access (and create) the variable &lt;em&gt;itself&lt;/em&gt; using Lisp.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(var a)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;beyond-parentheses-in-clojure&#34;&gt;Beyond parentheses in Clojure&lt;/h1&gt;
-
-&lt;p&gt;Clojure uses other brackets to improve the parentheses overload.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-lisp&#34;&gt;(let ((a 10)
-      (b 20))
-  (+ a b))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Common Lisp&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(let [a 10
-      b 20]
-  (+ a b))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Clojure&lt;/p&gt;
-
-&lt;h1 id=&#34;lambda-calculus-in-clojure&#34;&gt;Lambda Calculus in Clojure&lt;/h1&gt;
-
-&lt;p&gt;We will focus on the core Clojure - which is a Turing-complete implementation of Lambda Calculus.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Function application&lt;/li&gt;
-&lt;li&gt;Function abstraction&lt;/li&gt;
-&lt;li&gt;Symbol binding&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;function-application&#34;&gt;Function application&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(f &amp;lt;arg&amp;gt; &amp;lt;arg&amp;gt; ...)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(+ 1 2 3 4)
-(/ (+ 1 2 3 4) 4.0)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;function-abstraction&#34;&gt;Function Abstraction&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(fn &amp;lt;alias?&amp;gt; [ &amp;lt;args&amp;gt; ] &amp;lt;body&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(fn [a b] (/ (+ a b) 2))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Computing the average of two numbers.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(fn factorial [n]
-  (if (&amp;lt; n 2) n (* n (factorial (dec n)))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Recursion function that uses an alias &lt;code&gt;factorial&lt;/code&gt; for itself.  The alias is only valid in the body of the &lt;code&gt;fn&lt;/code&gt; defintion.&lt;/p&gt;
-
-&lt;h1 id=&#34;symbol-binding&#34;&gt;Symbol binding&lt;/h1&gt;
-
-&lt;p&gt;Symbols are just names, and they can be used to represent anything, such as:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;expressions&lt;/li&gt;
-&lt;li&gt;functions&lt;/li&gt;
-&lt;li&gt;variables&lt;/li&gt;
-&lt;li&gt;lists (or programs)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: &lt;em&gt;Symbols Binding&lt;/em&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;When we associate a symbol to something else, the &lt;em&gt;association&lt;/em&gt; is called a &lt;em&gt;binding&lt;/em&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;symbol-binding-1&#34;&gt;Symbol binding&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&#34;binding.png&#34;&gt;&lt;/img&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;global-symbol-binding&#34;&gt;Global symbol binding&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def &amp;lt;symbol&amp;gt; &amp;lt;expression&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Creates a global symbol binding that exists throughout the entire &lt;em&gt;namespace&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;More on &lt;em&gt;namespaces&lt;/em&gt; later&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;---&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def PI 3.1415)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def area-of-circle (fn [r] (* r r PI)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(area-of-circle 100)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;global-symbol-binding-1&#34;&gt;Global symbol binding&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Must resist the usage of global symbol binding.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Java/C/C++ tend to bind functions to global symbols.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Because functions are values, think of functions as simple as &lt;em&gt;integers&lt;/em&gt;.
-So, Clojure requires minimal global symbol binding.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Use &lt;em&gt;local binding&lt;/em&gt; (coming up next) as much as you can.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;local-symbol-binding&#34;&gt;Local symbol binding&lt;/h1&gt;
-
-&lt;p&gt;We want to create new symbol bindings in expressions &lt;em&gt;on-the-fly&lt;/em&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;lang-nosyntax&#34; data-noescape&gt;(def two-circles
-  &lt;span style=&#34;color:#944;
-                border:thin solid #888;
-                padding:5px;
-                margin:5px;
-                font-weight: bold;
-                display:inline-block&#34;&gt;(+ (* 3.1415 100 100) (* 3.1415 100 100))&lt;/span&gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Let&amp;rsquo;s create a symbol bindings which are &lt;em&gt;only&lt;/em&gt; valid in the inner-expression.&lt;/p&gt;
-
-&lt;h2 id=&#34;span-style-color-red-bad-idea-span&#34;&gt;&lt;span style=color:red&gt;BAD IDEA&lt;/span&gt;&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def PI 3.1415)
-(def radius 100)
-(def area (* 3.1415 radius radius))
-(def two-circles (+ area area))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
-Why is it bad?&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;radius&lt;/code&gt; is not really a universal constant.  It&amp;rsquo;s 100 only for this expression.&lt;/li&gt;
-&lt;li&gt;same for area.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;local-symbol-binding-1&#34;&gt;Local Symbol Binding&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(...
-  (let [&amp;lt;symbol&amp;gt; &amp;lt;expression&amp;gt;
-        &amp;lt;symbol&amp;gt; &amp;lt;expression&amp;gt;
-        ...]
-    &amp;lt;inner-expression&amp;gt;) ...)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def PI 3.1415)
-(def two-circle
-  (let [r    100
-        area (* PI r r)]
-    (+ area area)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Can you summarize why local symbol binding is more desirable to compute the value of &lt;code&gt;two-circle&lt;/code&gt;?&lt;/p&gt;
 
 &lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Atoms&lt;/li&gt;
-&lt;li&gt;Lists as code and code as lists&lt;/li&gt;
+&lt;li&gt;Data in Clojure&lt;/li&gt;
 &lt;li&gt;Functions&lt;/li&gt;
-&lt;li&gt;Invocation of functions&lt;/li&gt;
-&lt;li&gt;Symbol bindings (global v.s. local)&lt;/li&gt;
+&lt;li&gt;Branch&lt;/li&gt;
+&lt;li&gt;Iteration&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Things to come:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Data structural transformations&lt;/li&gt;
+&lt;li&gt;Sequences and lazy evaluation&lt;/li&gt;
+&lt;li&gt;Looping through recursion&lt;/li&gt;
+&lt;/ol&gt;
 </description>
     </item>
     

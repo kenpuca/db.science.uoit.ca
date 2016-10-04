@@ -60,6 +60,10 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language-3/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language-2/</loc>
   </url>
   
@@ -81,6 +85,10 @@
   
   <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/courses/algorithms/recurrence-equation/</loc>
   </url>
   
   <url>

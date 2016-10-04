@@ -2445,9 +2445,11 @@ output.&lt;/p&gt;
 				&lt;ul class=list-group&gt;
 					&lt;li class=list-group-item&gt;
 						&lt;a href=&#34;big-o&#34;&gt;Asymptotic notations&lt;/a&gt;
-						&lt;span style=&#34;float:right&#34; class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
 					&lt;/li&gt;
-					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Recurrence equations&lt;/a&gt;&lt;/li&gt;
+					&lt;li class=list-group-item&gt;
+                        &lt;a href=&#34;recurrence-equation&#34;&gt;Recurrence equations&lt;/a&gt;
+						&lt;span style=&#34;float:right&#34; class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
+                    &lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Probabilistic analysis of randomized algorithms&lt;/a&gt;&lt;/li&gt;
 				&lt;/ul&gt;
 			&lt;/div&gt;
@@ -2521,6 +2523,16 @@ output.&lt;/p&gt;
       
       <guid>http://db.science.uoit.ca/courses/algorithms/big-o/</guid>
       <description>
+
+&lt;h1 id=&#34;complexity-classes&#34;&gt;Complexity classes&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Asymptotic notations and complexity classes&lt;/li&gt;
+&lt;li&gt;Intuition&lt;/li&gt;
+&lt;li&gt;Properties&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h1 id=&#34;asymptotic-notation&#34;&gt;Asymptotic notation&lt;/h1&gt;
 
@@ -2698,7 +2710,92 @@ $$&lt;/code&gt;&lt;/p&gt;
 &lt;li&gt;&lt;p&gt;$\Theta(g(n))$ is the collection of &lt;strong&gt;all&lt;/strong&gt; the performance measures that are equivalent to $g(n)$.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;why-is&#34;&gt;Why is&lt;/h1&gt;
+&lt;h1 id=&#34;functions-we-use&#34;&gt;Functions we use:&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Polynomials:&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = \sum_{i=0}^d a_i n^i$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Exponentials:&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = a^n$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Logorithms&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = \log_a(n)$$&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Factorials&lt;/p&gt;
+
+&lt;p&gt;$$f(n) = n!$$&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-exponents&#34;&gt;More about Exponents&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;comfortable&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(a^m)^n = a^{mn}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(a^m) (a^n) = a^{m+n}$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\lim_{n\to\infty} \frac{n^d}{a^n} = 0$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-logorithms&#34;&gt;More about Logorithms&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;comfortable&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$a^{\log_a(n)} = n$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_a(mn) = \log_a(m) + \log_a(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_a(n^d) = d\cdot \log_a(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$\log_b(a) \cdot \log_a(n) = \log_b(n)$&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$a^{\log_a (n)} = n^{\log_b(a)}$&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;more-about-factorial&#34;&gt;More about Factorial&lt;/h1&gt;
+
+&lt;p&gt;Stirling&amp;rsquo;s approximation:&lt;/p&gt;
+
+&lt;p&gt;$$ n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n $$&lt;/p&gt;
+
+&lt;h1 id=&#34;comparisons&#34;&gt;Comparisons&lt;/h1&gt;
+
+&lt;p&gt;For any $a &amp;gt; 1$, $b &amp;gt; 0$ and $c &amp;gt; 1$, we have:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$$ 
+\mathcal{O}(\log_a(n)) \subseteq \mathcal{O}(n^b) \subseteq \mathcal{O}(c^n)
+$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;We can show that:&lt;/p&gt;
+
+&lt;p&gt;$$ n! \in\mathcal{O}(n^n) $$&lt;/p&gt;
+
+&lt;p&gt;In fact:&lt;/p&gt;
+
+&lt;p&gt;$$ \mathcal{O}(2^n) \subset \mathcal{O}(n^n) $$&lt;/p&gt;
+
+&lt;h1 id=&#34;notation&#34;&gt;Notation&lt;/h1&gt;
+
+&lt;p&gt;It&amp;rsquo;s convenient to treat complexity classes as &lt;em&gt;variables&lt;/em&gt; in equations.&lt;/p&gt;
+
+&lt;p&gt;So, we use the following notations:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If $f\in \mathcal{O}(g)$, we write it as equality $f=\mathcal{O}(g)$.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;test-your-understanding&#34;&gt;Test your understanding&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;If $f = \mathcal{O}(g)$ and $g = \mathcal{O}(h)$, can you prove that $f =
+\mathcal{O}(h)$?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Does it make sense intuitively?&lt;/p&gt;
+
+&lt;p&gt;Does it work out mathematically?&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;So that $n^2 + 10000= \mathcal{O}(n^3)$.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
     </item>
     
@@ -2709,6 +2806,149 @@ $$&lt;/code&gt;&lt;/p&gt;
       
       <guid>http://db.science.uoit.ca/courses/algorithms/bucket-sort/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Clojure 3</title>
+      <link>http://db.science.uoit.ca/courses/programming-languages/clojure-language-3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/courses/programming-languages/clojure-language-3/</guid>
+      <description>
+
+&lt;h1 id=&#34;clojure-part-iii&#34;&gt;Clojure Part III&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;data-read-write-transformation&#34;&gt;Data Read &amp;amp; &lt;del&gt;Write&lt;/del&gt; &amp;amp; Transformation&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;List&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Vector&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Map&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Set&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;list&#34;&gt;List&lt;/h1&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(list ...)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(first seq)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(nth seq n)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Transformation&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(cons elem seq)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(conj seq elem ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(rest)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;vector&#34;&gt;Vector&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;[ ... ]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vector ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vec seq)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read: Vectors are &lt;em&gt;functions&lt;/em&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(v n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(get v n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(nth v n)&lt;/code&gt;, &lt;code&gt;(first ...)&lt;/code&gt; still apply.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Transformation&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;conj&lt;/code&gt;, &lt;code&gt;cons&lt;/code&gt;, &lt;code&gt;rest&lt;/code&gt; still apply.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(assoc v n val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update v n func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(subvec v start end)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(replace map v)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;map&#34;&gt;Map&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Create&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;{ ... }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(hash-map ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(array-map ...)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Read: maps are functions, and keywords are functions!!&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(m key)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(:keyword m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(get m key default-val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(keys m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(vals m)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(contains? m key)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Transform&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;(assoc m key val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(assoc-in m [path] val)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(dissoc m key)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(merge m1 m2 ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(merge-width f m1 m2 ...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(select-keys m [keys])&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update m key func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(update-in m [path] func)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;(rename-keys m rename-map)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;sequences&#34;&gt;Sequences&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -3100,6 +3340,26 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
     :else   0))
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h1 id=&#34;do-block&#34;&gt;DO block&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(do expr
+    expr
+    ...
+    expr)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Evaluates every expression in the &lt;code&gt;(do ...)&lt;/code&gt; form.  The &lt;code&gt;(do ...)&lt;/code&gt; form
+evaluates to the last expression.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(def x (do (println &amp;quot;Hello there.&amp;quot;)
+           (+ 1 2 3)))
+; 6
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h1 id=&#34;iteration-a-first-look&#34;&gt;Iteration: a first look&lt;/h1&gt;
 
 &lt;blockquote&gt;
@@ -3128,6 +3388,27 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
   (str &amp;quot;Hi, this is the &amp;quot; i &amp;quot;th iteration.&amp;quot;))
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h1 id=&#34;for-loop-super-charged&#34;&gt;For-loop super charged&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(for [sym seq-expr :when cond :while cond] body)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;:when cond&lt;/code&gt; causes the &lt;code&gt;for&lt;/code&gt; iteration to evaluate &lt;code&gt;body&lt;/code&gt; only when the
+condition is true.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;:while cond&lt;/code&gt; causes the &lt;code&gt;for&lt;/code&gt; iteration to terminate when the conditon
+becomes false.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(for [x (range 100)
+      y (range 100)
+      :when (= (+ x y) 42)]
+  (println x y))
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h1 id=&#34;more-iterations&#34;&gt;More iterations:&lt;/h1&gt;
 
 &lt;blockquote&gt;
@@ -3154,6 +3435,27 @@ This makes a copy of &lt;code&gt;person&lt;/code&gt;, with the change of increme
 &lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(doseq [i (range n)] body)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Data in Clojure&lt;/li&gt;
+&lt;li&gt;Functions&lt;/li&gt;
+&lt;li&gt;Branch&lt;/li&gt;
+&lt;li&gt;Iteration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Things to come:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Data structural transformations&lt;/li&gt;
+&lt;li&gt;Sequences and lazy evaluation&lt;/li&gt;
+&lt;li&gt;Looping through recursion&lt;/li&gt;
+&lt;/ol&gt;
 </description>
     </item>
     
@@ -4093,8 +4395,11 @@ elem      : s-expr
                         &lt;a href=&#34;clojure-language&#34;&gt;Readers - form - data - function&lt;/a&gt;
                     &lt;/li&gt;
                     &lt;li class=list-group-item&gt;
-                        &lt;a href=&#34;clojure-language-2&#34;&gt;General purpose programming
-                            with Clojure&lt;/a&gt;
+                        &lt;a href=&#34;clojure-language-2&#34;&gt;Clojure (2)&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li class=list-group-item&gt;
+                        &lt;a href=&#34;clojure-language-3&#34;&gt;Clojure (3)&lt;/a&gt;
+                        &lt;span class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
                     &lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Sequences, Lazy evaluation and other functional constructs&lt;/a&gt;&lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Namespaces and polymorphism&lt;/a&gt;&lt;/li&gt;
@@ -4151,232 +4456,6 @@ elem      : s-expr
 
 
 &lt;style&gt; a[href=&#34;&#34;] {color: #888;} &lt;/style&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Sorting numbers</title>
-      <link>http://db.science.uoit.ca/courses/algorithms/sorting-numbers/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/courses/algorithms/sorting-numbers/</guid>
-      <description>
-
-&lt;h1 id=&#34;radix-sort&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;A scalable and efficient sorting algorithm.&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Assumes all the elements are &lt;strong&gt;integers&lt;/strong&gt; bounded by the number of digits.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;This is much more practical than the assumption of &lt;code&gt;COUNTING_SORT&lt;/code&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;radix-sort-1&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;Intuition:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Write each integer as &lt;code&gt;$x = x_n x_{n-1} \dots x_3 x_2 x_1$&lt;/code&gt; base $k$.  The least significant digit is $x_1$.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Consider $x = $ one thousand four hundred and thirty seven.&lt;/p&gt;
-
-&lt;p&gt;We can write&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;$x$ in base-10: $x = 1437$.&lt;/li&gt;
-&lt;li&gt;$x$ in base-16: $x = 59d$.&lt;/li&gt;
-&lt;li&gt;$x$ in base-2: $x = 10110011101$&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;radix-sort-2&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;Intuition:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Write each element in $A$ with $n$ digits of base $k$.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Repeatly sort the array, $A$, $n$ times, sorting by only one digit.  Start sorting by the least significant digit, and finish by the most significant digit.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;The digit sorting algorithm used &lt;strong&gt;must&lt;/strong&gt; be &lt;strong&gt;stable&lt;/strong&gt;.  Use &lt;code&gt;COUNTING_SORT&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;comfort&#34;&gt;!&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;radix-sort-3&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;Some help from Python:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python clipboard&#34;&gt;# convert a number to its binary representation
-def radix2(num):
-    return &amp;quot;{0:b}&amp;quot;.format(num)
-
-# Get the i-th digit of binary string x
-def digit(num, i):
-    x = radix2(num)
-    if i &amp;gt;= len(x):
-        return 0
-    else:
-        d = x[-(i+1)]
-        return 0 if d == &#39;0&#39; else 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;radix-sort-4&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;Modify &lt;code&gt;COUNTING_SORT(A, i)&lt;/code&gt;:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 8:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python clipboard&#34;&gt;# Sort A using binary digit i
-def COUNTING_SORT(A, i):
-    n = len(A)
-    k = 2
-    B = empty_array(size=n)
-    C = empty_array(size=k, init=0)
-
-    for a in A:
-        d = digit(a, i)
-        C[d] = C[d] + 1
-
-    for j in range(1,k):
-        C[j] = C[j] + C[j-1]
-
-    for a in reversed(A):
-        d = digit(a, i)
-        B[C[d]-1] = a
-        C[d] = C[d] - 1
-
-    return B
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;split note&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Note that $k = 2$, we always assume binary encoding.  This is just for convenience.&lt;/li&gt;
-&lt;li&gt;Instead of computing the (cumulative) frequency of elements of &lt;code&gt;A&lt;/code&gt;, we use the $i$-th digit,
-&lt;code&gt;digit(a, i)&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;comfortable&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;radix-sort-5&#34;&gt;Radix Sort&lt;/h1&gt;
-
-&lt;p&gt;Finally the radix sort algorithm:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python clipboard&#34;&gt;def RADIX_SORT(A):
-    n = max(len(radix2(x)) for x in A)
-    for i in range(n):
-        A = COUNTING_SORT(A, i)
-    return A
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;on-radix-sort&#34;&gt;On Radix Sort&lt;/h1&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;We introduced a very important sorting algorithm that is capable of sorting collections of very large integers (e.g. 64-bit values).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Stable&lt;/li&gt;
-&lt;li&gt;Very efficient: beats the best comparison based sorting algorithms&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;sorting-the-reals&#34;&gt;Sorting the Reals&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sorting decimal numbers between [0, 1]&lt;/li&gt;
-&lt;li&gt;Bucket sort&lt;/li&gt;
-&lt;li&gt;Efficient in the average case&lt;/li&gt;
-&lt;li&gt;Inefficient in the worst case&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;sorting-the-reals-1&#34;&gt;Sorting the Reals&lt;/h1&gt;
-
-&lt;p&gt;Real numbers:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Any number, with arbitrary precision&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Assumption:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;We are concerned with sorting arrays of real numbers whose values are between $[0, 1]$.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;As long as the values are bounded by any interview $[a, b]$, we can apply the algorithm developed here by means of normalization:&lt;/p&gt;
-
-&lt;p&gt;$$ x&amp;rsquo; = \frac{x - a}{b - a}$$&lt;/p&gt;
-
-&lt;h1 id=&#34;intuition&#34;&gt;Intuition&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Partition the interval [0, 1] into $n$ equally divided intervals:&lt;/p&gt;
-
-&lt;p&gt;$$B = \big[0, \frac{1}{n}\big), \big[\frac{1}{n}, \frac{2}{n}\big), \dots, \big[\frac{n-1}{n}, 1\big]$$&lt;/p&gt;
-
-&lt;p&gt;with $B_i = [\frac{i}{n}, \frac{i+1}{n})$.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Given an array $A$, distribute $x\in A$ into the respective buckets $B_i$&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Sort each $B_i$ individually, and then concatenate all sorted buckets.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;This is &lt;em&gt;surprisingly&lt;/em&gt; effective.&lt;/p&gt;
-
-&lt;h1 id=&#34;bucket-sort&#34;&gt;Bucket Sort&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python clipboard&#34;&gt;def bucketsort(A, n):
-    buckets = [[] for i in range(n)]
-    # distribute the buckets
-    for a in A:
-        i = int(math.floor(a * n))
-        bucket[i].append(a)
-    # sort each bucket
-    for bucket in buckets:
-        bucket.sort()
-
-    # place the elements from the sorted buckets
-    # back to the array
-    i = 0
-    for bucket in buckets:
-        for a in bucket:
-            A[i] = a
-            i += 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;bucket-sort-1&#34;&gt;Bucket Sort&lt;/h1&gt;
-
-&lt;p&gt;We will defer the analysis of bucket sort to later as it will greatly benefit from some probability and asympotic notations.&lt;/p&gt;
-
-&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Numbers are &lt;em&gt;easier&lt;/em&gt; to sort than blackboxed elements.&lt;/li&gt;
-&lt;li&gt;For bounded integers, we can use radix sort even if the bound is very very large (e.g. 256-bit integers).&lt;/li&gt;
-&lt;li&gt;For bounded reals, we can use bucket sort.&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     

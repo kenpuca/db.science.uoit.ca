@@ -418,6 +418,26 @@ This makes a copy of <code>person</code>, with the change of incremental <code>:
     :else   0))
 </code></pre>
 
+<h1 id="do-block">DO block</h1>
+
+<blockquote>
+<pre><code class="language-clojure">(do expr
+    expr
+    ...
+    expr)
+</code></pre>
+</blockquote>
+
+<p>Evaluates every expression in the <code>(do ...)</code> form.  The <code>(do ...)</code> form
+evaluates to the last expression.</p>
+
+<p>Example:</p>
+
+<pre><code class="language-clojure sm">(def x (do (println &quot;Hello there.&quot;)
+           (+ 1 2 3)))
+; 6
+</code></pre>
+
 <h1 id="iteration-a-first-look">Iteration: a first look</h1>
 
 <blockquote>
@@ -446,6 +466,27 @@ This makes a copy of <code>person</code>, with the change of incremental <code>:
   (str &quot;Hi, this is the &quot; i &quot;th iteration.&quot;))
 </code></pre>
 
+<h1 id="for-loop-super-charged">For-loop super charged</h1>
+
+<pre><code class="language-clojure">(for [sym seq-expr :when cond :while cond] body)
+</code></pre>
+
+<ul>
+<li><p><code>:when cond</code> causes the <code>for</code> iteration to evaluate <code>body</code> only when the
+condition is true.</p></li>
+
+<li><p><code>:while cond</code> causes the <code>for</code> iteration to terminate when the conditon
+becomes false.</p></li>
+</ul>
+
+<p><em>Example</em>:</p>
+
+<pre><code class="language-clojure sm clipboard">(for [x (range 100)
+      y (range 100)
+      :when (= (+ x y) 42)]
+  (println x y))
+</code></pre>
+
 <h1 id="more-iterations">More iterations:</h1>
 
 <blockquote>
@@ -472,6 +513,27 @@ This makes a copy of <code>person</code>, with the change of incremental <code>:
 <pre><code class="language-clojure">(doseq [i (range n)] body)
 </code></pre>
 </blockquote>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li>Data in Clojure</li>
+<li>Functions</li>
+<li>Branch</li>
+<li>Iteration</li>
+</ul>
+
+<hr />
+
+<p>Things to come:</p>
+
+<ol>
+<li>Data structural transformations</li>
+<li>Sequences and lazy evaluation</li>
+<li>Looping through recursion</li>
+</ol>
 </div>
         </div>
 

@@ -37,6 +37,16 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
+<h1 id="complexity-classes">Complexity classes</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li>Asymptotic notations and complexity classes</li>
+<li>Intuition</li>
+<li>Properties</li>
+</ul>
+
 <h1 id="asymptotic-notation">Asymptotic notation</h1>
 
 <p>We will develop a way to measure the efficiency of algorithms which is <em>invariant</em> to the non-essential issues such as the speed of computer hardware and the effiency of the programming language used.</p>
@@ -213,7 +223,92 @@ $$</code></p>
 <li><p>$\Theta(g(n))$ is the collection of <strong>all</strong> the performance measures that are equivalent to $g(n)$.</p></li>
 </ul>
 
-<h1 id="why-is">Why is</h1>
+<h1 id="functions-we-use">Functions we use:</h1>
+
+<ul>
+<li><p>Polynomials:</p>
+
+<p>$$f(n) = \sum_{i=0}^d a_i n^i$$</p></li>
+
+<li><p>Exponentials:</p>
+
+<p>$$f(n) = a^n$$</p></li>
+
+<li><p>Logorithms</p>
+
+<p>$$f(n) = \log_a(n)$$</p></li>
+
+<li><p>Factorials</p>
+
+<p>$$f(n) = n!$$</p></li>
+</ul>
+
+<h1 id="more-about-exponents">More about Exponents</h1>
+
+<ul>
+<li><a href="comfortable">!</a></li>
+<li><code>$(a^m)^n = a^{mn}$</code></li>
+<li><code>$(a^m) (a^n) = a^{m+n}$</code></li>
+<li><code>$\lim_{n\to\infty} \frac{n^d}{a^n} = 0$</code></li>
+</ul>
+
+<h1 id="more-about-logorithms">More about Logorithms</h1>
+
+<ul>
+<li><a href="comfortable">!</a></li>
+<li><code>$a^{\log_a(n)} = n$</code></li>
+<li><code>$\log_a(mn) = \log_a(m) + \log_a(n)$</code></li>
+<li><code>$\log_a(n^d) = d\cdot \log_a(n)$</code></li>
+<li><code>$\log_b(a) \cdot \log_a(n) = \log_b(n)$</code></li>
+<li><code>$a^{\log_a (n)} = n^{\log_b(a)}$</code></li>
+</ul>
+
+<h1 id="more-about-factorial">More about Factorial</h1>
+
+<p>Stirling&rsquo;s approximation:</p>
+
+<p>$$ n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n $$</p>
+
+<h1 id="comparisons">Comparisons</h1>
+
+<p>For any $a &gt; 1$, $b &gt; 0$ and $c &gt; 1$, we have:</p>
+
+<p><code>$$ 
+\mathcal{O}(\log_a(n)) \subseteq \mathcal{O}(n^b) \subseteq \mathcal{O}(c^n)
+$$</code></p>
+
+<p>We can show that:</p>
+
+<p>$$ n! \in\mathcal{O}(n^n) $$</p>
+
+<p>In fact:</p>
+
+<p>$$ \mathcal{O}(2^n) \subset \mathcal{O}(n^n) $$</p>
+
+<h1 id="notation">Notation</h1>
+
+<p>It&rsquo;s convenient to treat complexity classes as <em>variables</em> in equations.</p>
+
+<p>So, we use the following notations:</p>
+
+<ul>
+<li>If $f\in \mathcal{O}(g)$, we write it as equality $f=\mathcal{O}(g)$.</li>
+</ul>
+
+<h1 id="test-your-understanding">Test your understanding</h1>
+
+<ol>
+<li><p>If $f = \mathcal{O}(g)$ and $g = \mathcal{O}(h)$, can you prove that $f =
+\mathcal{O}(h)$?</p>
+
+<blockquote>
+<p>Does it make sense intuitively?</p>
+
+<p>Does it work out mathematically?</p>
+</blockquote></li>
+
+<li><p>So that $n^2 + 10000= \mathcal{O}(n^3)$.</p></li>
+</ol>
 </div>
         </div>
 

@@ -407,10 +407,10 @@ It can be used to test if <em>pred</em> holds for some element of the seq.</p>
 
 <h1 id="seq-in-action-1">Seq in action</h1>
 
-<pre><code class="language-clojure clipboard">(defn even-nat (filter even? nat))
+<pre><code class="language-clojure clipboard">(def even-nat (filter even? nat))
 </code></pre>
 
-<pre><code class="language-clojure clipboard">(defn odd-nat (filter #(not (even? %1)) nat))
+<pre><code class="language-clojure clipboard">(def odd-nat (filter #(not (even? %1)) nat))
 </code></pre>
 
 <pre><code class="language-clojure clipboard">(take 4 even-nat)       ; (0 2 4 6)
@@ -475,7 +475,7 @@ It can be used to test if <em>pred</em> holds for some element of the seq.</p>
 
 <p><a href="&amp;&amp;&amp;">!</a></p>
 
-<pre><code class="language-clojure clipboard">(defn g [n] (if (&gt; n 0) (/ (float n) (Math/log n)) 1))
+<pre><code class="language-clojure clipboard">(defn g [n] (if (&gt; n 1) (/ (float n) (Math/log n)) 1))
 (def alpha (map #(/ %1 (g %2)) prime-counts nat))
 </code></pre>
 

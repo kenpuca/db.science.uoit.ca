@@ -204,7 +204,7 @@ T(n) &amp;=&amp; \Theta(n) + T(\alpha n) + T((1-\alpha) n) \\
 
 <p>Note, without loss of generality, we assume <code>$\alpha \geq 1/2$</code>.</p>
 
-<h1 id="solving-recurrence-equations-by-substitution">Solving recurrence equations by substitution</h1>
+<h1 id="recurrence-equation-1">Recurrence Equation</h1>
 
 <ol>
 <li>Assume that $T(n) = \mathcal{O}(f(n))$ for some initial <em>guess</em> of $f(n)$.</li>
@@ -225,6 +225,31 @@ equations to recurrence inequalities.</p>
 
 <p><code>$T(n) \leq \Theta(n) + T(n-1)$</code></p>
 </blockquote>
+
+<h1 id="solving-by-substitution">Solving by substitution</h1>
+
+<ol>
+<li>Guess a solution $T(n) = \Theta(f(n))$.</li>
+<li>Check if the solution satisfies the recurrence equation.</li>
+</ol>
+
+<p><a href="-------">!</a></p>
+
+<ol>
+<li>Guess a complexity class $T(n) = \mathcal{O}(f(n))$.</li>
+<li>Check if the solution satisfies the recurrence inequality.</li>
+</ol>
+
+<h1 id="example">Example</h1>
+
+<p>$T(n) = \Theta(n) + T(n-1)$.</p>
+
+<p>Let&rsquo;s show that $T(n) = \mathcal{O}(n^2)$.</p>
+
+<p><code>$$
+\begin{eqnarray}
+\end{eqnarray}
+$$</code></p>
 </div>
         </div>
 

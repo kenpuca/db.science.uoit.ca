@@ -48,7 +48,7 @@
 
 <li><p>Vector</p></li>
 
-<li><p>Map</p></li>
+<li><p>(Hash-) Map</p></li>
 
 <li><p>Set</p></li>
 </ul>
@@ -79,7 +79,7 @@
 <ul>
 <li><code>(cons elem seq)</code></li>
 <li><code>(conj seq elem ...)</code></li>
-<li><code>(rest)</code></li>
+<li><code>(rest seq)</code></li>
 </ul>
 </blockquote>
 
@@ -94,6 +94,7 @@
 <li><code>[ ... ]</code></li>
 <li><code>(vector ...)</code></li>
 <li><code>(vec seq)</code></li>
+<li><code>(into v seq)</code></li>
 </ul>
 </blockquote>
 
@@ -121,7 +122,7 @@
 </ul>
 </blockquote>
 
-<h1 id="map">Map</h1>
+<h1 id="hash-map">(Hash-) Map</h1>
 
 <p><a href="columns 6:">!</a></p>
 
@@ -169,6 +170,372 @@
 <h1 id="sequences">Sequences</h1>
 
 <p><a href="highlight">!</a></p>
+
+<h1 id="sequences-1">Sequences</h1>
+
+<ul>
+<li>Think of it as another data structure, known as <em>seq</em>.</li>
+<li>The closest thing we have seen is <em>Iterable</em> in Java.</li>
+</ul>
+
+<p><a href="------">!</a></p>
+
+<p>Seqs gets the most amount attention in Clojure.</p>
+
+<h1 id="sources-of-seqs">Sources of seqs</h1>
+
+<pre><code class="language-clojure">(range &lt;start&gt; &lt;end&gt; &lt;step&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Creates a sequence of integers.</p>
+
+<pre><code class="language-clojure">(repeat &lt;n&gt; &lt;x&gt;)
+(repeat &lt;x&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Creates a sequence of the same value <code>x</code> repeately <code>n</code> times.  If <code>n</code>
+is omitted, the sequence continuous forever.</p>
+
+<pre><code class="language-clojure">(iterate &lt;f&gt; &lt;x&gt;)
+</code></pre>
+
+<p><a href="note">!</a> A sequence with: <code>x</code> <code>(f x)</code>, <code>(f (f x))</code>, &hellip; <em>forever</em>.</p>
+
+<pre><code class="language-clojure">(repeatedly &lt;n&gt; &lt;f&gt;)
+(repeatedly &lt;f&gt;)
+</code></pre>
+
+<p><a href="note">!</a> A sequence with: <code>(f)</code>, <code>(f)</code>, &hellip; $n$ times.  If $n$ is omitted, the
+sequence continuous forever.</p>
+
+<pre><code class="language-clojure">(cycle &lt;collection&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Generates an infinite sequence of by repeating the collection forever.</p>
+
+<h1 id="more-sources-of-seqs">More sources of seqs</h1>
+
+<h2 id="readers">Readers:</h2>
+
+<pre><code class="language-clojure">(clojure.java.io/reader &lt;filename&gt;)
+</code></pre>
+
+<h2 id="creating-a-sequence-of-lines">Creating a sequence of lines</h2>
+
+<pre><code class="language-clojure">(line-seq &lt;rdr&gt;)
+</code></pre>
+
+<hr />
+
+<h3 id="note">Note</h3>
+
+<p>Don&rsquo;t forget to close the reader when you are done.  To be safe, use the macro:</p>
+
+<pre><code class="language-clojure sm">(with-open [rdr (clojure.java.io/reader &lt;filename&gt;)]
+  (let [lines (line-seq rdr)]
+    ...))
+</code></pre>
+
+<p><a href="note">!</a> The <code>with-open</code> macro will create the symbol binding to the opened
+reader, and close it afterwards.</p>
+
+<h1 id="even-more-sources-of-seqs">Even more sources of seqs</h1>
+
+<h2 id="regular-expression">Regular expression</h2>
+
+<pre><code class="language-clojure">#&quot;...&quot;
+</code></pre>
+
+<p><a href="note">!</a> Clojure relies on Java&rsquo;s regular expression library.  So the syntax
+for regular expressions is the same as Java&rsquo;s <code>java.util.regex</code> library.  But
+creating a pattern is really simple with the reader macro <code>#&quot;...&quot;</code></p>
+
+<h2 id="sequences-of-matches">Sequences of matches</h2>
+
+<pre><code class="language-clojure">(re-seq &lt;pattern&gt; &lt;string&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns a sequence of matches of pattern in the string.  If the
+pattern does <strong>not</strong> contain groups, then each match is a string.  Otherwise,
+it&rsquo;s a vector containing the groups.</p>
+
+<h1 id="working-with-seqs">Working with seqs</h1>
+
+<div style=height:150px></div>
+
+<h2 id="fast-and-furious"><em>Fast and furious</em></h2>
+
+<h1 id="working-with-seqs-1">Working with seqs</h1>
+
+<pre><code class="language-clojure clipboard">(def nat (iterate inc 0))
+</code></pre>
+
+<p><a href="note">!</a> Defining natural numbers.  This is an infinite sequence, so <code>(println nat)</code> will result in a
+never-ending loop.</p>
+
+<pre><code class="language-clojure clipboard">(def nat+ (rest nat))
+; (1 2 3 4 5 ... ∞)
+</code></pre>
+
+<p><a href="note">!</a> Strictly positive numbers</p>
+
+<pre><code class="language-clojure clipboard">(first nat)   ; 0
+(first nat+)  ; 1
+</code></pre>
+
+<p><a href="note">!</a> Getting the first element</p>
+
+<pre><code class="language-clojure clipboard">(take 10 nat)
+; (0 1 2 3 4 5 6 7 8 9)
+</code></pre>
+
+<p><a href="note">!</a> Takes the first 100 natural numbers.</p>
+
+<h1 id="working-with-seqs-2">Working with seqs</h1>
+
+<pre><code class="language-clojure">(interleave &lt;seq1&gt; &lt;seq2&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Mix two sequences into one by interleaving the elements.</p>
+
+<pre><code class="language-clojure">(interpose &lt;x&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Insert <code>&lt;x&gt;</code> between the elements in <code>&lt;seq&gt;</code>.</p>
+
+<pre><code class="language-clojure">(split-at &lt;index&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns a vector containing <em>two</em> seqs.  The two seqs are produced by
+splitting the input <code>&lt;seq&gt;</code> at the <code>&lt;index&gt;</code>.</p>
+
+<h1 id="higher-order-functions-with-seqs">Higher order functions with seqs</h1>
+
+<pre><code class="language-clojure">(map &lt;fn&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns a sequence by applying <code>(&lt;fn&gt; x)</code> for each <code>x</code> in <code>&lt;seq&gt;</code>.</p>
+
+<pre><code class="language-clojure">(map &lt;fn&gt; &lt;seq-1&gt; &lt;seq-2&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns a sequence by applying <code>(&lt;fn&gt; xi yi)</code> for each <code>xi</code> in <code>&lt;seq-1&gt;</code> and <code>yi</code> in <code>&lt;seq-2&gt;</code>.</p>
+
+<pre><code class="language-clojure">(filter &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> The function <code>&lt;pre&gt;</code> is a <em>predicate</em>, namely a function that always
+returns <code>true/false</code>.  The returned seq contains elements <br>
+<code>x$\in$&lt;seq&gt;</code> that satisfies the
+predicate, i.e. <code>(&lt;pred&gt; x)</code> is true.</p>
+
+<pre><code class="language-clojure">(reduce &lt;f&gt; &lt;seq&gt;)
+(reduce &lt;f&gt; &lt;x0&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Reduces a sequence (x1 x2 x3) to a single value of <br>
+<code>(f (f (f x0) x1) x3)</code>.</p>
+
+<h1 id="more-higher-order-functions-on-seqs">More higher order functions on seqs</h1>
+
+<pre><code class="language-clojure">(take-while &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Takes elements <code>x</code> from <code>&lt;seq&gt;</code> for as long as <code>(&lt;pred&gt; x)</code> is true.</p>
+
+<pre><code class="language-clojure">(drop-while &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Drops elements <code>x</code> from <code>&lt;seq&gt;</code> for as long as <code>(&lt;pred&gt; x)</code> is true.
+Returns the remaining elements.</p>
+
+<pre><code class="language-clojure">(split-with &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns a vector of two seqs.  The first is <code>(take-while ...)</code> and the
+second is <code>(drop-while ...)</code>.</p>
+
+<h1 id="predicates-on-seqs">Predicates on seqs</h1>
+
+<pre><code class="language-clojure">(every? &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Tests if <em>pred</em> holds for every element of the seq.</p>
+
+<pre><code class="language-clojure">(some &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Returns the first element in seq that satisfies the predicate.
+It can be used to test if <em>pred</em> holds for some element of the seq.</p>
+
+<pre><code class="language-clojure">(not-every? &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Test that predicate is violated by some elements in seq.</p>
+
+<pre><code class="language-clojure">(not-any? &lt;pred&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Test that none of the elements in seq satisfies the predicate.</p>
+
+<h1 id="transformations-of-seqs">Transformations of seqs</h1>
+
+<pre><code class="language-clojure">(sort &lt;seq&gt;)
+(sort &lt;cmp&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Sorts the seq by an optional comparator.</p>
+
+<pre><code class="language-clojure">(sort-by &lt;key-fn&gt; &lt;seq&gt;)
+(sort-by &lt;key-fn&gt; &lt;cmp&gt; &lt;seq&gt;)
+</code></pre>
+
+<p><a href="note">!</a> Sorts the seq by <code>(&lt;key-fn&gt; x)</code> instead of the elements <code>x</code>.</p>
+
+<pre><code class="language-clojure">(reverse seq)
+</code></pre>
+
+<p><a href="note">!</a> Reverses the sequence.</p>
+
+<h1 id="seq-in-action">Seq in action</h1>
+
+<pre><code class="language-clojure clipboard">(def nat (iterate inc 0))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(defn even? [n] (zero? (mod n 2)))
+</code></pre>
+
+<h1 id="seq-in-action-1">Seq in action</h1>
+
+<pre><code class="language-clojure clipboard">(defn even-nat (filter even? nat))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(defn odd-nat (filter #(not (even? %1)) nat))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(take 4 even-nat)       ; (0 2 4 6)
+(take 4 odd-nat)        ; (1 3 5 7)
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(interleave odd-nat even-nat)
+; =&gt; (1 0 3 2 5 4 7 6)
+</code></pre>
+
+<h1 id="seq-in-action-2">Seq in action</h1>
+
+<pre><code class="language-clojure clipboard">(defn prime? [n] (not-any? (fn [i] (zero? (mod n i))) (range 2 n)))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(def primes (filter prime? (drop 2 nat)))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(take 100 primes)
+</code></pre>
+
+<p>Questions:</p>
+
+<blockquote>
+<ol>
+<li>Does the gap between two adjacent primes grow?</li>
+<li>How many primes $\leq n$ are there for growing n?</li>
+</ol>
+</blockquote>
+
+<h1 id="tricks-magic">Tricks &amp; Magic</h1>
+
+<h2 id="the-trick">The trick</h2>
+
+<pre><code class="language-clojure clipboard">(def letters [\a \b \c])
+(def numbers [ 1  2  3   4  5  6])
+(map vector letters numbers)
+; =&gt; ([\a 1] [\b 2] [\c 3])
+</code></pre>
+
+<h2 id="the-magic">The magic</h2>
+
+<pre><code class="language-clojure clipboard">(def prime-gaps
+  (map #(apply - (reverse %)) (map vector primes (rest primes))))
+</code></pre>
+
+<h1 id="tricks-magic-1">Tricks &amp; Magic</h1>
+
+<pre><code class="language-clojure clipboard">(defn count-primes [n] (count (take-while #(&lt;= % n) primes)))
+</code></pre>
+
+<pre><code class="language-clojure clipboard">(def prime-counts (map count-primes nat))
+</code></pre>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>Theorem:</p>
+
+<blockquote>
+<p>The distribution of primes is $\Theta(n/\log n)$.</p>
+</blockquote>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<pre><code class="language-clojure clipboard">(defn g [n] (if (&gt; n 0) (/ (float n) (Math/log n)) 1))
+(def alpha (map #(/ %1 (g %2)) prime-counts nat))
+</code></pre>
+
+<h1 id="a-preview-of-the-leverage-on-jvm">A preview of the leverage on JVM</h1>
+
+<p>You need to include <code>incanter.jar</code> in the CLASSPATH to run the following code.</p>
+
+<pre><code class="language-clojure sm clipboard">(use '(incanter core charts))
+(let [ds (conj-cols (take 1000 nat) (take 1000 alpha))]
+  (view (xy-plot 0 1 :data ds)))
+</code></pre>
+
+<p><img src="xy-plot-alpha.png" style=float:right></img></p>
+
+<h1 id="more-sorcery">More sorcery</h1>
+
+<pre><code class="language-clojure sm clipboard">(view 
+  (scatter-plot 0 1 
+                :data (conj-cols 
+                        (take 1000 nat) 
+                        (take 1000 prime-gaps))))
+</code></pre>
+
+<p><img src="scatter-plot-gaps.png" style=float:right></img></p>
+
+<h1 id="in-one-fell-swoop">In one fell swoop</h1>
+
+<pre><code class="language-clojure sm clipboard">(use '(incanter core charts))
+(let [; list of natural numbers
+      nat (iterate inc 0)
+      ; a predicate to decide of input is prime
+      prime? (fn [n] 
+               (not-any? 
+                 (fn [i] (zero? (mod n i))) 
+                 (range 2 n)))
+      ; list of primes
+      primes (filter prime? nat)
+      ; compute the gaps between to adjacent primes
+      gaps (map 
+              #(apply - (reverse %))
+              (map vector primes (rest primes)))
+      ; counts the number of primes less than n
+      countp (fn [n] (count (take-while #(&lt; % n) primes)))]
+    ; plots
+    (view (scatter-plot 0 1 :data (conj-cols (take 1000 nat) (take 1000 gaps))))
+    (view (xy-plot 0 1 :data (conj-cols (take 1000 nat) 
+                             (map #(* (Math/log %) (/ (countp %) (float %)))
+                                  (take 1000 nat))))))
+</code></pre>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li>Data</li>
+<li>Data transformation</li>
+<li>Sequences</li>
+<li>Sequence (higher-order) functions</li>
+</ul>
 </div>
         </div>
 

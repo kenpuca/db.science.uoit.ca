@@ -303,7 +303,7 @@ $T(n) \leq a n^2 + bn + c$.</p>
 <p><code>$$
 \begin{eqnarray}
 T(n) &amp;=&amp; T(n-1) + \Theta(n) \\
-     &amp;\leq&amp; a (n-1)^ + b(n-1) + c + dn \\
+     &amp;\leq&amp; a (n-1)^2 + b(n-1) + c + dn \\
      &amp;\leq&amp; an^2 + (b+d-2a)n + (c+1)
 \end{eqnarray}
 $$</code></p>
@@ -333,10 +333,13 @@ $\implies$ $c &lt; -1$</p>
 
 <p>Recurrence tree is another method for solving recurrence equations.</p>
 
+<blockquote>
 <ul>
-<li>It is sometimes harder, and sometimes easier than substitution.</li>
-<li>It requires the skill of observing a <em>pattern</em> in an arithmetic series.</li>
+<li><p>It is sometimes harder, and sometimes easier than substitution.</p></li>
+
+<li><p>It requires the skill of observing a <em>pattern</em> in an arithmetic series.</p></li>
 </ul>
+</blockquote>
 
 <p>Consider a recurrence equation, we can use it to successively expand the terms
 $T(\dots)$, and form a tree.  We do so until $T(1)$, and add up all the weights

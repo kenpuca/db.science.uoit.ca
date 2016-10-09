@@ -3339,6 +3339,329 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
 &lt;li&gt;Breaking depth of recursio with lazy evaluation&lt;/li&gt;
 &lt;li&gt;Trampoline: breaking depth of mutual recursion&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h1 id=&#34;turing-complete&#34;&gt;Turing-complete&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 8:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Q:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Given an input seq of elements, how do we compute
+the cummulative aggregates of each distinct elements
+seen in the input seq.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;A:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;???&lt;/p&gt;
+
+&lt;p&gt;Maybe we can look for a built-in seq function to do this&amp;hellip;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;div style=&#34;height:300px&#34;&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;We need to be able to implement general purpose functions to match the power and
+flexibility of Java / Python / &amp;hellip;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;looking-back-at-procedural-programming&#34;&gt;Looking back at procedural programming&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def count_seq(input_seq):
+    counts = dict()
+    
+    for elem in input_seq:
+        if elem in counts:
+            counts[elem] += 1
+        else:
+            counts[elem] = 1
+
+    return counts
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;rewriting-python-with-recursion&#34;&gt;Rewriting Python with recursion&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(input_seq):
+    if len(input_seq) == 0:
+        return {}
+    else:
+        first = input_seq[0]
+        rest  = input_seq[1:]
+        return increment(first, count_seq(rest))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; A recursive formulation&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def increments(key, counts):
+    if key in counts:
+        counts[key] += 1
+    else:
+        counts[key] = 1
+    return counts
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Increments the count of a key in &lt;code&gt;counts&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;clojure-s-recursion-version-1&#34;&gt;Clojure&amp;rsquo;s recursion (version 1)&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
+
+(defn count-seq [xs]
+  (if (empty? xs)
+    {}
+    (let [head (first xs)
+          tail (rest xs)]
+      (update (count-seq tail) head inc-or-1))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Make sure you understand this code.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;What is the time complexity?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Linear time.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;What is the space complexity?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Linear space (why?) and it uses the precious stack.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;stack-overflow&#34;&gt;Stack Overflow&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(count-seq (repeat 1000 :a))
+; {:a 1000}
+
+(count-seq (repeat 100000 :a))
+; StackOverflowError   clojure.core/first--4339
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Can you understand why the stack is being filled up necessarily?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def repeat(n, x): 
+    return [x for i in range(n)]
+
+count_seq(repeat(100, &amp;quot;a&amp;quot;))
+# {&amp;quot;a&amp;quot;: 100}
+
+count_seq(repeat(1000, &amp;quot;a&amp;quot;))
+# RuntimeError: maximum recursion depth exceeded
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Python has a more expensive function call, so it cannot hold as many
+on its preallocated stack.  The reason is that Python doesn&amp;rsquo;t encourage the
+usage of recursion as a scalable programming pattern.&lt;/p&gt;
+
+&lt;h1 id=&#34;tail-recursion&#34;&gt;Tail recursion&lt;/h1&gt;
+
+&lt;p&gt;Definition: &lt;em&gt;tail recursion&lt;/em&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A function &lt;code&gt;f&lt;/code&gt; uses &lt;em&gt;tail recursion&lt;/em&gt; if its recursive call is &lt;em&gt;always&lt;/em&gt; the last
+step in the function.  Namely, the function must necessarily call itself as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def f(...):
+    ...
+    ...
+    return f(...)
+    ...
+    ...
+    return f(...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then we say that &lt;code&gt;f&lt;/code&gt; is tail-recursive.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;revisit-count-seq-in-python&#34;&gt;Revisit &lt;code&gt;count_seq&lt;/code&gt; in Python&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(input_seq):
+    if len(input_seq) == 0:
+        return {}
+    else:
+        first = input_seq[0]
+        rest  = input_seq[1:]
+        return increment(first, count_seq(rest))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is &lt;em&gt;not&lt;/em&gt; tail-recursion.  Why not?&lt;/p&gt;
+
+&lt;h1 id=&#34;tail-recursion-version-for-python&#34;&gt;Tail recursion version for Python.&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(seq, cnt):
+    if len(seq) == 0:
+        return cnt
+    else:
+        head = seq[0]
+        tail = seq[1:]
+        return count_seq(tail, inc(cnt, head))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is tail-recursive.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Good news:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Tail recursion does not require taking up space on the stack.&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=color:red&gt; Why? &lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bad news:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Python doesn&amp;rsquo;t know about tail recursion.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;tail-recursion-in-clojure&#34;&gt;Tail recursion in Clojure&lt;/h1&gt;
+
+&lt;p&gt;Clojure gives programmer a special way for a function to call itself if it is
+tail-recursive.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [..]
+  ...  (recur f) ...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [xs cnt]
+  (if (empty? xs) 
+    cnt 
+    (let [head (first xs) 
+          tail (rest xs)]
+      (recur tail (update cnt head inc-or-1))))) 
+
+(count-seq (repeat 1000000 :b) {})
+; {:b 1000000}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It&amp;rsquo;s tail-recursive.&lt;/p&gt;
+
+&lt;h1 id=&#34;more-on-clojure-style&#34;&gt;More on Clojure-style&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 5:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We prefer:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;(count-seq &amp;lt;seq&amp;gt;)&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;But we had to do:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;(count-seq &amp;lt;seq&amp;gt; {})&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The solution is to use the multi-arity feature:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn count-seq
+  ([xs] (count-seq xs {}))
+  ([xs cnt] 
+    (if (empty? xs)
+      cnt
+      (recur (rest xs)
+             (update cnt 
+                     (first xs) inc-or-1)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;clojure-s-general-purpose-loop&#34;&gt;Clojure&amp;rsquo;s general purpose loop&lt;/h1&gt;
+
+&lt;p&gt;We may want to define a recursion-based computation in an expression.
+It&amp;rsquo;s &lt;em&gt;okay&lt;/em&gt; to define a function each time we need recursion.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn count-seq [input-seq]
+  (let [f (fn [xs cnt]
+            (if (empty? xs)
+              cnt
+              (recur (rest xs)
+                     (update cnt (first xs) inc-or-1))))]
+    (f input-seq {})))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;But we can do even better.&lt;/p&gt;
+
+&lt;p&gt;We can have a &lt;strong&gt;loop-expression&lt;/strong&gt; that is a recursive construct that allows us
+to specify:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The parameter symbols and their initial values.&lt;/li&gt;
+&lt;li&gt;The body to evaluate the new values for the parameters.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;clojure-s-general-purpose-loop-1&#34;&gt;Clojure&amp;rsquo;s general purpose loop&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(loop [&amp;lt;p1&amp;gt; &amp;lt;exp&amp;gt;
+       &amp;lt;p2&amp;gt; &amp;lt;exp&amp;gt; ...]
+  (... (recur &amp;lt;new-p1&amp;gt; &amp;lt;new-p2&amp;gt;) ...))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, we can reimplement count-seq once more:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq]
+  (loop [xs input-seq
+         cnt {}]
+    (if (empty? xs)
+      cnt
+      (recur (rest xs) (update cnt (first xs) inc-or-1)))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Recursion is better than loops.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Recursion requires better runtime support (beyond the TM-style architecture).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Tail recursion can be optimized to &lt;code&gt;loop&lt;/code&gt; efficiency.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Clojure supports tail recursion for both functions and &lt;code&gt;loop&lt;/code&gt;-expressions.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;count-seq-yet-again-version&#34;&gt;&lt;code&gt;count-seq&lt;/code&gt; yet again version&lt;/h1&gt;
+
+&lt;div style=height:200px&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq]
+  (reduce inc-or-1 {} input-seq))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; If you have trouble understanding this, try it out with the sequence
+&amp;lsquo;(:a :a :b), and work it out by hand.&lt;/p&gt;
+
+&lt;h1 id=&#34;count-seq-the-last-version&#34;&gt;&lt;code&gt;count-seq&lt;/code&gt; the last version&lt;/h1&gt;
+
+&lt;div style=height:100px&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq] (frequencies input-seq))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def count-seq frequencies)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is my favourite version :-)&lt;/p&gt;
 </description>
     </item>
     

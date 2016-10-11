@@ -37,7 +37,7 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
-<h1 id="turning-complete-efficient-programming-in-clojure">Turning Complete &amp; Efficient Programming in Clojure</h1>
+<h1 id="turing-complete-efficient-programming-in-clojure">Turing Complete &amp; Efficient Programming in Clojure</h1>
 
 <p><a href="highlight">!</a></p>
 
@@ -45,8 +45,6 @@
 <li>Function and recursion</li>
 <li>Tail-recursion with <code>recur</code></li>
 <li><code>loop</code> and <code>recur</code></li>
-<li>Breaking depth of recursio with lazy evaluation</li>
-<li>Trampoline: breaking depth of mutual recursion</li>
 </ul>
 
 <h1 id="turing-complete">Turing-complete</h1>
@@ -57,7 +55,7 @@
 
 <blockquote>
 <p>Given an input seq of elements, how do we compute
-the cummulative aggregates of each distinct elements
+the cummulative aggregates of each distinct element
 seen in the input seq.</p>
 </blockquote>
 
@@ -103,7 +101,7 @@ flexibility of Java / Python / &hellip;</em></p>
 
 <p><a href="note">!</a> A recursive formulation</p>
 
-<pre><code class="language-python sm">def increments(key, counts):
+<pre><code class="language-python sm">def increment(key, counts):
     if key in counts:
         counts[key] += 1
     else:
@@ -115,7 +113,7 @@ flexibility of Java / Python / &hellip;</em></p>
 
 <h1 id="clojure-s-recursion-version-1">Clojure&rsquo;s recursion (version 1)</h1>
 
-<pre><code class="language-clojure sm">(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
+<pre><code class="language-clojure sm clipboard">(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
 
 (defn count-seq [xs]
   (if (empty? xs)
@@ -209,7 +207,7 @@ step in the function.  Namely, the function must necessarily call itself as:</p>
     else:
         head = seq[0]
         tail = seq[1:]
-        return count_seq(tail, inc(cnt, head))
+        return count_seq(tail, increment(cnt, head))
 </code></pre>
 
 <p><a href="note">!</a> This is tail-recursive.</p>
@@ -239,8 +237,8 @@ step in the function.  Namely, the function must necessarily call itself as:</p>
 <p>Clojure gives programmer a special way for a function to call itself if it is
 tail-recursive.</p>
 
-<pre><code class="language-clojure">(defn f [..]
-  ...  (recur f) ...)
+<pre><code class="language-clojure">(defn f [&lt;args&gt;]
+  ...  (recur &lt;args&gt;) ...)
 </code></pre>
 
 <hr />
@@ -351,8 +349,11 @@ to specify:</p>
 
 <div style=height:200px></div>
 
-<pre><code class="language-clojure">(defn count-seq [input-seq]
-  (reduce inc-or-1 {} input-seq))
+<pre><code class="language-clojure clipboard">(defn increment [cnt key]
+  (update cnt key inc-or-1))
+
+(defn count-seq [input-seq]
+  (reduce increment {} input-seq))
 </code></pre>
 
 <p><a href="note">!</a> If you have trouble understanding this, try it out with the sequence

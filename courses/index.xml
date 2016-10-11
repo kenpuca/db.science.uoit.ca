@@ -3328,7 +3328,7 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
       <guid>http://db.science.uoit.ca/courses/programming-languages/clojure-language-4/</guid>
       <description>
 
-&lt;h1 id=&#34;turning-complete-efficient-programming-in-clojure&#34;&gt;Turning Complete &amp;amp; Efficient Programming in Clojure&lt;/h1&gt;
+&lt;h1 id=&#34;turing-complete-efficient-programming-in-clojure&#34;&gt;Turing Complete &amp;amp; Efficient Programming in Clojure&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
 
@@ -3336,8 +3336,6 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
 &lt;li&gt;Function and recursion&lt;/li&gt;
 &lt;li&gt;Tail-recursion with &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loop&lt;/code&gt; and &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Breaking depth of recursio with lazy evaluation&lt;/li&gt;
-&lt;li&gt;Trampoline: breaking depth of mutual recursion&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&#34;turing-complete&#34;&gt;Turing-complete&lt;/h1&gt;
@@ -3348,7 +3346,7 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
 
 &lt;blockquote&gt;
 &lt;p&gt;Given an input seq of elements, how do we compute
-the cummulative aggregates of each distinct elements
+the cummulative aggregates of each distinct element
 seen in the input seq.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -3394,7 +3392,7 @@ flexibility of Java / Python / &amp;hellip;&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; A recursive formulation&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def increments(key, counts):
+&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def increment(key, counts):
     if key in counts:
         counts[key] += 1
     else:
@@ -3406,7 +3404,7 @@ flexibility of Java / Python / &amp;hellip;&lt;/em&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;clojure-s-recursion-version-1&#34;&gt;Clojure&amp;rsquo;s recursion (version 1)&lt;/h1&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
+&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
 
 (defn count-seq [xs]
   (if (empty? xs)
@@ -3500,7 +3498,7 @@ step in the function.  Namely, the function must necessarily call itself as:&lt;
     else:
         head = seq[0]
         tail = seq[1:]
-        return count_seq(tail, inc(cnt, head))
+        return count_seq(tail, increment(cnt, head))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is tail-recursive.&lt;/p&gt;
@@ -3530,8 +3528,8 @@ step in the function.  Namely, the function must necessarily call itself as:&lt;
 &lt;p&gt;Clojure gives programmer a special way for a function to call itself if it is
 tail-recursive.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [..]
-  ...  (recur f) ...)
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [&amp;lt;args&amp;gt;]
+  ...  (recur &amp;lt;args&amp;gt;) ...)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr /&gt;
@@ -3642,8 +3640,11 @@ to specify:&lt;/p&gt;
 
 &lt;div style=height:200px&gt;&lt;/div&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq]
-  (reduce inc-or-1 {} input-seq))
+&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn increment [cnt key]
+  (update cnt key inc-or-1))
+
+(defn count-seq [input-seq]
+  (reduce increment {} input-seq))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; If you have trouble understanding this, try it out with the sequence

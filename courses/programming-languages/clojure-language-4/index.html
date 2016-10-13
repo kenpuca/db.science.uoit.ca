@@ -45,6 +45,7 @@
 <li>Function and recursion</li>
 <li>Tail-recursion with <code>recur</code></li>
 <li><code>loop</code> and <code>recur</code></li>
+<li>Infinite sequences with lazy-evaluation</li>
 </ul>
 
 <h1 id="turing-complete">Turing-complete</h1>
@@ -331,20 +332,6 @@ to specify:</p>
       (recur (rest xs) (update cnt (first xs) inc-or-1)))))
 </code></pre>
 
-<h1 id="summary">Summary</h1>
-
-<p><a href="highlight">!</a></p>
-
-<ul>
-<li><p>Recursion is better than loops.</p></li>
-
-<li><p>Recursion requires better runtime support (beyond the TM-style architecture).</p></li>
-
-<li><p>Tail recursion can be optimized to <code>loop</code> efficiency.</p></li>
-
-<li><p>Clojure supports tail recursion for both functions and <code>loop</code>-expressions.</p></li>
-</ul>
-
 <h1 id="count-seq-yet-again-version"><code>count-seq</code> yet again version</h1>
 
 <div style=height:200px></div>
@@ -372,6 +359,188 @@ to specify:</p>
 </code></pre>
 
 <p><a href="note">!</a> This is my favourite version :-)</p>
+
+<h1 id="lazy-evaluation">Lazy Evaluation</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li><p>Creating infinite sequences</p></li>
+
+<li><p>Tractable recursion without blowing up the stack</p></li>
+</ul>
+
+<h1 id="infinite-sequences">Infinite sequences</h1>
+
+<pre><code class="language-clojure">(def nat (iterate inc 0))
+</code></pre>
+
+<p><a href="note">!</a> This is an infinite sequence.  The function <code>iterate</code> is used to
+create the infinite sequence.</p>
+
+<pre><code class="language-clojure">(def zeros (repeat 0))
+</code></pre>
+
+<p><a href="note">!</a> This is an infinite sequence of zeros.  The function <code>repeat</code> creates
+the infinite sequence.</p>
+
+<p><a href="***">!</a></p>
+
+<p>What makes <em>infinity</em> possible?</p>
+
+<blockquote>
+<p>The computation of each element is performed <em>only</em> when that element is
+<em>required</em>.</p>
+
+<p><a href="box">!</a> This is called <em>lazy evaluation</em>.</p>
+</blockquote>
+
+<h1 id="infinite-sequences-1">Infinite sequences</h1>
+
+<ul>
+<li><p>How do we make infinite sequences?</p></li>
+
+<li><p>How do we make program with lazy evaluation?</p></li>
+</ul>
+
+<h1 id="introducing-lazy-seq">Introducing <code>lazy-seq</code></h1>
+
+<pre><code class="language-nosyntax">user=&gt; (doc lazy-seq)
+-------------------------
+clojure.core/lazy-seq
+([&amp; body])
+Macro
+  Takes a body of expressions that returns an ISeq or nil, and yields
+  a Seqable object that will invoke the body only the first time seq
+  is called, and will cache the result and return it on all subsequent
+  seq calls. See also - realized?
+</code></pre>
+
+<h1 id="lazy-seq">Lazy-seq</h1>
+
+<p>Consider ways of creating a seq consisting of values returned by <code>(f i)</code> for
+i=1, 2, 3.</p>
+
+<pre><code class="language-clojure">[(f 1) (f 2) (f 3)]
+</code></pre>
+
+<p><a href="note">!</a> Remember that vectors are seqs.</p>
+
+<pre><code class="language-clojure">`((f 1) (f 2) (f 3))
+</code></pre>
+
+<p><a href="note">!</a> Lists are also seqs.</p>
+
+<pre><code class="language-clojure">(map f (range 100))
+</code></pre>
+
+<p>Say <code>f</code> is a very expensive function to invoke:</p>
+
+<pre><code class="language-clojure clipboard">(defn f [x]
+  (do (println &quot;zzz...&quot; x)
+      (Thread/sleep 1500)
+      (str &quot;a long sleep (&quot; x &quot;)&quot;)))
+</code></pre>
+
+<h1 id="lazy-seq-1">Lazy-seq</h1>
+
+<p>So what&rsquo;s wrong with this code?</p>
+
+<pre><code class="language-clojure">(take 2 (map f (range 100)))
+</code></pre>
+
+<p>or this code:</p>
+
+<pre><code class="language-clojure">(first (map f (range 10000)))
+</code></pre>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>Lazy seq to the rescue:</p>
+
+<h1 id="lazy-seq-2">Lazy-seq</h1>
+
+<p><a href="columns 7:">!</a></p>
+
+<pre><code class="language-nosyntax sm">user=&gt; (doc lazy-seq)
+-------------------------
+clojure.core/lazy-seq
+([&amp; body])
+Macro
+  Takes a body of expressions that returns
+  an ISeq or nil, and yields a Seqable
+  object that will invoke the body only the 
+  first time seq is called, and will cache 
+  the result and return it on all subsequent 
+  seq calls.
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<pre><code class="language-clojure">(lazy-seq &lt;expr&gt;)
+</code></pre>
+
+<ul>
+<li><code>&lt;expr&gt;</code> returns a seq, but it will <em>not</em> be called
+until the first element is accessed.</li>
+</ul>
+
+<h1 id="creating-a-lazy-seq-version">Creating a lazy-seq version</h1>
+
+<pre><code class="language-clojure">(cons (f 1) nil)                          ;=&gt; ((f 1))
+(cons (f 1) (cons (f 2) nil)              ;=&gt; ((f 1) (f 2))
+(cons (f 1) (cons (f 2) (cons (f 3) nil)) ;=&gt; ((f 1) (f 2) (f 3))
+</code></pre>
+
+<p>The problem is that they are not lazy.</p>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<pre><code class="language-clojure">(lazy-seq 
+  (cons 
+    (f 1)
+    (lazy-seq
+      (cons
+        (f 2)
+        (lazy-seq
+          (cons (f 3) nil))))))
+</code></pre>
+
+<p><a href="note">!</a> This is a lazy sequence.</p>
+
+<h1 id="creating-a-lazy-seq-version-1">Creating a lazy-seq version</h1>
+
+<p>Let&rsquo;s generalize.</p>
+
+<pre><code class="language-clojure clipboard">(defn fs [n]
+  (if (zero? n)
+    nil
+    (lazy-seq (cons (f n) (fs (dec n))))))
+</code></pre>
+
+<p><a href="note">!</a> Note that this is <em>not</em> tail-recursive.  But it&rsquo;s <em>okay</em>&hellip;</p>
+
+<p><a href="***">!</a></p>
+
+<p>Now try out:</p>
+
+<pre><code class="language-clojure">(take 3 (fs 1000))
+(first (fs 1000))
+</code></pre>
+
+<h1 id="other-forms-of-lazy-evaluation">Other forms of lazy evaluation</h1>
+
+<p>Clojure supports other forms of lazy evaluation.  See <code>(doc delay)</code></p>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li>Tail recursion with recur</li>
+<li>Loop/recur</li>
+<li>Lazy sequences</li>
+</ul>
 </div>
         </div>
 

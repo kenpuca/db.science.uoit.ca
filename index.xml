@@ -3478,6 +3478,7 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
 &lt;li&gt;Function and recursion&lt;/li&gt;
 &lt;li&gt;Tail-recursion with &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;loop&lt;/code&gt; and &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Infinite sequences with lazy-evaluation&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&#34;turing-complete&#34;&gt;Turing-complete&lt;/h1&gt;
@@ -3764,20 +3765,6 @@ to specify:&lt;/p&gt;
       (recur (rest xs) (update cnt (first xs) inc-or-1)))))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Recursion is better than loops.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Recursion requires better runtime support (beyond the TM-style architecture).&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Tail recursion can be optimized to &lt;code&gt;loop&lt;/code&gt; efficiency.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Clojure supports tail recursion for both functions and &lt;code&gt;loop&lt;/code&gt;-expressions.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
 &lt;h1 id=&#34;count-seq-yet-again-version&#34;&gt;&lt;code&gt;count-seq&lt;/code&gt; yet again version&lt;/h1&gt;
 
 &lt;div style=height:200px&gt;&lt;/div&gt;
@@ -3805,6 +3792,188 @@ to specify:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is my favourite version :-)&lt;/p&gt;
+
+&lt;h1 id=&#34;lazy-evaluation&#34;&gt;Lazy Evaluation&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Creating infinite sequences&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Tractable recursion without blowing up the stack&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;infinite-sequences&#34;&gt;Infinite sequences&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def nat (iterate inc 0))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is an infinite sequence.  The function &lt;code&gt;iterate&lt;/code&gt; is used to
+create the infinite sequence.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def zeros (repeat 0))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is an infinite sequence of zeros.  The function &lt;code&gt;repeat&lt;/code&gt; creates
+the infinite sequence.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;What makes &lt;em&gt;infinity&lt;/em&gt; possible?&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The computation of each element is performed &lt;em&gt;only&lt;/em&gt; when that element is
+&lt;em&gt;required&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; This is called &lt;em&gt;lazy evaluation&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;infinite-sequences-1&#34;&gt;Infinite sequences&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;How do we make infinite sequences?&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;How do we make program with lazy evaluation?&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;introducing-lazy-seq&#34;&gt;Introducing &lt;code&gt;lazy-seq&lt;/code&gt;&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-nosyntax&#34;&gt;user=&amp;gt; (doc lazy-seq)
+-------------------------
+clojure.core/lazy-seq
+([&amp;amp; body])
+Macro
+  Takes a body of expressions that returns an ISeq or nil, and yields
+  a Seqable object that will invoke the body only the first time seq
+  is called, and will cache the result and return it on all subsequent
+  seq calls. See also - realized?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;lazy-seq&#34;&gt;Lazy-seq&lt;/h1&gt;
+
+&lt;p&gt;Consider ways of creating a seq consisting of values returned by &lt;code&gt;(f i)&lt;/code&gt; for
+i=1, 2, 3.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;[(f 1) (f 2) (f 3)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Remember that vectors are seqs.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;`((f 1) (f 2) (f 3))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Lists are also seqs.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(map f (range 100))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Say &lt;code&gt;f&lt;/code&gt; is a very expensive function to invoke:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn f [x]
+  (do (println &amp;quot;zzz...&amp;quot; x)
+      (Thread/sleep 1500)
+      (str &amp;quot;a long sleep (&amp;quot; x &amp;quot;)&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;lazy-seq-1&#34;&gt;Lazy-seq&lt;/h1&gt;
+
+&lt;p&gt;So what&amp;rsquo;s wrong with this code?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(take 2 (map f (range 100)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or this code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(first (map f (range 10000)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Lazy seq to the rescue:&lt;/p&gt;
+
+&lt;h1 id=&#34;lazy-seq-2&#34;&gt;Lazy-seq&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 7:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-nosyntax sm&#34;&gt;user=&amp;gt; (doc lazy-seq)
+-------------------------
+clojure.core/lazy-seq
+([&amp;amp; body])
+Macro
+  Takes a body of expressions that returns
+  an ISeq or nil, and yields a Seqable
+  object that will invoke the body only the 
+  first time seq is called, and will cache 
+  the result and return it on all subsequent 
+  seq calls.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(lazy-seq &amp;lt;expr&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;expr&amp;gt;&lt;/code&gt; returns a seq, but it will &lt;em&gt;not&lt;/em&gt; be called
+until the first element is accessed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;creating-a-lazy-seq-version&#34;&gt;Creating a lazy-seq version&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(cons (f 1) nil)                          ;=&amp;gt; ((f 1))
+(cons (f 1) (cons (f 2) nil)              ;=&amp;gt; ((f 1) (f 2))
+(cons (f 1) (cons (f 2) (cons (f 3) nil)) ;=&amp;gt; ((f 1) (f 2) (f 3))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The problem is that they are not lazy.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(lazy-seq 
+  (cons 
+    (f 1)
+    (lazy-seq
+      (cons
+        (f 2)
+        (lazy-seq
+          (cons (f 3) nil))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is a lazy sequence.&lt;/p&gt;
+
+&lt;h1 id=&#34;creating-a-lazy-seq-version-1&#34;&gt;Creating a lazy-seq version&lt;/h1&gt;
+
+&lt;p&gt;Let&amp;rsquo;s generalize.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn fs [n]
+  (if (zero? n)
+    nil
+    (lazy-seq (cons (f n) (fs (dec n))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Note that this is &lt;em&gt;not&lt;/em&gt; tail-recursive.  But it&amp;rsquo;s &lt;em&gt;okay&lt;/em&gt;&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now try out:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(take 3 (fs 1000))
+(first (fs 1000))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;other-forms-of-lazy-evaluation&#34;&gt;Other forms of lazy evaluation&lt;/h1&gt;
+
+&lt;p&gt;Clojure supports other forms of lazy evaluation.  See &lt;code&gt;(doc delay)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Tail recursion with recur&lt;/li&gt;
+&lt;li&gt;Loop/recur&lt;/li&gt;
+&lt;li&gt;Lazy sequences&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     

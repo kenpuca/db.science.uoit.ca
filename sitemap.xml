@@ -80,11 +80,11 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
+    <loc>http://db.science.uoit.ca/courses/algorithms/hash-table/</loc>
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language-5/</loc>
+    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
   </url>
   
   <url>
@@ -109,6 +109,10 @@
   
   <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/sorting-numbers/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language-5/</loc>
   </url>
   
   <url>

@@ -1,0 +1,393 @@
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Hash Tables</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+
+        
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="hash-tables">Hash tables</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="dynamic-sets">Dynamic sets</h1>
+
+<p><em>Definition</em></p>
+
+<blockquote>
+<p>A <em>dynamic set</em>, $S$, is a data structure that stores <em>distinct elements</em>.</p>
+</blockquote>
+
+<p>We are interested to support the following functions:</p>
+
+<ul>
+<li><p>Insert: adds an element into <code>S</code>.
+It does nothing if <code>x</code> is already in <code>S</code>.</p>
+
+<blockquote>
+<p><code>INSERT(S, x)</code></p>
+</blockquote></li>
+
+<li><p>Search:</p>
+
+<blockquote>
+<p><code>SEARCH(S, x)</code></p>
+</blockquote></li>
+
+<li><p>Delete:</p>
+
+<blockquote>
+<p><code>DELETE(S, x)</code></p>
+</blockquote></li>
+</ul>
+
+<h1 id="direct-addressing">Direct Addressing</h1>
+
+<p>Consider the case of dynamic sets:</p>
+
+<ul>
+<li><p>Each element $x\in S$ is a pair
+<code>$\left&lt;\mathrm{KEY}[x], \mathrm{value}[x]\right&gt;$</code>.</p></li>
+
+<li><p>The key $\mathrm{KEY}[x]$ is an integer in $[0, 1, \dots, N-1]$.</p></li>
+
+<li><p>No two elements have the <em>same</em> key:</p>
+
+<p><code>$$\forall x, y\in S,\ x\not= y 
+\implies
+\mathrm{KEY}[x]\not=\mathrm{KEY}[y]$$</code></p></li>
+</ul>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p><a href="columns 6:">!</a></p>
+
+<p>A direct-address table is just an array $T$ of length $N$.</p>
+
+<ul>
+<li><p>Each slot corresponds to a key.</p></li>
+
+<li><p>For each element $x\in S$, $T[\mathrm{KEY}[x]] = x$.</p></li>
+</ul>
+
+<p><a href="split">!</a></p>
+
+<p><img src="direct-table.png"></img></p>
+
+<h1 id="implementation-of-direct-address-tables">Implementation of direct address tables</h1>
+
+<pre><code class="language-python">def DIRECT_ADDRESS_SEARCH(T, k):
+    return T[k]
+</code></pre>
+
+<pre><code class="language-python">def DIRECT_ADDRESS_INSERT(T, x):
+    index = x.key
+    return T[index] = x
+</code></pre>
+
+<pre><code class="language-python">def DIRECT_ADDRESS_DELETE(T, x):
+    index = x.key
+    T[index] = None
+</code></pre>
+
+<h1 id="properties-of-direct-address-tables">Properties of direct address tables</h1>
+
+<ul>
+<li><p>Fast methods</p>
+
+<blockquote>
+<p>All operations are $\Theta(1)$.</p>
+</blockquote></li>
+
+<li><p>But it&rsquo;s impractical</p>
+
+<blockquote>
+<p>Most key spaces are at least 32-bits (some are 64-bits or higher).</p>
+
+<p>$N = 2^{32}$, and each table slot must be at least
+$\log_2(|S|)$ bits, $\simeq 10$ bits.</p>
+
+<p>The total memory required is $\sim 10\cdot 2^{32} = 1$ GB.</p>
+
+<p>The space requirement is $\Theta(N)$</p>
+</blockquote></li>
+</ul>
+
+<h1 id="hashing">Hashing</h1>
+
+<ul>
+<li><p>Let $U$ be the universse of <em>all</em> possible values that can appear in the
+dynamic set.</p></li>
+
+<li><p>Elements in $U$ are called the keys.</p></li>
+
+<li><p>A <em>hash function</em> is a function, $h$, mapping keys to <em>hash values</em>.</p>
+
+<blockquote>
+<p>For $x\in U$, $h(x)\in[0, 1, 2, \dots, N-1]$</p>
+</blockquote></li>
+</ul>
+
+<h1 id="hash-function">Hash function</h1>
+
+<p><center>
+    <img src="hashing.png" width="500px"></img>
+</center></p>
+
+<h1 id="hash-tables-1">Hash Tables</h1>
+
+<ul>
+<li><p>Still use an array $T$ as a table with $m$ slots.</p>
+
+<blockquote>
+<p>But our objective is $m = \Theta(|S|)$, instead of $m = \Theta(N)$.</p>
+</blockquote></li>
+
+<li><p>Do not use <em>direct address</em> policy.</p></li>
+
+<li><p><code>T[index] = x</code>, where <code>index = $h$(x.key)</code></p></li>
+</ul>
+
+<hr />
+
+<p><a href="columns 6:">!</a></p>
+
+<p><strong>PROBLEM</strong>: collision</p>
+
+<blockquote>
+<p>A <em>collision</em> occurs if we have two $x, y\in S$ such that
+  $x \not= y$, but $h(\mathrm{KEY}[x]) = h(\mathrm{KEY}[y])$.</p>
+</blockquote>
+
+<p><a href="split">!</a></p>
+
+<p><img src="collision.png"></img></p>
+
+<h1 id="collision-resolution">Collision resolution</h1>
+
+<p>Before:</p>
+
+<blockquote>
+<p>Each slot in the table stores a single element in the dynamic set.</p>
+</blockquote>
+
+<p>After:</p>
+
+<blockquote>
+<p>Each slot in the table stores a <em>list</em> of elements in the dynamic set.
+This is called <em>chaining</em>.</p>
+</blockquote>
+
+<p><img src="chaining.png"></img></p>
+
+<h1 id="insert-with-chaining">INSERT with chaining</h1>
+
+<pre><code class="language-python">def HASHTABLE_INSERT(T, x):
+    index = h(x.key)
+    if T[index] == None:
+        T[index] = []
+    T[index].append(x)
+</code></pre>
+
+<h1 id="search-with-chaining">SEARCH with chaining</h1>
+
+<pre><code class="language-python">def HASHTABLE_SEARCH(T, key):
+    index = h(key)
+    if T[index] == None:
+        return False
+    else:
+        for x in T[index]:
+            if x.key == key:
+                return x
+        return False
+</code></pre>
+
+<h1 id="delete-with-chaining">DELETE with chaining</h1>
+
+<pre><code class="language-python">def HASHTABLE_DELETE(T, key):
+    index = h(key)
+    if T[i] == None:
+        return
+    else:
+        remove(T[i], key)
+</code></pre>
+
+<pre><code class="language-python">def remove(array, key):
+    for (i, x) in enumerate(array):
+        if x.key == key:
+            array[i:i+1] = []
+            return
+</code></pre>
+
+<h1 id="analysis">Analysis</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-python sm">def HASHTABLE_INSERT(T, x):
+    index = h(x.key)
+    if T[index] == None:
+        T[index] = []
+    T[index].append(x)
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p><code>HASHTABLE_INSERT</code> is done in $\Theta(1)$.</p>
+
+<h1 id="analysis-1">Analysis</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-python sm">def HASHTABLE_SEARCH(T, key):
+    index = h(key)
+    if T[i] == None:
+        return False
+    else:
+        for x in T[i]:
+            if x.key == key:
+                return x
+        return False
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p><code>HASHTABLE_SEARCH</code> is done in $\Theta(L)$ where $L$ is the average length of the
+lists.</p>
+
+<p>If we assume uniform hash value distribution of the keys, we get:</p>
+
+<p>$$ L = \frac{|S|}{|T|} $$</p>
+
+<p>This is known as the load factor of the hash table.</p>
+
+<p>Typically, we want to keep the load factor as 0.75:</p>
+
+<p>$$ |T| \simeq 1.3 |S| $$</p>
+
+<h1 id="summary">Summary</h1>
+
+<ul>
+<li><p>Dynamic sets</p></li>
+
+<li><p>Direct address table as an implementation</p></li>
+
+<li><p>Hash tables with chaining</p></li>
+</ul>
+</div>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+		<script>
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                        { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js', async: true },
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+				]
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+            });
+        }
+		</script>
+	</body>
+</html>
+
+

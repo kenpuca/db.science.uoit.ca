@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Lazy evaluation</title>
+        <title>Symbols, bindings and namespaces</title>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
@@ -37,14 +37,48 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
-<h1 id="lazy-evaluation">Lazy evaluation</h1>
-
-<p><a href="highlight">!</a></p>
+<h1 id="symbols">Symbols</h1>
 
 <ul>
-<li><p>Lazy evaluation &amp; infinite sequences</p></li>
+<li><p>Symbols</p></li>
 
-<li><p>Creating sequence (of infinite length)</p></li>
+<li><p>Binding &amp; Scopes</p></li>
+
+<li><p>Resolution</p></li>
+</ul>
+
+<h1 id="clojure-scoping-rules">Clojure scoping rules</h1>
+
+<ul>
+<li><p>(Many) global scope (called namespaces)</p></li>
+
+<li><p><code>(fn [...] ...)</code></p></li>
+
+<li><p><code>(let [...] ...)</code></p></li>
+</ul>
+
+<h1 id="resolution">Resolution</h1>
+
+<ul>
+<li><p>Lexical scoping rule</p></li>
+
+<li><p>Closure <span class="label label-danger" style=font-size:70%;margin-left:40px>IMPORTANT</span></p></li>
+
+<li><p>Associating values with functions with closure in Clojure.</p></li>
+</ul>
+
+<h1 id="namespaces">Namespaces</h1>
+
+<ul>
+<li><p>Overview of the namespace management</p></li>
+
+<li><p>Creating namespaces <code>(ns &lt;name&gt;)</code></p></li>
+
+<li><p>Switching namespaces <code>(in-ns &lt;quoted-sym&gt;)</code></p></li>
+
+<li><p>Quantified symbol names</p></li>
+
+<li><p>Resolution with namespaces</p></li>
 </ul>
 </div>
         </div>

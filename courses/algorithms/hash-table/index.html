@@ -298,7 +298,7 @@ lists.</p>
 <h1 id="properties-of-a-good-integer-hash-function">Properties of a good integer hash function</h1>
 
 <p><em>Assumption</em>: a hash function $h$ maps <em>all</em> natural numbers $[0, 1, \dots]$ to a finite interval $[0
-\dots m]$.</p>
+\dots m-1]$.</p>
 
 <hr />
 
@@ -320,7 +320,7 @@ distributed in $[0, m]$.</p>
 <p>The choice of $m$ can makes <code>h_div</code> rather poor in uniformity:</p>
 
 <ul>
-<li>$m = 2^p$: observe that <code>key mod m</code> is the $p$-th bit of <code>key</code> in binary.</li>
+<li>$m = 2^p$: observe that <code>key mod m</code> is the last $p$ bits of <code>key</code> in binary.</li>
 </ul>
 
 <h1 id="the-multiplication-method">The multiplication method</h1>
@@ -341,7 +341,7 @@ to be selected wisely.</p>
 
 <p>A good choice is:</p>
 
-<p>$$ A = \sqrt{5} - 1 \simeq 0.618034 $$</p>
+<p>$$ A = \frac{\sqrt{5} - 1}{2} \simeq 0.618034 $$</p>
 
 <h1 id="hashing-general-byte-arrays">Hashing general byte arrays.</h1>
 

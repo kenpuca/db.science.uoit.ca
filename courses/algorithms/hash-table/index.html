@@ -295,14 +295,192 @@ lists.</p>
 
 <p>$$ |T| \simeq 1.3 |S| $$</p>
 
-<h1 id="summary">Summary</h1>
+<h1 id="properties-of-a-good-integer-hash-function">Properties of a good integer hash function</h1>
+
+<p><em>Assumption</em>: a hash function $h$ maps <em>all</em> natural numbers $[0, 1, \dots]$ to a finite interval $[0
+\dots m]$.</p>
+
+<hr />
+
+<p><em>Uniformity</em>:</p>
+
+<p>Given any two keys, there is no relationship between $|a - b|$ and $|h(a) - h(b)|$.</p>
+
+<p>So, if two keys are close to each other, there hash values are still randomly
+distributed in $[0, m]$.</p>
+
+<h1 id="the-division-method">The division method</h1>
+
+<pre><code class="language-python">def h_div(key, m):
+    return key % m
+</code></pre>
+
+<hr />
+
+<p>The choice of $m$ can makes <code>h_div</code> rather poor in uniformity:</p>
 
 <ul>
-<li><p>Dynamic sets</p></li>
+<li>$m = 2^p$: observe that <code>key mod m</code> is the $p$-th bit of <code>key</code> in binary.</li>
+</ul>
 
-<li><p>Direct address table as an implementation</p></li>
+<h1 id="the-multiplication-method">The multiplication method</h1>
 
-<li><p>Hash tables with chaining</p></li>
+<pre><code class="language-python">import math
+
+def h_mul(key, m, A):
+    assert(0 &lt; A &lt; 1)
+    prod = key * A
+    frac = prod - math.floor(prod)
+    return math.floor(m * frac)
+</code></pre>
+
+<hr />
+
+<p>This hash function is more versatile because we can set <code>m</code> freely.  <code>A</code> needs
+to be selected wisely.</p>
+
+<p>A good choice is:</p>
+
+<p>$$ A = \sqrt{5} - 1 \simeq 0.618034 $$</p>
+
+<h1 id="hashing-general-byte-arrays">Hashing general byte arrays.</h1>
+
+<p>What if the key is not an integer, but rather a byte array?</p>
+
+<hr />
+
+<p>Many solutions:</p>
+
+<ul>
+<li><p>Consider the key as a large integer of radix based 128 (signed int).</p></li>
+
+<li><p>Consider the key as a vector of integers</p>
+
+<p><code>$$[k_1, k_2, \dots, k_n]$$</code></p>
+
+<p>The final hash value is: $h(\sum_i k_i)$.</p></li>
+</ul>
+
+<h1 id="universal-hashing">Universal hashing</h1>
+
+<ul>
+<li><p>Hash table&rsquo;s performance degenerates when we have collisions.</p></li>
+
+<li><p>Adversorial attack on hash table implementations:</p>
+
+<blockquote>
+<p>Feed data with different keys, but all hash to the same bucket,
+causing the search time to degenerate to linear time (bad), and thus
+choke the processing of search queries.</p>
+</blockquote></li>
+
+<li><p>Adversory needs to know the hash function used to generate keys to cause
+collision.</p></li>
+</ul>
+
+<hr />
+
+<p><em>Premise</em>:</p>
+
+<p>The source code of the hash table implementation is <em>public</em> and <em>open sourced</em>.</p>
+
+<h1 id="universal-hashing-1">Universal hashing</h1>
+
+<p>What if we have a family of hash functions to choose from: <code>H</code>?</p>
+
+<pre><code class="language-python">import random
+
+class RandomHashTable:
+  def __init__(self, m, H):
+    self.h = random.sample(H, 1)
+    self.T = [[] for i in range(m)]
+
+  def insert(self, x):
+    index = self.h(x.key)
+    self.T[index].append(x)
+
+  def search(self, key):
+    index = self.h(key)
+    for x in self.T[index]:
+      if x.key == key:
+        return x
+    return None
+</code></pre>
+
+<p><a href="note">!</a> How does this stop the adversary?</p>
+
+<h1 id="universal-hashing-2">Universal hashing</h1>
+
+<p>The choice of <code>H</code> must be good.</p>
+
+<p>Consider the following <em>bad</em> choices of <code>H</code>:</p>
+
+<ul>
+<li><p>non-uniform hash functions:</p>
+
+<p><code>h_div($\circ$, $2^p$) $\in$ H</code></p></li>
+
+<li><p>all hash functions are too similar.</p></li>
+</ul>
+
+<h1 id="property-of-universal-hashing">Property of universal hashing</h1>
+
+<p><em>Definition</em>:</p>
+
+<p>The collection of hash functions <code>H</code> is <em>universal</em> if:</p>
+
+<blockquote>
+<p>for all distinct keys $a, b$, the number of hash functions <code>$h\in$ H</code> with
+$h(a) = h(b)$ is at most $|H| / m$.</p>
+</blockquote>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p><em>Theorem</em></p>
+
+<blockquote>
+<p>If <code>H</code> is universal, then the implementation of <code>RandomHashTable</code> has
+collision with probability of 1/$m$.</p>
+</blockquote>
+
+<h1 id="proof">Proof</h1>
+
+<p>Let `$H = {h_1, h_2, \dots h_n}$.</p>
+
+<p>Let $a, b$ be two distinct keys: $a\not= b$.</p>
+
+<p>What is the probability that <code>RandomHashTable</code> has a collision?</p>
+
+<p>Let $h\in H$ be <strong>randomly</strong> selected.</p>
+
+<p>What is the probability that $h(a) = h(b)$?</p>
+
+<p><code>$$\begin{eqnarray}
+\mathbf{E}\{p(h(a) = p(h(b)): h\in H\} 
+&amp;=&amp;  p(h(a) = h(b) | h = h_1)p(h=h_1) \\
+&amp;&amp;   +  p(h(a) = h(b) | h = h_2)p(h=h_2) \\
+&amp;&amp;   +  p(h(a) = h(b) | h = h_3)p(h=h_3) + \dots \\
+&amp;=&amp;  |H| \times (1/m) \times (1/|H|) \\
+&amp;=&amp; 1/m
+\end{eqnarray}
+$$</code></p>
+
+<div style="float:right"><b>Q.E.D.</b></div>
+
+<h1 id="designing-universal-hashing">Designing Universal Hashing</h1>
+
+<ul>
+<li><p>$h_{ab}(k) = ((a\cdot k + b)\ \mathrm{mod}\ p)\ \mathrm{mod}\ m$</p>
+
+<blockquote>
+<p>where $p$ is a prime number.</p>
+</blockquote></li>
+
+<li><p><code>$\mathcal{H}_{pm} = \{h_{ab} : a\in[1\dots p-1], b\in [0\dots p-1]\}$</code></p>
+
+<blockquote>
+<p><em>Theorem</em>: $\mathcal{H}_{pm}$ is universal.</p>
+</blockquote></li>
 </ul>
 </div>
         </div>

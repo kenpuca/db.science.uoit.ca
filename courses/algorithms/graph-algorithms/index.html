@@ -1,0 +1,643 @@
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Graph Algorithms</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+
+        
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="graph-algorithms">Graph Algorithms</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="what-are-graphs">What are graphs?</h1>
+
+<ul>
+<li><p>Vertices</p>
+
+<blockquote>
+<p>Individual nodes, each with a unique identifier, and possibly some data
+values.</p>
+</blockquote></li>
+
+<li><p>Edges</p>
+
+<blockquote>
+<p>Vertices are connected by edges.  Edges can be <em>directed</em> or <em>undirected</em>.</p>
+
+<p>Each edge can have some data value.</p>
+</blockquote></li>
+</ul>
+
+<hr />
+
+<p><a href="columns 6:">!</a></p>
+
+<p><em>An undirected graph</em></p>
+
+<p><img src="undirected.png" height=250px></img></p>
+
+<p><a href="split">!</a></p>
+
+<p><em>A directed graph</em></p>
+
+<p><img src="directed.png" height=250px></img></p>
+
+<h1 id="data-structures-for-graphs">Data structures for graphs</h1>
+
+<p>A directed graph can be used to represent an undirected graph.</p>
+
+<p><a href="note">!</a> Why?</p>
+
+<hr />
+
+<h2 id="encoding-directed-graph">Encoding directed graph</h2>
+
+<p><a href="columns 10:">!</a></p>
+
+<p><img src="directed-graph.png"></img></p>
+
+<p><a href="split note">!</a></p>
+
+<p><strong>(a)</strong> The graph</p>
+
+<p><strong>(b)</strong> Adjacency list</p>
+
+<p><strong>(c)</strong> Adjacency matrix</p>
+
+<h1 id="data-structures-for-graphs-1">Data structures for graphs</h1>
+
+<p><em>Adjacency list</em></p>
+
+<pre><code class="language-python">class Graph:
+    def __init__(self):
+        self.adjacency = dict()
+
+    def add_node(self, v):
+        self.adjacency[v] = []
+
+    def add_edge(self, v1, v2):
+        self.adjacency[v1].append(v2)
+</code></pre>
+
+<p><a href="note">!</a> Can you modify this to support labels to vertices and edges?</p>
+
+<h1 id="adjacency-list-implementation">Adjacency list implementation</h1>
+
+<pre><code class="language-python">class Graph
+    def __init__(self):
+        self.adjacency = dict()
+        self.nodes = dict()
+        self.edges = dict()
+
+    def add_node(self, v, data=None):
+        self.adjacency[v] = []
+        self.nodes[v] = data
+
+    def add_edge(self, v1, v2, data=None):
+        self.adjacency[v1].append(v2)
+        self.edges[(v1,v2)] = data
+
+    def node(self, v):
+        return self.node[v]
+
+    def edge(self, v1, v2):
+        return self.edge[v]
+</code></pre>
+
+<p><a href="note">!</a> the additional hashmaps are used to map vertex and edge identifiers to
+their respective data.</p>
+
+<h1 id="data-structures-for-graphs-2">Data structures for graphs</h1>
+
+<p><em>Adjacency matrix</em></p>
+
+<pre><code class="language-python">class Graph:
+    def __init__(self, N):
+        self.matrix = []
+        for row in range(N):
+            column = [0 for i in range(N)]
+            self.matrix.append(column)
+
+    def add_node(self, v):
+        pass
+
+    def add_edge(self, v1, v2):
+        self.matrix[v1][v2] = 1
+</code></pre>
+
+<p><a href="note">!</a> Can you modify this to support labels to vertices and edges?</p>
+
+<h1 id="methods-of-graphs">Methods of graphs</h1>
+
+<pre><code class="language-python">class Graph:
+
+    # assume adjacency list implementation
+
+    def neighbours(self, v):
+        return self.adjacency[v]
+
+    def nodes(self):
+        return self.adjacency.keys()
+</code></pre>
+
+<h1 id="graphs">Graphs</h1>
+
+<p><em>Paths</em>:</p>
+
+<blockquote>
+<p>A path in a graph $G$ is a sequence of vertices <code>$p = \left&lt;v_1, v_2, \dots, v_n\right&gt;$</code>
+such that each adjacent pair of vertices are connected:</p>
+
+<p><code>$$\forall i,\ (v_i, v_{i+1})\in\mathrm{edges}[G]$$</code></p>
+</blockquote>
+
+<p><em>Reachability</em>:</p>
+
+<blockquote>
+<p>A vertex $y$ is reachable from $x$ if there exists a path <code>$\left&lt;v_1, v_2,
+\dots, v_n\right&gt;$</code> such that <code>$v_1 = x$</code> and <code>$v_n = y$</code>.</p>
+</blockquote>
+
+<p><em>Cycles</em>:</p>
+
+<blockquote>
+<p>A cycle is a path <code>$\left&lt;v_1, v_2, \dots, v_n\right&gt;$</code> such that <code>$v_1 =
+v_n$</code>.</p>
+</blockquote>
+
+<h1 id="graphs-1">Graphs</h1>
+
+<p><em>Shortest path</em>:</p>
+
+<blockquote>
+<p>The shortest path between two vertices $x, y$ is a path <code>$\left&lt;v_1, v_2,
+\dots, v_n\right&gt;$</code> such that <code>$v_1 = x$</code> and <code>$v_n = y$</code>.</p>
+</blockquote>
+
+<p><em>Distance</em>:</p>
+
+<blockquote>
+<p>The distance $d(x, y)$ between two vertices $x, y$ is defined as the length of a
+shortest path from $x$ to $y$.</p>
+</blockquote>
+
+<h1 id="direct-acylic-graph-dag">Direct acylic graph (DAG)</h1>
+
+<p>A DAG is a directed graph $G$ with no cycles.</p>
+
+<p><a href="------">!</a></p>
+
+<p><center>
+<img src="dag.png"></img>
+</center></p>
+
+<h1 id="tree">Tree</h1>
+
+<p><em>Parent</em></p>
+
+<blockquote>
+<p>A vertex $x$ is a <em>parent</em> of $y$ in $G$ if $(x, y)\in\mathrm{edges}[G]$.</p>
+</blockquote>
+
+<p><em>Tree</em></p>
+
+<blockquote>
+<p>A tree is a DAG $T$ in which every vertex has at most one parent.</p>
+</blockquote>
+
+<p><a href="-----">!</a></p>
+
+<p><center>
+<img src="tree.png" height=300px></img>
+</center></p>
+
+<h1 id="encoding-of-a-tree">Encoding of a tree</h1>
+
+<p>A tree can be very efficiently stored in a hash-map.</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<p><img src="tree.png"></img></p>
+
+<p><a href="split note">!</a></p>
+
+<p>The keys are the vertices (as their identifiers), and values as their parents.</p>
+
+<table>
+<thead>
+<tr>
+<th>vertex</th>
+<th>parent</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>6</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>6</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>14</td>
+</tr>
+
+<tr>
+<td>14</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="hashmap-encoding-of-a-tree">Hashmap encoding of a tree</h1>
+
+<table>
+<thead>
+<tr>
+<th>vertex</th>
+<th>parent</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>3</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p><a href="note">!</a> Can you re-construct the tree?</p>
+
+<h1 id="graph-search">Graph search</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li>Enumeration of a graph</li>
+</ul>
+
+<h1 id="breadth-first-search-bfs">Breadth-first search (BFS)</h1>
+
+<ul>
+<li><p>Starts at a given vertex as the starting point.</p></li>
+
+<li><p>Follow the edges to visit the neighbours.</p></li>
+
+<li><p>Makes sure that each vertex is visited at most once.</p></li>
+
+<li><p>Makes sure that all vertices <em>reachable</em> from the starting vertex will be
+visisted.</p></li>
+</ul>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p><em>Intuition</em>:</p>
+
+<blockquote>
+<ul>
+<li>Color all the vertices <em>white</em> initially.</li>
+<li>Coloring the vertices <em>black</em> starting with the source.</li>
+<li>Keep exploring the neighbours of black vertices until no more white
+neighbours are found.</li>
+</ul>
+</blockquote>
+
+<h1 id="augment-nodes-with-data">Augment nodes with data</h1>
+
+<p>Assume that the vertices have hashmaps as data:</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-python">G = Graph()
+G.add_node(0, {&quot;id&quot;: 0})
+G.add_node(1, {&quot;id&quot;: 1})
+G.add_node(2, {&quot;id&quot;: 2})
+G.add_edge(0, 1)
+G.add_edge(0, 2)
+G.add_edge(1, 2)
+G.add_edge(2, 1)
+</code></pre>
+
+<p>This allows us to add data:</p>
+
+<pre><code class="language-python">G.node(0)[&quot;pi&quot;] = 3.14
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p><img src="simple.png"></img></p>
+
+<h1 id="bfs">BFS</h1>
+
+<pre><code class="language-python nu sm">def bfs(G, s):
+    for v in G.nodes():
+        G.node(v)[&quot;color&quot;] = &quot;white&quot;
+
+    queue = [s]
+    G.node(s)[&quot;color&quot;] = &quot;gray&quot;
+
+    while len(queue) &gt; 0:
+        u = queue.pop(0)
+        for v in G.neighbours(u):
+            if G.node(v)[&quot;color&quot;] == &quot;white&quot;
+                queue.push(v)
+                G.nodes(v)[&quot;color&quot;] = &quot;gray&quot;
+        G.nodes(u)[&quot;color&quot;] = &quot;black&quot;
+</code></pre>
+
+<blockquote>
+<ul>
+<li>&ldquo;white&rdquo; vertex is unvisited</li>
+<li>&ldquo;gray&rdquo; vertex has been explored, but neighbours unvisited</li>
+<li>&ldquo;black&rdquo; vertex has been visited, and all neighbours also visited</li>
+<li><code>queue</code> are vertices with neighbours to be visited.
+<a href="note">!</a></li>
+</ul>
+</blockquote>
+
+<h1 id="bfs-1">BFS</h1>
+
+<pre><code class="language-python nu sm">def bfs(G, s):
+    for v in G.nodes():
+        G.node(v)[&quot;color&quot;] = &quot;white&quot;
+
+    queue = [s]
+    G.node(s)[&quot;color&quot;] = &quot;gray&quot;
+
+    while len(queue) &gt; 0:
+        u = queue.pop(0)
+        for v in G.neighbours(u):
+            if G.node(v)[&quot;color&quot;] == &quot;white&quot;
+                queue.push(v)
+                G.nodes(v)[&quot;color&quot;] = &quot;gray&quot;
+        G.nodes(u)[&quot;color&quot;] = &quot;black&quot;
+</code></pre>
+
+<blockquote>
+<p>Why is it <em>breadth</em> first?</p>
+
+<p>&hellip; because a first-in-first-out queue is used.
+<a href="note">!</a></p>
+</blockquote>
+
+<h1 id="bfs-2">BFS</h1>
+
+<p><a href="columns 8:">!</a></p>
+
+<pre><code class="language-python nu sm">def bfs(G, s):
+    for v in G.nodes():
+        G.node(v)[&quot;color&quot;] = &quot;white&quot;
+
+    queue = [s]
+    G.node(s)[&quot;color&quot;] = &quot;gray&quot;
+
+    while len(queue) &gt; 0:
+        u = queue.pop(0)
+        for v in G.neighbours(u):
+            if G.node(v)[&quot;color&quot;] == &quot;white&quot;
+                queue.push(v)
+                G.nodes(v)[&quot;color&quot;] = &quot;gray&quot;
+        G.nodes(u)[&quot;color&quot;] = &quot;black&quot;
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p><em>Theorem</em>:</p>
+
+<blockquote>
+<ol>
+<li><p>A vertex turns <em>gray</em> only <em>once</em>.</p></li>
+
+<li><p>A vertex turns <em>black</em> only <em>once</em>.</p></li>
+
+<li><p>All vertices reachable from the source <code>s</code> will turn black.</p></li>
+</ol>
+</blockquote>
+
+<h1 id="more-bfs">More BFS</h1>
+
+<p><em>Theorem</em>:</p>
+
+<blockquote>
+<p>Consider two vertices $x, y$ both reachable from the source $s$.</p>
+
+<p>If $d(s, x) &lt; d(s, y)$ then $x$ will turn gray before $y$.</p>
+</blockquote>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>We can use <code>BFS($G$)</code> to build a shortest-path tree from $s$, and compute the
+distances from $s$ to every vertex in $G$.</p>
+
+<h1 id="shortest-path-tree-and-distance-via-bfs">Shortest path tree and distance via BFS</h1>
+
+<pre><code class="language-python nu sm">def bfs(G, s):
+    for v in G.nodes():
+        G.node(v)[&quot;color&quot;] = &quot;white&quot;
+        G.node(v)[&quot;distance&quot;] = None   # Initialize
+        G.node(v)[&quot;parent&quot;] = None     # Initialize
+
+    queue = [s]
+    G.node(s)[&quot;color&quot;] = &quot;gray&quot;
+    G.node(s)[&quot;distance&quot;] = 0
+
+    while len(queue) &gt; 0:
+        u = queue.pop(0)
+        for v in G.neighbours(u):
+            if G.node(v)[&quot;color&quot;] == &quot;white&quot;
+                queue.push(v)
+                G.nodes(v)[&quot;color&quot;] = &quot;gray&quot;
+                #-------------------------------------
+                # compute the distance from s -&gt; v
+                # compute the parent of v in tree
+                #-------------------------------------
+        G.nodes(u)[&quot;color&quot;] = &quot;black&quot;
+</code></pre>
+
+<h1 id="shortest-path-tree-and-distance-via-bfs-1">Shortest path tree and distance via BFS</h1>
+
+<pre><code class="language-python nu sm">def bfs(G, s):
+    for v in G.nodes():
+        G.node(v)[&quot;color&quot;] = &quot;white&quot;
+        G.node(v)[&quot;distance&quot;] = None   # Initialize
+        G.node(v)[&quot;parent&quot;] = None     # Initialize
+
+    queue = [s]
+    G.node(s)[&quot;color&quot;] = &quot;gray&quot;
+    G.node(s)[&quot;distance&quot;] = 0
+
+    while len(queue) &gt; 0:
+        u = queue.pop(0)
+        for v in G.neighbours(u):
+            if G.node(v)[&quot;color&quot;] == &quot;white&quot;
+                queue.push(v)
+                G.nodes(v)[&quot;color&quot;] = &quot;gray&quot;
+                G.nodes(v)[&quot;distance&quot;] = G.nodes(u)[&quot;distance&quot;] + 1
+                G.nodes(v)[&quot;parent&quot;] = u
+        G.nodes(u)[&quot;color&quot;] = &quot;black&quot;
+</code></pre>
+</div>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+		<script>
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                        
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+				]
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+            });
+        }
+		</script>
+	</body>
+</html>
+
+

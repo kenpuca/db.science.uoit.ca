@@ -30,8 +30,6 @@
 		</script>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
-
-        
 	</head>
 	<body>
         <div class="reveal">
@@ -514,6 +512,22 @@ S 0 &amp;=&amp; (\lambda n. \lambda yx.ynyx)0 \\
 </div>
         </div>
 
+        
+        <div style="position: fixed; 
+            bottom:0; 
+            left:0;
+            padding: 10px;
+            font-family: Roboto;
+            font-weight: 600;
+            font-size: 12pt;
+            color: #88a;">
+            <a href="?print-pdf" class="cmd" style="color:
+                red;margin-right:10px; font-size: 200%">
+                <i class="fa fa-file-pdf-o"></i>
+            </a>
+            <span> © KEN PU, 2016 </span>
+        </div>
+
         <script src="/js/jquery-2.2.1.min.js"></script>
         <script src="/js/pdf.js"></script>
         <script src="/js/clipboard.min.js"></script>
@@ -522,6 +536,11 @@ S 0 &amp;=&amp; (\lambda n. \lambda yx.ynyx)0 \\
         <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
 
 		<script>
+            if(window.print_pdf) {
+                setTimeout(function() {
+                    window.print();
+                }, 2000);
+            }
         
         function isBreak($p, $section) {
             if($p.is("h1") && $section.children().size() > 0)
@@ -569,6 +588,12 @@ S 0 &amp;=&amp; (\lambda n. \lambda yx.ynyx)0 \\
                 transition: "zoom",
                 transitionSpeed: "fast",
 
+                chalkboard: { 
+                    
+                    
+                },
+
+
 				
 				dependencies: [
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
@@ -577,14 +602,13 @@ S 0 &amp;=&amp; (\lambda n. \lambda yx.ynyx)0 \\
                         callback: function() { hljs.initHighlightingOnLoad(); } 
                     },
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
-                    
-                        { src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js', async: true },
-                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/chalkboard/chalkboard.js',
+                    async: true },
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
                     {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
-				]
+                ],
 			});
             Reveal.addEventListener('ready', function() {
                 console.debug("Ready to reveal");

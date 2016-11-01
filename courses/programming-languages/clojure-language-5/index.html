@@ -157,15 +157,7 @@ argument types.</p>
 </tr>
 
 <tr>
-<td><code>tax-rate</code></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-
-<tr>
-<td><code>vacation-pay</code></td>
+<td><code>tuition</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -194,20 +186,20 @@ argument types.</p>
 
 <h1 id="example">Example</h1>
 
-<pre><code class="language-clojure">(defmulti parking (fn [person num-months] (:type person)))
+<pre><code class="language-clojure">(defmulti parking-fee (fn [person num-months] (:type person)))
 
-; faculty parking rate is $2000/year
-(defmethod parking :faculty
+; faculty parking-fee rate is $2000/year
+(defmethod parking-fee :faculty
   [person num-months]
   (* num-months (/ 2000.0 12)))
 
-; student parking rate is $40/month
-(defmethod parking :student
+; student parking-fee rate is $40/month
+(defmethod parking-fee :student
   [person num-months]
   (* num-months 40.0))
 
 ; no other types are supported
-(defmethod parking :default
+(defmethod parking-fee :default
   [person num-months]
   nil)
 </code></pre>
@@ -225,7 +217,7 @@ argument types.</p>
   (doseq [person [einstein jack]]
     (printf &quot;%s pays $%.2f for 5 months of parking.\n&quot; 
             (:name person)
-            (parking person 5))))
+            (parking-fee person 5))))
 </code></pre>
 
 <blockquote>
@@ -387,9 +379,9 @@ declaring a type.</p></li>
 <pre><code class="language-clojure sm">(let [p1 (Faculty. &quot;Albert Einstein&quot;)
       p2 (Faculty. &quot;Richard Feynman&quot;)
       p3 (Student. &quot;Jack&quot;)]
-  (println &quot;P1&quot; (parking p1))
-  (println &quot;P2&quot; (parking p2))
-  (println &quot;P3&quot; (parking p3)))
+  (println &quot;P1&quot; (parking p1 5))
+  (println &quot;P2&quot; (parking p2 5))
+  (println &quot;P3&quot; (parking p3 5)))
 </code></pre>
 
 <p><a href="***">!</a></p>
@@ -547,6 +539,14 @@ declaring a type.</p></li>
 make (something abstract) more concrete or real. <br>
 <em>&ldquo;these instincts are, in humans, reified as verbal constructs&rdquo;</em></p>
 </blockquote>
+
+<h1 id="example-6">Example</h1>
+
+<pre><code class="language-clojure">(reify
+  IPayee
+  (parking [x months] ...)
+  (tuition [x credits] ...))
+</code></pre>
 </div>
         </div>
 

@@ -130,10 +130,10 @@ values.</p>
         self.edges[(v1,v2)] = data
 
     def node(self, v):
-        return self.node[v]
+        return self.nodes[v]
 
     def edge(self, v1, v2):
-        return self.edge[v]
+        return self.edges[v]
 </code></pre>
 
 <p><a href="note">!</a> the additional hashmaps are used to map vertex and edge identifiers to
@@ -364,7 +364,7 @@ shortest path from $x$ to $y$.</p>
 <li><p>Makes sure that each vertex is visited at most once.</p></li>
 
 <li><p>Makes sure that all vertices <em>reachable</em> from the starting vertex will be
-visisted.</p></li>
+visited.</p></li>
 </ul>
 
 <p><a href="&amp;&amp;&amp;">!</a></p>

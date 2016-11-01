@@ -62,7 +62,7 @@
 <ul>
 <li><p>Lexical scoping rule</p></li>
 
-<li><p>Closure <span class="label label-danger" style=font-size:70%;margin-left:40px>IMPORTANT</span></p></li>
+<li><p>Closure <span class="label label-primary" style=font-size:70%;margin-left:40px;padding:5px>IMPORTANT</span></p></li>
 
 <li><p>Associating values with functions with closure in Clojure.</p></li>
 </ul>
@@ -80,6 +80,473 @@
 
 <li><p>Resolution with namespaces</p></li>
 </ul>
+
+<h1 id="polymorphism">Polymorphism</h1>
+
+<p><strong>Definition</strong>: <em>Polymorphism</em></p>
+
+<blockquote>
+<p>The implementation of a function is determined at <em>runtime</em> based on the
+argument types.</p>
+</blockquote>
+
+<p><a href="***">!</a></p>
+
+<p><strong>Example</strong></p>
+
+<pre><code class="language-clojure sm">(defn parking-fee [person num-months] ...)
+</code></pre>
+
+<p>There are two types of persons:</p>
+
+<blockquote>
+<ul>
+<li>Faculty members, who pay $2000.00 / year for parking</li>
+<li>Students, who pay $40.00 / month for parking</li>
+</ul>
+</blockquote>
+
+<p>What is the best way to implement <code>parking-fee</code>?</p>
+
+<p><a href="note">!</a> Polymorphism is the solution&hellip;</p>
+
+<h1 id="an-non-polymorphic-solution">An non-polymorphic solution</h1>
+
+<p>Use branching <code>if</code>, <code>cond</code>, <code>case</code>, &hellip;</p>
+
+<pre><code class="language-clojure">(defn parking-fee [person num-months]
+  (case (:type person) 
+    :faculty (* (/ 2000.0 12) num-months)
+    :student (* 40 num-months)
+    nil))
+</code></pre>
+
+<blockquote>
+<p>This is bad for several reasons?</p>
+
+<ul>
+<li>How many different types of <code>person</code> are there?</li>
+<li>How much duplication in abstraction?</li>
+<li>There is a single point failure.</li>
+<li>How do we maintain consistency when new person type is added?
+<a href="note">!</a></li>
+</ul>
+</blockquote>
+
+<p>Consider the matrix of dependencies:</p>
+
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th><code>:student</code></th>
+<th><code>:faculty</code></th>
+<th><code>:staff</code></th>
+<th><code>:visitor</code></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>parking-fee</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>tax-rate</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>vacation-pay</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p><a href="note 9">!</a></p>
+</blockquote>
+
+<h1 id="polymorphism-using-multimethod">Polymorphism using multimethod</h1>
+
+<pre><code class="language-clojure">(defmulti &lt;fn&gt; &lt;dispatcher&gt;)
+
+...
+
+(defmethod &lt;fn&gt; [dispatching-values...]
+  [arg...]
+  (__ body __))
+  
+(defmethod &lt;fn&gt; [dispatching-values...]
+  [arg...]
+  (__ body __))
+</code></pre>
+
+<h1 id="example">Example</h1>
+
+<pre><code class="language-clojure">(defmulti parking (fn [person num-months] (:type person)))
+
+; faculty parking rate is $2000/year
+(defmethod parking :faculty
+  [person num-months]
+  (* num-months (/ 2000.0 12)))
+
+; student parking rate is $40/month
+(defmethod parking :student
+  [person num-months]
+  (* num-months 40.0))
+
+; no other types are supported
+(defmethod parking :default
+  [person num-months]
+  nil)
+</code></pre>
+
+<h1 id="example-1">Example</h1>
+
+<pre><code class="language-clojure">; ============================
+; test the code
+; ============================
+
+(let [einstein {:type :faculty
+                :name &quot;Albert Einstein&quot;}
+      jack {:type :student
+            :name &quot;Jack&quot;}]
+  (doseq [person [einstein jack]]
+    (printf &quot;%s pays $%.2f for 5 months of parking.\n&quot; 
+            (:name person)
+            (parking person 5))))
+</code></pre>
+
+<blockquote>
+<pre><code class="language-nosyntax">Albert Einstein pays $833.33 for 5 months of parking.
+Jack pays $200.00 for 5 months of parking.
+</code></pre>
+</blockquote>
+
+<h1 id="protocols">Protocols</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h2 id="clojure-s-solution-to-interfaces">Clojure&rsquo;s solution to interfaces</h2>
+
+<h1 id="protocols-1">Protocols</h1>
+
+<ul>
+<li><p>A protocol defines a set of function <em>symbols</em>, and their &ldquo;signatures&rdquo;.</p>
+
+<blockquote>
+<p>Since Clojure does not support static types, a function signature
+is basically the arity of the function.</p>
+</blockquote></li>
+</ul>
+
+<p>Protocol is a heavy-lifting language feature, many of which are impossible to do
+in a language like <em>Java</em>.</p>
+
+<ol>
+<li><p>We can define <em>types</em> and <em>records</em> that implement one or more <em>protocols</em>.</p></li>
+
+<li><p>We can <em>extend</em> an existing types to implement a protocol.</p></li>
+
+<li><p>We can create an instance that implements one or more protocols without
+declaring a type.</p></li>
+</ol>
+
+<h1 id="defining-the-protocol">Defining the protocol</h1>
+
+<pre><code class="language-clojure">(defprotocol &lt;name&gt;
+    (&lt;fun-name&gt; [ &lt;args&gt; ... ])
+    (&lt;fun-name&gt; [ &lt;args&gt; ... ])
+    ...)
+</code></pre>
+
+<h1 id="example-2">Example</h1>
+
+<pre><code class="language-clojure">(defprotocol IPayee
+    (parking [person months])
+    (tuition [person credits]))
+</code></pre>
+
+<p><a href="***">!</a></p>
+
+<p>How do we create implementations of <code>IPayee</code>?</p>
+
+<blockquote>
+<pre><code class="language-clojure">; total cost of completing a 40-credit semester in
+; 4 months.
+(let [x (... make-a-payee ...)]
+    (+ (parking x 4) (tuition x 40)))
+</code></pre>
+</blockquote>
+
+<h1 id="type">Type</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h2 id="clojure-s-solution-for-classes">Clojure&rsquo;s solution for <em>classes</em></h2>
+
+<h1 id="creating-a-type">Creating a type</h1>
+
+<p>A type consists of:</p>
+
+<blockquote>
+<ol>
+<li>a constructor</li>
+<li>a list of protocols that it implements</li>
+<li>the set of functions</li>
+</ol>
+</blockquote>
+
+<p><a href="***">!</a></p>
+
+<pre><code class="language-clojure">(deftype &lt;type-name&gt; [&lt;args&gt; ...]
+  &lt;protocol&gt;
+  (&lt;method&gt; [args ...] ( ... body ... ))
+  (&lt;method&gt; [args ...] ( ... body ... ))
+  ...)
+</code></pre>
+
+<h1 id="example-implementation">Example: implementation</h1>
+
+<p><a href="columns 5:">!</a></p>
+
+<pre><code class="language-clojure sm">(defprotocol IPayee
+  (parking [person months])
+  (tuition [person credits]))
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>A type for faculty</p>
+
+<pre><code class="language-clojure sm">(deftype Faculty [name]
+  IPayee
+  (parking [person months]
+    (if (= name &quot;Albert Einstein&quot;)
+      0
+      (* months (/ 2000.0 12))))
+  (tuition [person credits]
+    (if (= name &quot;Richard Feynman&quot;)
+      0
+      (* 1.0 credits))))
+</code></pre>
+
+<p>A type for student</p>
+
+<pre><code class="language-clojure sm">(deftype Student [name]
+  IPayee
+  (parking [person months] (* months 40.0))
+  (tuition [person credits] (* credits 100.0)))
+</code></pre>
+
+<h1 id="example-data">Example: data</h1>
+
+<p>Constructor functions are automatically generated and bound to symbols
+<code>&lt;class-name&gt;</code><b style=color:red;font-size:200%>.</b></p>
+
+<pre><code class="language-clojure">(let [albert (Faculty. &quot;Albert Einstein&quot;)] ...)
+</code></pre>
+
+<h1 id="example-data-1">Example: data</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-clojure sm">(deftype Faculty [name]
+  IPayee
+  (parking [person months]
+    (if (= name &quot;Albert Einstein&quot;)
+      0
+      (* months (/ 2000.0 12))))
+  (tuition [person credits]
+    (if (= name &quot;Richard Feynman&quot;)
+      0
+      (* 1.0 credits))))
+</code></pre>
+
+<pre><code class="language-clojure sm">(deftype Student [name]
+  IPayee
+  (parking [person months] 
+    (* months 40.0))
+  (tuition [person credits] 
+    (* credits 100.0)))
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<pre><code class="language-clojure sm">(let [p1 (Faculty. &quot;Albert Einstein&quot;)
+      p2 (Faculty. &quot;Richard Feynman&quot;)
+      p3 (Student. &quot;Jack&quot;)]
+  (println &quot;P1&quot; (parking p1))
+  (println &quot;P2&quot; (parking p2))
+  (println &quot;P3&quot; (parking p3)))
+</code></pre>
+
+<p><a href="***">!</a></p>
+
+<p><em>Issues</em> (or features)</p>
+
+<blockquote>
+<p>In the scope of methods, we can access the <code>name</code> symbol (and its binding).</p>
+
+<p>But outside the scope, we <em>cannot</em> access the <code>name</code> symbol.</p>
+</blockquote>
+
+<h1 id="records">Records</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h2 id="clojure-s-solution-to-classes-with-properties">Clojure&rsquo;s solution to classes with properties</h2>
+
+<h1 id="records-1">Records</h1>
+
+<p>Records are defined like <em>types</em>, but behaves (almost) like <em>hash-maps</em>.</p>
+
+<hr />
+
+<h3 id="declaration-of-record-type">Declaration of record <em>type</em></h3>
+
+<pre><code class="language-clojure">(defrecord &lt;name&gt; [args ...]
+  &lt;protocol&gt;
+  (method ...)
+  (method ...)
+  ...)
+</code></pre>
+
+<h1 id="example-3">Example:</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<p>The type implementation</p>
+
+<pre><code class="language-clojure sm">(deftype Faculty [name]
+  IPayee
+  (parking [person months]
+    (if (= name &quot;Albert Einstein&quot;)
+      0
+      (* months (/ 2000.0 12))))
+  (tuition [person credits]
+    (if (= name &quot;Richard Feynman&quot;)
+      0
+      (* 1.0 credits))))
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>The record implementation</p>
+
+<pre>(<b style="color:blue">defrecord</b> Faculty [name]
+  IPayee
+  (parking [person months]
+    (if (= name "Albert Einstein")
+      0
+      (* months (/ 2000.0 12))))
+  (tuition [person credits]
+    (if (= name "Richard Feynman")
+      0
+      (* 1.0 credits))))
+</code></pre>
+
+<h1 id="example-4">Example:</h1>
+
+<pre><code class="language-clojure">(defn report [person months credit]
+  (println (:name person) 
+           &quot;needs to pay:&quot;
+           (+ (parking person months)
+              (tuition person credits))))
+</code></pre>
+
+<hr />
+
+<p>Records act just like hashmaps:</p>
+
+<pre><code>(let [person (Student. &quot;Jack&quot;)]
+  (assoc person :name &quot;Jim&quot;
+                :grade &quot;A+&quot;))
+</code></pre>
+
+<h1 id="extending-existing-types">Extending existing types</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h2 id="adhoc-patching-up-existing-classes">Adhoc patching up existing classes</h2>
+
+<h1 id="compare-to-java">Compare to Java</h1>
+
+<p><code>defprotocol</code> = Interfaces</p>
+
+<p><code>deftype</code> = Classes with private members</p>
+
+<p><code>defrecord</code> = Classes</p>
+
+<hr />
+
+<p><code>extend-type</code>, <code>extend-protocol</code> have no equals in Java.</p>
+
+<h1 id="extend">Extend</h1>
+
+<p>What is a <em>type</em>?</p>
+
+<blockquote>
+<p>A type is a Java class or a previously defined Clojure type by <code>deftype</code> or
+<code>defrecord</code>.</p>
+</blockquote>
+
+<p><a href="***">!</a></p>
+
+<p>Given a type <code>T</code>, we can make it implement one or more protocols with
+<code>extend-type</code>.</p>
+
+<pre><code class="language-clojure">(extend-type T
+    &lt;protocol&gt;
+    (&lt;method&gt; [...] (...body...))
+    (&lt;method&gt; [...] (...body...))
+    ...
+
+    &lt;protocol&gt;
+    ...)
+</code></pre>
+
+<h1 id="example-5">Example</h1>
+
+<p>Can a string be a payee?  Sure.</p>
+
+<pre><code class="language-clojure sm">(extend-type java.lang.String
+  IPayee
+  (parking [s months] (* months (Float/parseFloat s)))
+  (credits [s credits] (* credits (Float/parseFloat s))))
+</code></pre>
+
+<p><a href="***">!</a></p>
+
+<p>Wow, we can do some crazy stuff:</p>
+
+<pre><code class="language-clojure">(parking &quot;3.14&quot; 4)
+(tuition &quot;6.2&quot; 40)
+</code></pre>
+
+<h1 id="reify">Reify</h1>
+
+<p><a href="highlight">!</a></p>
+
+<p><em>re·i·fy</em> <br>
+/ˈrēəˌfī/</p>
+
+<blockquote>
+<p>verb <br>
+make (something abstract) more concrete or real. <br>
+<em>&ldquo;these instincts are, in humans, reified as verbal constructs&rdquo;</em></p>
+</blockquote>
 </div>
         </div>
 

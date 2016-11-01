@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on db@uoit</title>
-    <link>http://db.science.uoit.ca/projects/</link>
-    <description>Recent content in Projects on db@uoit</description>
+    <title>Projects-rsses on db@uoit</title>
+    <link>http://db.science.uoit.ca/projects/index.xml</link>
+    <description>Recent content in Projects-rsses on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://db.science.uoit.ca/projects/index.xml" rel="self" type="application/rss+xml" />
@@ -22,7 +22,8 @@ greater insights into a multitude of social and economic issues.&lt;/p&gt;
 &lt;p&gt;In collaboration with &lt;a href=&#34;http://www.cs.toronto.edu/~ekzhu/&#34;&gt;Toronto&lt;/a&gt;, we are
 building an Internet scale data integration system specifically designed for
 finding linkages in Open Data.&lt;/p&gt;
-</description>
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -85,7 +86,8 @@ why can&amp;rsquo;t we use our mobile phones to solve general puzzles?&lt;/p&gt;
 user access to the powerful constraint solvers.  This project is to investigate
 the design and feasibility of such constraint solving interfaces (either as an
 application, or a special purpose programming language).&lt;/p&gt;
-</description>
+
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

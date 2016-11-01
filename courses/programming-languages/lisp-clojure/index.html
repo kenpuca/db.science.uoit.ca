@@ -506,7 +506,7 @@ elem      : s-expr
         </div>
 
         
-        <div style="position: fixed; 
+        <div class="footnote" style="position: fixed; 
             bottom:0; 
             left:0;
             padding: 10px;
@@ -529,6 +529,11 @@ elem      : s-expr
         <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
 
 		<script>
+
+        if(window.print_pdf) {
+            $("div.footnote").remove();
+        }
+
         
         function isBreak($p, $section) {
             if($p.is("h1") && $section.children().size() > 0)

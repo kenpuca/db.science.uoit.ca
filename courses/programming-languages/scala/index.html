@@ -1,0 +1,197 @@
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Introduction to Scala</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="scala">Scala</h1>
+
+<ul>
+<li><p>Java is a <em>simple</em> and <em>impure</em> object-oriented programming language.</p></li>
+
+<li><p>Scala</p>
+
+<ul>
+<li><p>designed by <em>Martin Odersky</em></p></li>
+
+<li><p>first released in 2004</p></li>
+
+<li><p>a <em>pure</em> object-oriented programming language</p></li>
+
+<li><p>high degree of complexity</p></li>
+</ul></li>
+</ul>
+
+<h1 id="object-oriented-programming-oop">Object-oriented programming (OOP)</h1>
+
+<blockquote>
+<blockquote>
+<p>All types are classes.</p>
+
+<p>All data are objects.</p>
+
+<p>All computation are method invocations.</p>
+</blockquote>
+</blockquote>
+
+<h1 id="java-as-an-oop">Java as an OOP</h1>
+
+<p>Type as class:</p>
+
+<pre><code class="language-java">class String {
+    String substring(int start, int end) { ... }
+}
+</code></pre>
+
+<p>Data as object:</p>
+
+<pre><code class="language-java">String message = &quot;Hello world&quot;;
+</code></pre>
+
+<p>Computations as method invocations:</p>
+
+<pre><code class="language-java">System.out.println(message.substring(3, 6));
+</code></pre>
+</div>
+        </div>
+
+        
+        <div class="footnote" style="position: fixed; 
+            bottom:0; 
+            left:0;
+            padding: 10px;
+            font-family: Roboto;
+            font-weight: 600;
+            font-size: 12pt;
+            color: #88a;">
+            <a href="?print-pdf" class="cmd" style="color:
+                red;margin-right:10px; font-size: 200%">
+                <i class="fa fa-file-pdf-o"></i>
+            </a>
+            <span> © KEN PU, 2016 </span>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+		<script>
+
+        if(window.print_pdf) {
+            $("div.footnote").remove();
+        }
+
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+                chalkboard: { 
+                    
+                    
+                },
+
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+                ],
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+            });
+        }
+		</script>
+	</body>
+</html>
+
+

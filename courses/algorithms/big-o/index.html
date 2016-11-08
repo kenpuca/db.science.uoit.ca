@@ -22,6 +22,9 @@
             if(window.location.search.match(/print-pdf/gi)) {
                 window.print_pdf = true;
             }
+            if(window.location.search.match(/receiver/)) {
+                window.remote_controller = true;
+            }
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
@@ -319,11 +322,21 @@ $$</code></p>
             font-weight: 600;
             font-size: 12pt;
             color: #88a;">
-            <a href="?print-pdf" class="cmd" style="color:
-                red;margin-right:10px; font-size: 200%">
-                <i class="fa fa-file-pdf-o"></i>
-            </a>
-            <span> © KEN PU, 2016 </span>
+            <div class="btn-group btn-group-sm">
+                <a href="#" class="btn btn-default cmd-fullscreen">
+                    <i class="fa fa-arrows-alt"></i></a>
+                <a href="?print-pdf" class="btn btn-default cmd" style="color:red">
+                    <i class="fa fa-file-pdf-o"></i>
+                </a>
+                <a href=".." class="btn btn-default" 
+                    style="font-family:'Old Standard TT'; font-style:italic">
+                    <i lass="fa fa-angle-left"></i> back
+                </a>
+            </div>
+            <span style="
+                margin-left:10px;
+                font-family:Roboto;
+                font-weight: 300;"> © KEN PU, 2016 </span>
         </div>
 
         <script src="/js/jquery-2.2.1.min.js"></script>
@@ -335,9 +348,43 @@ $$</code></p>
 
 		<script>
 
-        if(window.print_pdf) {
+        if(window.print_pdf || window.remote_controller) {
             $("div.footnote").remove();
         }
+        var fullscreen = false;
+        $("body").on("click", ".cmd-fullscreen", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            function exitFullscreen() {
+              if(document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if(document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if(document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              }
+              fullscreen = false;
+            }
+
+            function launchIntoFullscreen(element) {
+              if(element.requestFullscreen) {
+                element.requestFullscreen();
+              } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+              } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+              } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+              }
+              fullscreen = true;
+            }
+
+            if(fullscreen)
+                exitFullscreen();
+            else
+                launchIntoFullscreen(document.documentElement); 
+        });
 
         
         function isBreak($p, $section) {

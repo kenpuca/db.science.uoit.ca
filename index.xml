@@ -2621,7 +2621,6 @@ output.&lt;/p&gt;
 				&lt;ul class=list-group&gt;
 					&lt;li class=list-group-item&gt;
                         &lt;a href=&#34;graph-algorithms&#34;&gt;Graph Algorithms&lt;/a&gt;
-						&lt;span style=&#34;float:right&#34; class=&#34;label label-warning&#34;&gt;DRAFT&lt;/span&gt;
                     &lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Spanning trees&lt;/a&gt;&lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Shortest path algorithms&lt;/a&gt;&lt;/li&gt;
@@ -2945,6 +2944,292 @@ $$&lt;/code&gt;&lt;/p&gt;
 
 &lt;li&gt;&lt;p&gt;So that $n^2 + 10000= \mathcal{O}(n^3)$.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Basics of Scala</title>
+      <link>http://db.science.uoit.ca/courses/programming-languages/scala-basics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/courses/programming-languages/scala-basics/</guid>
+      <description>
+
+&lt;h1 id=&#34;basics-of-scala&#34;&gt;Basics of Scala&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;objects&#34;&gt;Objects&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;var name : String = &amp;quot;hello&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
+This creates a &lt;strong&gt;variable&lt;/strong&gt;, with the type &lt;code&gt;String&lt;/code&gt;, and it&amp;rsquo;s initialized to
+&amp;ldquo;hello&amp;rdquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;name.CharAt(0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
+Java-style method invocation&lt;/p&gt;
+
+&lt;h1 id=&#34;toc_2&#34;&gt;______&lt;/h1&gt;
+
+&lt;p&gt;Scala uses the same scoping and symbol bindings.&lt;/p&gt;
+
+&lt;p&gt;There are two types of &lt;em&gt;symbols&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Variables&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Bindings to &lt;code&gt;var&lt;/code&gt; can be updated.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;var name:String = &amp;quot;Albert&amp;quot;
+name = &amp;quot;Einstein&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Values&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Bindings to &lt;code&gt;val&lt;/code&gt; is permanent.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val name : String = &amp;quot;Alert&amp;quot;
+name = &amp;quot;Einstein&amp;quot;
+// error: reassignment to val
+//       x = &amp;quot;world&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; This is the same as Clojure, and it&amp;rsquo;s preferred over &lt;code&gt;var&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;type-inference&#34;&gt;Type Inference&lt;/h1&gt;
+
+&lt;p&gt;&lt;em&gt;Definition&lt;/em&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A statically typed language is one that requires the compiler to have complete
+type information on all the symbols in the source code &lt;strong&gt;at&lt;/strong&gt; compile-time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Java &lt;strong&gt;and&lt;/strong&gt; Scala are statically typed languages.&lt;/li&gt;
+&lt;li&gt;Clojure and Python are not statically typed, but typed (at runtime).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The compiler needs type information specified for &lt;em&gt;all&lt;/em&gt; the symbols.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String name;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val name : String = ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;toc_4&#34;&gt;____&lt;/h1&gt;
+
+&lt;p&gt;Scala has a feature, known as &lt;em&gt;type inference&lt;/em&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;At compile-time, the compiler makes a best attempt to fill in the missing type
+information.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val small_integer = 42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The compiler will see that &lt;code&gt;small_integer&lt;/code&gt; should be &lt;code&gt;Int&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;var x = y
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The compiler will use the type of &lt;code&gt;y&lt;/code&gt; to infer the type of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the interactive interpreter session, you can always inspect the type
+information of existing symbols:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;:t small_integer
+Int
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;procedural-programming&#34;&gt;Procedural programming&lt;/h1&gt;
+
+&lt;h2 id=&#34;if&#34;&gt;IF&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;if (&amp;lt;cond&amp;gt;) {
+  &amp;lt;expression&amp;gt;
+} else if (&amp;lt;cond&amp;gt;) {
+  &amp;lt;expression&amp;gt;
+} else {
+  &amp;lt;expression&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
+The classic Java-style branching.  Scala has better pattern matching
+which is preferred over if-else.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;if-else&lt;/code&gt; is an expression, not a statement.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val age = 65
+if(age &amp;lt; 65) {
+  println(&amp;quot;Not senior&amp;quot;)
+} else {
+  println(&amp;quot;Senior&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val age = 65
+val senior = if(age &amp;lt; 65) 
+               &amp;quot;Not senior&amp;quot;
+             else
+               &amp;quot;Senior&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;toc_7&#34;&gt;_____&lt;/h1&gt;
+
+&lt;h2 id=&#34;for&#34;&gt;FOR&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;for(&amp;lt;val&amp;gt; &amp;lt;- &amp;lt;iterable&amp;gt;) {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;All container data structures are iterables: arrays, lists, map, &amp;hellip;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Scala has a nice way to generate iterables over integer ranges:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;1 to 10     // 1, 2, ... 10
+1 until 10  // 1, 2, ... 9
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;for(x &amp;lt;- 1 to 10) {
+  println(x)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
+Scala&amp;rsquo;s &lt;code&gt;for&lt;/code&gt; loop is much more powerful then simple iteration.  More on this
+in lectures on programming with sequences.&lt;/p&gt;
+
+&lt;h1 id=&#34;toc_9&#34;&gt;_____________&lt;/h1&gt;
+
+&lt;h2 id=&#34;loops&#34;&gt;Loops&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;while(&amp;lt;cond&amp;gt;) {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;do {
+    ...
+} while(&amp;lt;cond&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;syntax-rules&#34;&gt;Syntax rules&lt;/h1&gt;
+
+&lt;p&gt;Suppose that an object has zero or one argument.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;obj.method()
+obj.method(arg)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then the parenthesis can be omitted:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;obj.method
+obj.method arg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The dot can also be omitted:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;obj method
+obj method arg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;toc_12&#34;&gt;_____&lt;/h1&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1 + 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is actually a method invocation in disguise.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.+(2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The equivalent syntax in method invocation.  The method name is &lt;code&gt;+&lt;/code&gt;,
+the object is &lt;code&gt;1&lt;/code&gt;, and the argument is &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This type of syntax rule allows us to introduce user-defined operators to
+support programming constructs such as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;x multiplyWith y
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; We assume that the object &lt;code&gt;x&lt;/code&gt; has a method called &lt;code&gt;multiplyWith&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We can also invoke Java methods like operators&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;hello&amp;quot; charAt 3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;syntax-rules-1&#34;&gt;Syntax rules&lt;/h1&gt;
+
+&lt;p&gt;More syntax rules to come.&lt;/p&gt;
+
+&lt;h1 id=&#34;functions&#34;&gt;Functions&lt;/h1&gt;
+
+&lt;p&gt;Functions are in fact objects of a &lt;em&gt;function&lt;/em&gt; class.  Scala offers a succinct
+syntax for defining functions.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;import scala.math
+val area = {(count:Int, radius:Float) =&amp;gt; x * scala.math.Pi * radius * radius}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-scala sm clipboard&#34;&gt;val area : (Int, Float) =&amp;gt; Double = {
+  (count, radius) =&amp;gt; {
+    var total: Double = 0
+    for(i &amp;lt;- 0 until count) {
+        total += scala.math.Pi * radius * radius
+    }
+    total
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;The type of the &lt;code&gt;val&lt;/code&gt; is &lt;code&gt;(Int, Float) =&amp;gt; Double&lt;/code&gt;.  This is also known as
+the &lt;em&gt;function signature&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The value is a function (instance of a class Function2).&lt;/li&gt;
+&lt;li&gt;The inputs are bound to symbols &lt;code&gt;count&lt;/code&gt; and &lt;code&gt;radius&lt;/code&gt;.
+Note the binding types are inferred based on the function signature.
+&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Bindings&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Procedural programming&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Object method invocation&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Function as data&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
@@ -3463,521 +3748,6 @@ It can be used to test if &lt;em&gt;pred&lt;/em&gt; holds for some element of th
 &lt;li&gt;Data transformation&lt;/li&gt;
 &lt;li&gt;Sequences&lt;/li&gt;
 &lt;li&gt;Sequence (higher-order) functions&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Clojure 4</title>
-      <link>http://db.science.uoit.ca/courses/programming-languages/clojure-language-4/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/courses/programming-languages/clojure-language-4/</guid>
-      <description>
-
-&lt;h1 id=&#34;turing-complete-efficient-programming-in-clojure&#34;&gt;Turing Complete &amp;amp; Efficient Programming in Clojure&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Function and recursion&lt;/li&gt;
-&lt;li&gt;Tail-recursion with &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;loop&lt;/code&gt; and &lt;code&gt;recur&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Infinite sequences with lazy-evaluation&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;turing-complete&#34;&gt;Turing-complete&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 8:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Q:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Given an input seq of elements, how do we compute
-the cummulative aggregates of each distinct element
-seen in the input seq.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;???&lt;/p&gt;
-
-&lt;p&gt;Maybe we can look for a built-in seq function to do this&amp;hellip;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;div style=&#34;height:300px&#34;&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;We need to be able to implement general purpose functions to match the power and
-flexibility of Java / Python / &amp;hellip;&lt;/em&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;looking-back-at-procedural-programming&#34;&gt;Looking back at procedural programming&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def count_seq(input_seq):
-    counts = dict()
-    
-    for elem in input_seq:
-        if elem in counts:
-            counts[elem] += 1
-        else:
-            counts[elem] = 1
-
-    return counts
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;rewriting-python-with-recursion&#34;&gt;Rewriting Python with recursion&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(input_seq):
-    if len(input_seq) == 0:
-        return {}
-    else:
-        first = input_seq[0]
-        rest  = input_seq[1:]
-        return increment(first, count_seq(rest))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; A recursive formulation&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def increment(key, counts):
-    if key in counts:
-        counts[key] += 1
-    else:
-        counts[key] = 1
-    return counts
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Increments the count of a key in &lt;code&gt;counts&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h1 id=&#34;clojure-s-recursion-version-1&#34;&gt;Clojure&amp;rsquo;s recursion (version 1)&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(defn inc-or-1 [n] (if (nil? n) 1 (inc n)))
-
-(defn count-seq [xs]
-  (if (empty? xs)
-    {}
-    (let [head (first xs)
-          tail (rest xs)]
-      (update (count-seq tail) head inc-or-1))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Make sure you understand this code.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;What is the time complexity?&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Linear time.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;What is the space complexity?&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Linear space (why?) and it uses the precious stack.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;stack-overflow&#34;&gt;Stack Overflow&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(count-seq (repeat 1000 :a))
-; {:a 1000}
-
-(count-seq (repeat 100000 :a))
-; StackOverflowError   clojure.core/first--4339
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Can you understand why the stack is being filled up necessarily?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def repeat(n, x): 
-    return [x for i in range(n)]
-
-count_seq(repeat(100, &amp;quot;a&amp;quot;))
-# {&amp;quot;a&amp;quot;: 100}
-
-count_seq(repeat(1000, &amp;quot;a&amp;quot;))
-# RuntimeError: maximum recursion depth exceeded
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Python has a more expensive function call, so it cannot hold as many
-on its preallocated stack.  The reason is that Python doesn&amp;rsquo;t encourage the
-usage of recursion as a scalable programming pattern.&lt;/p&gt;
-
-&lt;h1 id=&#34;tail-recursion&#34;&gt;Tail recursion&lt;/h1&gt;
-
-&lt;p&gt;Definition: &lt;em&gt;tail recursion&lt;/em&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;A function &lt;code&gt;f&lt;/code&gt; uses &lt;em&gt;tail recursion&lt;/em&gt; if its recursive call is &lt;em&gt;always&lt;/em&gt; the last
-step in the function.  Namely, the function must necessarily call itself as:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def f(...):
-    ...
-    ...
-    return f(...)
-    ...
-    ...
-    return f(...)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then we say that &lt;code&gt;f&lt;/code&gt; is tail-recursive.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;revisit-count-seq-in-python&#34;&gt;Revisit &lt;code&gt;count_seq&lt;/code&gt; in Python&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(input_seq):
-    if len(input_seq) == 0:
-        return {}
-    else:
-        first = input_seq[0]
-        rest  = input_seq[1:]
-        return increment(first, count_seq(rest))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is &lt;em&gt;not&lt;/em&gt; tail-recursion.  Why not?&lt;/p&gt;
-
-&lt;h1 id=&#34;tail-recursion-version-for-python&#34;&gt;Tail recursion version for Python.&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-python sm&#34;&gt;def count_seq(seq, cnt):
-    if len(seq) == 0:
-        return cnt
-    else:
-        head = seq[0]
-        tail = seq[1:]
-        return count_seq(tail, increment(cnt, head))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is tail-recursive.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Good news:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Tail recursion does not require taking up space on the stack.&lt;/p&gt;
-
-&lt;p&gt;&lt;span style=color:red&gt; Why? &lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Bad news:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Python doesn&amp;rsquo;t know about tail recursion.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;tail-recursion-in-clojure&#34;&gt;Tail recursion in Clojure&lt;/h1&gt;
-
-&lt;p&gt;Clojure gives programmer a special way for a function to call itself if it is
-tail-recursive.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn f [&amp;lt;args&amp;gt;]
-  ...  (recur &amp;lt;args&amp;gt;) ...)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;hr /&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [xs cnt]
-  (if (empty? xs) 
-    cnt 
-    (let [head (first xs) 
-          tail (rest xs)]
-      (recur tail (update cnt head inc-or-1))))) 
-
-(count-seq (repeat 1000000 :b) {})
-; {:b 1000000}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It&amp;rsquo;s tail-recursive.&lt;/p&gt;
-
-&lt;h1 id=&#34;more-on-clojure-style&#34;&gt;More on Clojure-style&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 5:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;We prefer:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;(count-seq &amp;lt;seq&amp;gt;)&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;But we had to do:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;(count-seq &amp;lt;seq&amp;gt; {})&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The solution is to use the multi-arity feature:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn count-seq
-  ([xs] (count-seq xs {}))
-  ([xs cnt] 
-    (if (empty? xs)
-      cnt
-      (recur (rest xs)
-             (update cnt 
-                     (first xs) inc-or-1)))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;clojure-s-general-purpose-loop&#34;&gt;Clojure&amp;rsquo;s general purpose loop&lt;/h1&gt;
-
-&lt;p&gt;We may want to define a recursion-based computation in an expression.
-It&amp;rsquo;s &lt;em&gt;okay&lt;/em&gt; to define a function each time we need recursion.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm&#34;&gt;(defn count-seq [input-seq]
-  (let [f (fn [xs cnt]
-            (if (empty? xs)
-              cnt
-              (recur (rest xs)
-                     (update cnt (first xs) inc-or-1))))]
-    (f input-seq {})))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;But we can do even better.&lt;/p&gt;
-
-&lt;p&gt;We can have a &lt;strong&gt;loop-expression&lt;/strong&gt; that is a recursive construct that allows us
-to specify:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;The parameter symbols and their initial values.&lt;/li&gt;
-&lt;li&gt;The body to evaluate the new values for the parameters.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&#34;clojure-s-general-purpose-loop-1&#34;&gt;Clojure&amp;rsquo;s general purpose loop&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(loop [&amp;lt;p1&amp;gt; &amp;lt;exp&amp;gt;
-       &amp;lt;p2&amp;gt; &amp;lt;exp&amp;gt; ...]
-  (... (recur &amp;lt;new-p1&amp;gt; &amp;lt;new-p2&amp;gt;) ...))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Now, we can reimplement count-seq once more:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq]
-  (loop [xs input-seq
-         cnt {}]
-    (if (empty? xs)
-      cnt
-      (recur (rest xs) (update cnt (first xs) inc-or-1)))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;count-seq-yet-again-version&#34;&gt;&lt;code&gt;count-seq&lt;/code&gt; yet again version&lt;/h1&gt;
-
-&lt;div style=height:200px&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn increment [cnt key]
-  (update cnt key inc-or-1))
-
-(defn count-seq [input-seq]
-  (reduce increment {} input-seq))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; If you have trouble understanding this, try it out with the sequence
-&amp;lsquo;(:a :a :b), and work it out by hand.&lt;/p&gt;
-
-&lt;h1 id=&#34;count-seq-the-last-version&#34;&gt;&lt;code&gt;count-seq&lt;/code&gt; the last version&lt;/h1&gt;
-
-&lt;div style=height:100px&gt;&lt;/div&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn count-seq [input-seq] (frequencies input-seq))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def count-seq frequencies)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is my favourite version :-)&lt;/p&gt;
-
-&lt;h1 id=&#34;lazy-evaluation&#34;&gt;Lazy Evaluation&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Creating infinite sequences&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Tractable recursion without blowing up the stack&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;infinite-sequences&#34;&gt;Infinite sequences&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def nat (iterate inc 0))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is an infinite sequence.  The function &lt;code&gt;iterate&lt;/code&gt; is used to
-create the infinite sequence.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(def zeros (repeat 0))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is an infinite sequence of zeros.  The function &lt;code&gt;repeat&lt;/code&gt; creates
-the infinite sequence.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;What makes &lt;em&gt;infinity&lt;/em&gt; possible?&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The computation of each element is performed &lt;em&gt;only&lt;/em&gt; when that element is
-&lt;em&gt;required&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; This is called &lt;em&gt;lazy evaluation&lt;/em&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;infinite-sequences-1&#34;&gt;Infinite sequences&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;How do we make infinite sequences?&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;How do we make program with lazy evaluation?&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;introducing-lazy-seq&#34;&gt;Introducing &lt;code&gt;lazy-seq&lt;/code&gt;&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-nosyntax&#34;&gt;user=&amp;gt; (doc lazy-seq)
--------------------------
-clojure.core/lazy-seq
-([&amp;amp; body])
-Macro
-  Takes a body of expressions that returns an ISeq or nil, and yields
-  a Seqable object that will invoke the body only the first time seq
-  is called, and will cache the result and return it on all subsequent
-  seq calls. See also - realized?
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;lazy-seq&#34;&gt;Lazy-seq&lt;/h1&gt;
-
-&lt;p&gt;Consider ways of creating a seq consisting of values returned by &lt;code&gt;(f i)&lt;/code&gt; for
-i=1, 2, 3.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;[(f 1) (f 2) (f 3)]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Remember that vectors are seqs.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;`((f 1) (f 2) (f 3))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Lists are also seqs.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(map f (range 100))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Say &lt;code&gt;f&lt;/code&gt; is a very expensive function to invoke:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn f [x]
-  (do (println &amp;quot;zzz...&amp;quot; x)
-      (Thread/sleep 1500)
-      (str &amp;quot;a long sleep (&amp;quot; x &amp;quot;)&amp;quot;)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;lazy-seq-1&#34;&gt;Lazy-seq&lt;/h1&gt;
-
-&lt;p&gt;So what&amp;rsquo;s wrong with this code?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(take 2 (map f (range 100)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;or this code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(first (map f (range 10000)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Lazy seq to the rescue:&lt;/p&gt;
-
-&lt;h1 id=&#34;lazy-seq-2&#34;&gt;Lazy-seq&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 7:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-nosyntax sm&#34;&gt;user=&amp;gt; (doc lazy-seq)
--------------------------
-clojure.core/lazy-seq
-([&amp;amp; body])
-Macro
-  Takes a body of expressions that returns
-  an ISeq or nil, and yields a Seqable
-  object that will invoke the body only the 
-  first time seq is called, and will cache 
-  the result and return it on all subsequent 
-  seq calls.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(lazy-seq &amp;lt;expr&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;expr&amp;gt;&lt;/code&gt; returns a seq, but it will &lt;em&gt;not&lt;/em&gt; be called
-until the first element is accessed.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&#34;creating-a-lazy-seq-version&#34;&gt;Creating a lazy-seq version&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(cons (f 1) nil)                          ;=&amp;gt; ((f 1))
-(cons (f 1) (cons (f 2) nil)              ;=&amp;gt; ((f 1) (f 2))
-(cons (f 1) (cons (f 2) (cons (f 3) nil)) ;=&amp;gt; ((f 1) (f 2) (f 3))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The problem is that they are not lazy.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(lazy-seq 
-  (cons 
-    (f 1)
-    (lazy-seq
-      (cons
-        (f 2)
-        (lazy-seq
-          (cons (f 3) nil))))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is a lazy sequence.&lt;/p&gt;
-
-&lt;h1 id=&#34;creating-a-lazy-seq-version-1&#34;&gt;Creating a lazy-seq version&lt;/h1&gt;
-
-&lt;p&gt;Let&amp;rsquo;s generalize.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure clipboard&#34;&gt;(defn fs [n]
-  (if (zero? n)
-    nil
-    (lazy-seq (cons (f n) (fs (dec n))))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; Note that this is &lt;em&gt;not&lt;/em&gt; tail-recursive.  But it&amp;rsquo;s &lt;em&gt;okay&lt;/em&gt;&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;***&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Now try out:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(take 3 (fs 1000))
-(first (fs 1000))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;other-forms-of-lazy-evaluation&#34;&gt;Other forms of lazy evaluation&lt;/h1&gt;
-
-&lt;p&gt;Clojure supports other forms of lazy evaluation.  See &lt;code&gt;(doc delay)&lt;/code&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Tail recursion with recur&lt;/li&gt;
-&lt;li&gt;Loop/recur&lt;/li&gt;
-&lt;li&gt;Lazy sequences&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>

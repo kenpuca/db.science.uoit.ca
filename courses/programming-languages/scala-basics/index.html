@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Introduction to Scala</title>
+        <title>Basics of Scala</title>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
@@ -38,167 +38,281 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
-<h1 id="scala">Scala</h1>
+<h1 id="basics-of-scala">Basics of Scala</h1>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="objects">Objects</h1>
+
+<pre><code class="language-scala">var name : String = &quot;hello&quot;
+</code></pre>
+
+<p><a href="note">!</a>
+This creates a <strong>variable</strong>, with the type <code>String</code>, and it&rsquo;s initialized to
+&ldquo;hello&rdquo;.</p>
+
+<pre><code class="language-scala">name.CharAt(0)
+</code></pre>
+
+<p><a href="note">!</a>
+Java-style method invocation</p>
+
+<h1 id="toc_2">______</h1>
+
+<p>Scala uses the same scoping and symbol bindings.</p>
+
+<p>There are two types of <em>symbols</em>.</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<p><strong>Variables</strong></p>
+
+<p>Bindings to <code>var</code> can be updated.</p>
+
+<pre><code class="language-scala sm">var name:String = &quot;Albert&quot;
+name = &quot;Einstein&quot;
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p><strong>Values</strong></p>
+
+<p>Bindings to <code>val</code> is permanent.</p>
+
+<pre><code class="language-scala sm">val name : String = &quot;Alert&quot;
+name = &quot;Einstein&quot;
+// error: reassignment to val
+//       x = &quot;world&quot;
+</code></pre>
+
+<p><a href="box">!</a> This is the same as Clojure, and it&rsquo;s preferred over <code>var</code>.</p>
+
+<h1 id="type-inference">Type Inference</h1>
+
+<p><em>Definition</em>:</p>
+
+<blockquote>
+<p>A statically typed language is one that requires the compiler to have complete
+type information on all the symbols in the source code <strong>at</strong> compile-time.</p>
+</blockquote>
 
 <ul>
-<li><p>Java is a <em>simple</em> and <em>impure</em> object-oriented programming language.</p></li>
-
-<li><p>Scala</p>
-
-<ul>
-<li><p>designed by <em>Martin Odersky</em></p></li>
-
-<li><p>first released in 2004</p></li>
-
-<li><p>a <em>pure</em> object-oriented programming language</p></li>
-
-<li><p>high degree of complexity</p></li>
-</ul></li>
+<li>Java <strong>and</strong> Scala are statically typed languages.</li>
+<li>Clojure and Python are not statically typed, but typed (at runtime).</li>
 </ul>
 
-<h1 id="object-oriented-programming-oop">Object-oriented programming (OOP)</h1>
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>The compiler needs type information specified for <em>all</em> the symbols.</p>
+
+<pre><code class="language-java">String name;
+</code></pre>
+
+<pre><code class="language-scala">val name : String = ...
+</code></pre>
+
+<h1 id="toc_4">____</h1>
+
+<p>Scala has a feature, known as <em>type inference</em>.</p>
 
 <blockquote>
-<blockquote>
-<p>All types are classes.</p>
-
-<p>All data are objects.</p>
-
-<p>All computation are method invocations.</p>
-</blockquote>
+<p>At compile-time, the compiler makes a best attempt to fill in the missing type
+information.</p>
 </blockquote>
 
-<h1 id="java-as-an-oop">Java as an OOP</h1>
+<pre><code class="language-scala">val small_integer = 42
+</code></pre>
 
-<p>Type as class:</p>
+<p><a href="note">!</a> The compiler will see that <code>small_integer</code> should be <code>Int</code>.</p>
 
-<pre><code class="language-java">class String {
-    String substring(int start, int end) { ... }
+<pre><code class="language-scala">var x = y
+</code></pre>
+
+<p><a href="note">!</a> The compiler will use the type of <code>y</code> to infer the type of <code>x</code>.</p>
+
+<p>In the interactive interpreter session, you can always inspect the type
+information of existing symbols:</p>
+
+<pre><code class="language-scala">:t small_integer
+Int
+</code></pre>
+
+<h1 id="procedural-programming">Procedural programming</h1>
+
+<h2 id="if">IF</h2>
+
+<pre><code class="language-scala">if (&lt;cond&gt;) {
+  &lt;expression&gt;
+} else if (&lt;cond&gt;) {
+  &lt;expression&gt;
+} else {
+  &lt;expression&gt;
 }
 </code></pre>
 
-<p>Data as object:</p>
+<p><a href="note">!</a>
+The classic Java-style branching.  Scala has better pattern matching
+which is preferred over if-else.</p>
 
-<pre><code class="language-java">String message = &quot;Hello world&quot;;
+<p><code>if-else</code> is an expression, not a statement.</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-scala sm">val age = 65
+if(age &lt; 65) {
+  println(&quot;Not senior&quot;)
+} else {
+  println(&quot;Senior&quot;)
+}
 </code></pre>
 
-<p>Computations as method invocations:</p>
+<p><a href="split">!</a></p>
 
-<pre><code class="language-java">System.out.println(message.substring(3, 6));
+<pre><code class="language-scala sm">val age = 65
+val senior = if(age &lt; 65) 
+               &quot;Not senior&quot;
+             else
+               &quot;Senior&quot;
 </code></pre>
 
-<h1 id="java-as-non-oop">Java as non-OOP</h1>
+<h1 id="toc_7">_____</h1>
+
+<h2 id="for">FOR</h2>
+
+<pre><code class="language-scala">for(&lt;val&gt; &lt;- &lt;iterable&gt;) {
+    ...
+}
+</code></pre>
 
 <ol>
-<li><p>Types are not classes:</p>
+<li>All container data structures are iterables: arrays, lists, map, &hellip;</li>
 
-<blockquote>
-<ul>
-<li><p><code>int</code>, <code>float</code>, etc. are not classes.</p></li>
+<li><p>Scala has a nice way to generate iterables over integer ranges:</p>
 
-<li><p>Try: <code>List&lt;int&gt; numbers;</code></p></li>
-</ul>
-</blockquote></li>
-
-<li><p>Data are not objects:</p>
-
-<blockquote>
-<ul>
-<li><p><code>&quot;Hello world&quot;.hashCode()</code> works because <code>&quot;Hello world&quot;</code> is an object,
-and all objects are with the method <code>int hashCode()</code>.</p></li>
-
-<li><p><code>123.hashCode()</code> fails.</p></li>
-</ul>
-</blockquote></li>
-
-<li><p>Computation is not method invocation:</p>
-
-<blockquote>
-<pre><code class="language-java">i = 1 + 2
-</code></pre>
-
-<p>The integer addition <code>+</code> is not a method.</p>
-</blockquote></li>
+<pre><code class="language-scala">1 to 10     // 1, 2, ... 10
+1 until 10  // 1, 2, ... 9
+</code></pre></li>
 </ol>
 
-<h1 id="scala-1">Scala</h1>
-
-<ul>
-<li>Every type is a class.</li>
-</ul>
-
-<pre><code class="language-scala">List[Int]
-Array[Float]
+<pre><code class="language-scala sm">for(x &lt;- 1 to 10) {
+  println(x)
+}
 </code></pre>
 
 <p><a href="note">!</a>
-Parameteric types</p>
+Scala&rsquo;s <code>for</code> loop is much more powerful then simple iteration.  More on this
+in lectures on programming with sequences.</p>
 
-<ul>
-<li>Everything is an object.</li>
-</ul>
+<h1 id="toc_9">_____________</h1>
 
-<pre><code class="language-scala">print(1.toBinaryString)
+<h2 id="loops">Loops</h2>
+
+<pre><code class="language-scala">while(&lt;cond&gt;) {
+    ...
+}
 </code></pre>
 
-<p><a href="note">!</a> Invoking a method of integer that accepts no arguments.</p>
-
-<ul>
-<li>All operators are methods.</li>
-</ul>
-
-<pre><code class="language-scala">1 + 2
-1.+(2)
+<pre><code class="language-scala">do {
+    ...
+} while(&lt;cond&gt;)
 </code></pre>
 
-<p><a href="note">!</a>
-Addition <code>+</code> is a method of an integer <code>1</code>.</p>
+<h1 id="syntax-rules">Syntax rules</h1>
 
-<h1 id="toc_5">_____</h1>
+<p>Suppose that an object has zero or one argument.</p>
+
+<pre><code>obj.method()
+obj.method(arg)
+</code></pre>
+
+<p>Then the parenthesis can be omitted:</p>
+
+<pre><code>obj.method
+obj.method arg
+</code></pre>
+
+<p>The dot can also be omitted:</p>
+
+<pre><code>obj method
+obj method arg
+</code></pre>
+
+<h1 id="toc_12">_____</h1>
+
+<p>Example:</p>
+
+<pre><code>1 + 2
+</code></pre>
+
+<p><a href="note">!</a> This is actually a method invocation in disguise.</p>
+
+<pre><code>1.+(2)
+</code></pre>
+
+<p><a href="note">!</a> The equivalent syntax in method invocation.  The method name is <code>+</code>,
+the object is <code>1</code>, and the argument is <code>2</code>.</p>
+
+<p>This type of syntax rule allows us to introduce user-defined operators to
+support programming constructs such as:</p>
+
+<pre><code>x multiplyWith y
+</code></pre>
+
+<p><a href="note">!</a> We assume that the object <code>x</code> has a method called <code>multiplyWith</code>.</p>
+
+<p>We can also invoke Java methods like operators</p>
+
+<pre><code>&quot;hello&quot; charAt 3
+</code></pre>
+
+<h1 id="syntax-rules-1">Syntax rules</h1>
+
+<p>More syntax rules to come.</p>
+
+<h1 id="functions">Functions</h1>
+
+<p>Functions are in fact objects of a <em>function</em> class.  Scala offers a succinct
+syntax for defining functions.</p>
+
+<pre><code class="language-scala sm">import scala.math
+val area = {(count:Int, radius:Float) =&gt; x * scala.math.Pi * radius * radius}
+</code></pre>
+
+<pre><code class="language-scala sm clipboard">val area : (Int, Float) =&gt; Double = {
+  (count, radius) =&gt; {
+    var total: Double = 0
+    for(i &lt;- 0 until count) {
+        total += scala.math.Pi * radius * radius
+    }
+    total
+  }
+}
+</code></pre>
+
+<blockquote>
+<ul>
+<li>The type of the <code>val</code> is <code>(Int, Float) =&gt; Double</code>.  This is also known as
+the <em>function signature</em>.</li>
+<li>The value is a function (instance of a class Function2).</li>
+<li>The inputs are bound to symbols <code>count</code> and <code>radius</code>.
+Note the binding types are inferred based on the function signature.
+<a href="note">!</a></li>
+</ul>
+</blockquote>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
 
 <ul>
-<li><p>Scala insists on pure object oriented programming (OOP)</p></li>
+<li><p>Bindings</p></li>
 
-<li><p>Using syntactic resolution rules, Scala programmers can
-create rich syntactic constructs that are built on
-objects.</p></li>
+<li><p>Procedural programming</p></li>
 
-<li><p>Scala promotes functional programming built on OOP.</p></li>
+<li><p>Object method invocation</p></li>
+
+<li><p>Function as data</p></li>
 </ul>
-
-<h1 id="hello-world">Hello world</h1>
-
-<p>Setting up the compiler:</p>
-
-<blockquote>
-<ol>
-<li><p>Download <code>scala-2.xx.x.tgz</code> from the download site:
-<a href="http://www.scala-lang.org/download/">http://www.scala-lang.org/download/</a></p></li>
-
-<li><p>Uncompress the file, and you will find
-<code>bin/scala</code> which is the interpreter for Scala.</p></li>
-</ol>
-</blockquote>
-
-<p>REPL</p>
-
-<blockquote>
-<pre><code class="language-nosyntax sm">$ scala
-Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_111).
-Type in expressions for evaluation. Or try :help.
-
-scala&gt; println(&quot;Hello world&quot;)
-</code></pre>
-</blockquote>
-
-<p>Scripting</p>
-
-<blockquote>
-<ol>
-<li>Create a file <code>hello.scala</code></li>
-<li>Run it <code>scala hello.scala</code></li>
-</ol>
-</blockquote>
 </div>
         </div>
 

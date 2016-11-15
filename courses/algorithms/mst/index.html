@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Basics of Scala</title>
+        <title>Minimal Spanning Trees</title>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
@@ -38,282 +38,297 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
-<h1 id="basics-of-scala">Basics of Scala</h1>
+<h1 id="definitions">Definitions</h1>
+
+<p>A undirected graph $G$ is a graph with:</p>
+
+<ul>
+<li>Vertices: $V(G)$</li>
+<li>and edges $E(G)$ such that each edge <code>$\{u, v\}\in E(G)$</code> has no direction.</li>
+</ul>
+
+<p><img src="prim_0.png" height=500px></img></p>
+
+<h1 id="review-of-encoding-of-undirected-graph">Review of encoding of undirected graph:</h1>
+
+<ul>
+<li><p>Adjacency list</p>
+
+<blockquote>
+<p>If $G$ is an undirected graph, we can create a directed graph, defined as:</p>
+
+<ul>
+<li>$V(H) = V(G)$, and</li>
+<li>for each <code>$\{u, v\}\in E(G)$</code>, we have $(u, v)\in E(H)$ and $(v, u)\in
+E(H)$.</li>
+</ul>
+</blockquote></li>
+</ul>
+
+<h1 id="weighted-edges">Weighted edges</h1>
+
+<p>Let $G$ be an undirected graph.  Consider that we have weights on the edges:</p>
+
+<p>$$ w: E(G) \to \mathbb{R}^+ $$</p>
+
+<p>Namely, the function $w$ maps edges to strictly positive real numbers.</p>
+
+<hr />
+
+<p><a href="columns 6:">!</a></p>
+
+<p><img src="prim_0.png"></img></p>
+
+<p><a href="split note">!</a></p>
+
+<p>We can use the distance between vertices as the weight:</p>
+
+<p><code>$w(\{u, v\}) = d(\mathrm{pos}(u), \mathrm{pos}(v))$</code></p>
+
+<p>where $\mathrm{pos}$ is the 2D position of the vertex.</p>
+
+<h1 id="the-minimal-spanning-tree-mst-problem">The Minimal Spanning Tree (MST) Problem</h1>
+
+<p><em>Definition</em> Spanning tree</p>
+
+<blockquote>
+<p>A tree $T$ is called a spanning tree of $G$ <em>if</em></p>
+
+<ul>
+<li><p>$T$ is fully connected, and</p></li>
+
+<li><p>$V(T) = V(G)$</p></li>
+</ul>
+</blockquote>
+
+<p><em>Definition</em> Minimal spanning tree (MST)</p>
+
+<blockquote>
+<p>Let the weight of a graph
+$$w(H) = \sum_{e\in E(H)} w(e)$$</p>
+
+<p>A MST, $T$, of a graph $G$ is a spanning tree of $G$ with the smallest
+possible $w(T)$.</p>
+</blockquote>
+
+<h1 id="example">Example</h1>
+
+<p><img src="prim_1.png"></img></p>
+
+<p><a href="note">!</a> Not a spanning tree</p>
+
+<h1 id="toc_5">__________</h1>
+
+<p><img src="prim_2.png"></img></p>
+
+<p><a href="note">!</a> A (minimal) spanning tree</p>
+
+<h1 id="algorithms-to-compute-mst">Algorithms to compute MST</h1>
 
 <p><a href="highlight">!</a></p>
 
-<h1 id="objects">Objects</h1>
+<ul>
+<li><p>Prim&rsquo;s algorithm</p></li>
 
-<pre><code class="language-scala">var name : String = &quot;hello&quot;
+<li><p>Kruskal&rsquo;s algorithm</p></li>
+</ul>
+
+<h1 id="prim-s-algorithm">Prim&rsquo;s algorithm</h1>
+
+<p><em>Problem:</em></p>
+
+<p>Let $G$ be an undirected graph, with edge weights given by $w$.
+Let $r$ be a vertex in $V(G)$.</p>
+
+<p>Compute a MST $T$ starting with $r$.</p>
+
+<pre><code>def prim(G, w, r):
+    ...
 </code></pre>
 
-<p><a href="note">!</a>
-This creates a <strong>variable</strong>, with the type <code>String</code>, and it&rsquo;s initialized to
-&ldquo;hello&rdquo;.</p>
+<hr />
 
-<pre><code class="language-scala">name.CharAt(0)
-</code></pre>
+<p>We represent $T$ as a set of edges.</p>
 
-<p><a href="note">!</a>
-Java-style method invocation</p>
+<p><a href="note">!</a> Why don&rsquo;t we need to remember the vertices of $T$?</p>
 
-<h1 id="toc_2">______</h1>
+<h1 id="toc_8">_______________</h1>
 
-<p>Scala uses the same scoping and symbol bindings.</p>
-
-<p>There are two types of <em>symbols</em>.</p>
-
-<p><a href="columns 6:">!</a></p>
-
-<p><strong>Variables</strong></p>
-
-<p>Bindings to <code>var</code> can be updated.</p>
-
-<pre><code class="language-scala sm">var name:String = &quot;Albert&quot;
-name = &quot;Einstein&quot;
-</code></pre>
-
-<p><a href="split">!</a></p>
-
-<p><strong>Values</strong></p>
-
-<p>Bindings to <code>val</code> is permanent.</p>
-
-<pre><code class="language-scala sm">val name : String = &quot;Alert&quot;
-name = &quot;Einstein&quot;
-// error: reassignment to val
-//       x = &quot;Einstein&quot;
-</code></pre>
-
-<p><a href="box">!</a> This is the same as Clojure, and it&rsquo;s preferred over <code>var</code>.</p>
-
-<h1 id="type-inference">Type Inference</h1>
-
-<p><em>Definition</em>:</p>
+<p><em>Definition</em> Minimal cut</p>
 
 <blockquote>
-<p>A statically typed language is one that requires the compiler to have complete
-type information on all the symbols in the source code <strong>at</strong> compile-time.</p>
+<p>Let $X\subseteq V(G)$ be a set of vertices in $G$.
+The minimal cut is an edge ${u, v}\in E(G)$ such that
+$u\in X$ and $v\not\in X$ with the <em>smallest</em> weight.</p>
 </blockquote>
 
-<ul>
-<li>Java <strong>and</strong> Scala are statically typed languages.</li>
-<li>Clojure and Python are not statically typed, but typed (at runtime).</li>
-</ul>
+<p><a href="note">!</a> There may be non-unique minimal cuts.</p>
 
 <p><a href="&amp;&amp;&amp;">!</a></p>
 
-<p>The compiler needs type information specified for <em>all</em> the symbols.</p>
-
-<pre><code class="language-java">String name;
-</code></pre>
-
-<pre><code class="language-scala">val name : String = ...
-</code></pre>
-
-<h1 id="toc_4">____</h1>
-
-<p>Scala has a feature, known as <em>type inference</em>.</p>
+<p><em>Theorem</em>:</p>
 
 <blockquote>
-<p>At compile-time, the compiler makes a best attempt to fill in the missing type
-information.</p>
+<p>If $S$ is a subtree of a MST, and let $e$ be a minimal cut of $V(S)$, then
+$S\cup{e}$ is also a subtree of a MST.</p>
 </blockquote>
 
-<pre><code class="language-scala">val small_integer = 42
+<h1 id="toc_9">__________________</h1>
+
+<p><em>Cool,</em></p>
+
+<blockquote>
+<blockquote>
+<p>Start with just a root $X = {r}$, and keep adding minimal cuts of $X$.</p>
+</blockquote>
+</blockquote>
+
+<hr />
+
+<pre><code class="language-python">def prim(G, w, r):
+    n = G.count_nodes()
+    X = set([r])
+    T = set([])
+    for i in range(n-1):
+        (u, v) = minimal_cut(G, X)
+        X.add(u, v)
+        T.add((u, v))
+
+    return T
 </code></pre>
 
-<p><a href="note">!</a> The compiler will see that <code>small_integer</code> should be <code>Int</code>.</p>
+<p><a href="note">!</a> <strong>Warning</strong>: what happens if $G$ is not fully connected?</p>
 
-<pre><code class="language-scala">var x = y
-</code></pre>
+<h1 id="kruskal-s-algorithm">Kruskal&rsquo;s algorithm</h1>
 
-<p><a href="note">!</a> The compiler will use the type of <code>y</code> to infer the type of <code>x</code>.</p>
+<p>Find a MST by computing its edges.</p>
 
-<p>In the interactive interpreter session, you can always inspect the type
-information of existing symbols:</p>
-
-<pre><code class="language-scala">:t small_integer
-Int
-</code></pre>
-
-<h1 id="procedural-programming">Procedural programming</h1>
-
-<h2 id="if">IF</h2>
-
-<pre><code class="language-scala">if (&lt;cond&gt;) {
-  &lt;expression&gt;
-} else if (&lt;cond&gt;) {
-  &lt;expression&gt;
-} else {
-  &lt;expression&gt;
-}
-</code></pre>
-
-<p><a href="note">!</a>
-The classic Java-style branching.  Scala has better pattern matching
-which is preferred over if-else.</p>
-
-<p><code>if-else</code> is an expression, not a statement.</p>
-
-<p><a href="columns 6:">!</a></p>
-
-<pre><code class="language-scala sm">val age = 65
-var senior:String = &quot;&quot;
-if(age &lt; 65) {
-  senior = &quot;Not senior&quot;
-} else {
-  senior = &quot;Senior&quot;
-}
-</code></pre>
-
-<p><a href="split">!</a></p>
-
-<pre><code class="language-scala sm">val age = 65
-val senior = if(age &lt; 65) 
-               &quot;Not senior&quot;
-             else
-               &quot;Senior&quot;
-</code></pre>
-
-<h1 id="toc_7">_____</h1>
-
-<h2 id="for">FOR</h2>
-
-<pre><code class="language-scala">for(&lt;val&gt; &lt;- &lt;iterable&gt;) {
+<pre><code>def kruskal(G, w):
     ...
-}
 </code></pre>
 
+<h1 id="toc_11">_____________</h1>
+
+<p><em>Theorem</em></p>
+
+<blockquote>
+<p>Let $R$ and $S$ be two <em>disjoin</em> subtrees of a MST.  If there exists an edge
+<code>$\{u, v\}$</code> that is a minimal cut of $S$, and <code>$u\in V(S)$</code> and <code>$v\in V(R)$</code>, then
+<code>$R\cup S$</code> is also a subtree of a MST.</p>
+</blockquote>
+
+<hr />
+
+<p><em>Cool,</em></p>
+
+<p>Start with lots of small subtrees of a MST, and merge them with minimal cuts
+until we end up with just one tree that covers all the nodes.</p>
+
+<h1 id="toc_12">_______________</h1>
+
+<p><em>Observation</em>:</p>
+
+<blockquote>
 <ol>
-<li>All container data structures are iterables: arrays, lists, map, &hellip;</li>
+<li><p>Every vertex by itself is a subtree of a MST (trivially).</p></li>
 
-<li><p>Scala has a nice way to generate iterables over integer ranges:</p>
+<li><p>The smallest edge is always a minimal cut.</p></li>
 
-<pre><code class="language-scala">1 to 10     // 1, 2, ... 10
-1 until 10  // 1, 2, ... 9
-</code></pre></li>
+<li><p>Represent subtree by its vertices.</p></li>
 </ol>
+</blockquote>
 
-<pre><code class="language-scala sm">for(x &lt;- 1 to 10) {
-  println(x)
-}
-</code></pre>
+<h1 id="toc_13">__________________</h1>
 
-<p><a href="note">!</a>
-Scala&rsquo;s <code>for</code> loop is much more powerful then simple iteration.  More on this
-in lectures on programming with sequences.</p>
+<p><em>Definition</em>: Partition</p>
 
-<h1 id="toc_9">_____________</h1>
-
-<h2 id="loops">Loops</h2>
-
-<pre><code class="language-scala">while(&lt;cond&gt;) {
-    ...
-}
-</code></pre>
-
-<pre><code class="language-scala">do {
-    ...
-} while(&lt;cond&gt;)
-</code></pre>
-
-<h1 id="syntax-rules">Syntax rules</h1>
-
-<p>Suppose that an object has zero or one argument.</p>
-
-<pre><code>obj.method()
-obj.method(arg)
-</code></pre>
-
-<p>Then the parenthesis can be omitted:</p>
-
-<pre><code>obj.method
-obj.method arg
-</code></pre>
-
-<p>The dot can also be omitted:</p>
-
-<pre><code>obj method
-obj method arg
-</code></pre>
-
-<h1 id="toc_12">_____</h1>
-
-<p>Example:</p>
-
-<pre><code>1 + 2
-</code></pre>
-
-<p><a href="note">!</a> This is actually a method invocation in disguise.</p>
-
-<pre><code>1.+(2)
-</code></pre>
-
-<p><a href="note">!</a> The equivalent syntax in method invocation.  The method name is <code>+</code>,
-the object is <code>1</code>, and the argument is <code>2</code>.</p>
-
-<p>This type of syntax rule allows us to introduce user-defined operators to
-support programming constructs such as:</p>
-
-<pre><code>x multiplyWith y
-</code></pre>
-
-<p><a href="note">!</a> We assume that the object <code>x</code> has a method called <code>multiplyWith</code>.</p>
-
-<p>We can also invoke Java methods like operators</p>
-
-<pre><code>&quot;hello&quot; charAt 3
-</code></pre>
-
-<h1 id="syntax-rules-1">Syntax rules</h1>
-
-<p>More syntax rules to come.</p>
-
-<h1 id="functions">Functions</h1>
-
-<p>Functions are in fact objects of a <em>function</em> class.  Scala offers a succinct
-syntax for defining functions.</p>
-
-<pre><code class="language-scala sm">import scala.math
-val area = {(count:Int, radius:Float) =&gt; x * scala.math.Pi * radius * radius}
-</code></pre>
-
-<pre><code class="language-scala sm clipboard">val area : (Int, Float) =&gt; Double = {
-  (count, radius) =&gt; {
-    var total: Double = 0
-    for(i &lt;- 0 until count) {
-        total += scala.math.Pi * radius * radius
-    }
-    total
-  }
-}
-</code></pre>
+<p>A partition of the vertices of $G$ is a collection of sets of vertices
+<code>$P = \{X_1, X_2, \dots X_n\}$</code>, such that:</p>
 
 <blockquote>
-<ul>
-<li>The type of the <code>val</code> is <code>(Int, Float) =&gt; Double</code>.  This is also known as
-the <em>function signature</em>.</li>
-<li>The value is a function (instance of a class Function2).</li>
-<li>The inputs are bound to symbols <code>count</code> and <code>radius</code>.
-Note the binding types are inferred based on the function signature.
-<a href="note">!</a></li>
-</ul>
+<ol>
+<li>They are all pairwise disjoint.</li>
+<li>Every vertex in $G$ appears in exactly one of the <code>$\{X_i\}$</code>.</li>
+<li>None of the <code>$X_i$</code> is empty.</li>
+</ol>
 </blockquote>
+
+<hr />
+
+<p><em>Operations</em> on a parition <code>P</code>:</p>
+
+<pre><code>i = find_partition(P, v)
+</code></pre>
+
+<p><a href="note">!</a> Finds the index such that $v\in X_i$</p>
+
+<pre><code>join_partition(P, i, j)
+</code></pre>
+
+<p><a href="note">!</a> Replace <code>$X_i, X_j$</code> from <code>P</code>, with <code>$X_i\cup X_j$</code></p>
+
+<h1 id="toc_14">______________</h1>
+
+<pre><code class="language-python">def kruskal(G, w):
+    T = set([])
+    E = sorted(G.edges(), key=w)
+    P = [set([v]) for v in G.nodes()]
+    for e in E:
+        (u, v) = e
+        i = find_partition(P, u)
+        j = find_partition(P, v)
+        if not i == j:
+            T.add(e)
+            join_partition(P, i, j)
+        if len(P) == 1:
+            break
+    return T            
+</code></pre>
+
+<h1 id="example-1">Example</h1>
+
+<p><img src="prim_0.png"></img></p>
+
+<h1 id="toc_16">___________</h1>
+
+<p><img src="kruskal_1.png"></img></p>
+
+<h1 id="toc_17">___________</h1>
+
+<p><img src="kruskal_2.png"></img></p>
 
 <h1 id="summary">Summary</h1>
 
 <p><a href="highlight">!</a></p>
 
+<blockquote>
+<p>Prim&rsquo;s algorithm starts with a specific vertex, and grows the MST by computing
+minimal cuts.</p>
+
+<p>Kruskal&rsquo;s algorithm starts with $n$ subtrees, and uses the edges with the
+smallest weights to join them together, eventually into a single MST.</p>
+</blockquote>
+
+<h1 id="special-topics">Special topics</h1>
+
 <ul>
-<li><p>Bindings</p></li>
+<li><p>A simple undirected graph encoding using adjacency list:</p>
 
-<li><p>Procedural programming</p></li>
+<blockquote>
+<p><a href="code/graph.py">graph.py</a></p>
+</blockquote></li>
 
-<li><p>Object method invocation</p></li>
+<li><p>A simple implementation of the MST algorithms:</p>
 
-<li><p>Function as data</p></li>
+<blockquote>
+<p><a href="code/mst.py">mst.py</a></p>
+</blockquote></li>
 </ul>
+
+<p><a href="***">!</a></p>
+
+<p><a href="box">!</a> We will go through the code and the networkx library that it uses to
+draw the graphs in the lab.</p>
 </div>
         </div>
 

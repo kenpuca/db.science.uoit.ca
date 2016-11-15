@@ -2622,7 +2622,7 @@ output.&lt;/p&gt;
 					&lt;li class=list-group-item&gt;
                         &lt;a href=&#34;graph-algorithms&#34;&gt;Graph Algorithms&lt;/a&gt;
                     &lt;/li&gt;
-					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Spanning trees&lt;/a&gt;&lt;/li&gt;
+					&lt;li class=list-group-item&gt;&lt;a href=&#34;mst&#34;&gt;Spanning trees&lt;/a&gt;&lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Shortest path algorithms&lt;/a&gt;&lt;/li&gt;
 					&lt;li class=list-group-item&gt;&lt;a href=&#34;&#34;&gt;Maxflow&lt;/a&gt;&lt;/li&gt;
 				&lt;/ul&gt;
@@ -2999,7 +2999,7 @@ name = &amp;quot;Einstein&amp;quot;
 &lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val name : String = &amp;quot;Alert&amp;quot;
 name = &amp;quot;Einstein&amp;quot;
 // error: reassignment to val
-//       x = &amp;quot;world&amp;quot;
+//       x = &amp;quot;Einstein&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; This is the same as Clojure, and it&amp;rsquo;s preferred over &lt;code&gt;var&lt;/code&gt;.&lt;/p&gt;
@@ -3076,10 +3076,11 @@ which is preferred over if-else.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val age = 65
+var senior:String = &amp;quot;&amp;quot;
 if(age &amp;lt; 65) {
-  println(&amp;quot;Not senior&amp;quot;)
+  senior = &amp;quot;Not senior&amp;quot;
 } else {
-  println(&amp;quot;Senior&amp;quot;)
+  senior = &amp;quot;Senior&amp;quot;
 }
 &lt;/code&gt;&lt;/pre&gt;
 

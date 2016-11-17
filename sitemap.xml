@@ -3,7 +3,12 @@
   
   <url>
     <loc>http://db.science.uoit.ca/</loc>
-    <lastmod>2016-07-14T00:00:00+00:00</lastmod>
+    <lastmod>2016-09-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
+    <lastmod>2016-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -41,10 +46,6 @@
   
   <url>
     <loc>http://db.science.uoit.ca/people/kenpu/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/sandbox/slide/</loc>
   </url>
   
   <url>
@@ -92,10 +93,6 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
-  </url>
-  
-  <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/scala/</loc>
   </url>
   
@@ -116,11 +113,11 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/sandbox/article/</loc>
+    <loc>http://db.science.uoit.ca/writings/sandbox/</loc>
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/writings/sandbox/</loc>
+    <loc>http://db.science.uoit.ca/courses/programming-languages/scala-types/</loc>
   </url>
   
   <url>

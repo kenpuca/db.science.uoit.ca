@@ -6,8 +6,47 @@
     <description>Recent content on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 Jul 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 01 Sep 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://db.science.uoit.ca/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Hello sandbox</title>
+      <link>http://db.science.uoit.ca/slides/sandbox/</link>
+      <pubDate>Thu, 01 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/slides/sandbox/</guid>
+      <description>
+
+&lt;h1 id=&#34;sandbox&#34;&gt;Sandbox&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;columns 4:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is clojure.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn hello [world] (println world))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;toc_1&#34;&gt;___________&lt;/h1&gt;
+
+&lt;p&gt;Another slide&lt;/p&gt;
+
+&lt;p&gt;&lt;a class=&#34;my-first-slide&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;button id=&#34;click&#34;&gt;Click me&lt;/button&gt;&lt;/p&gt;
+
+&lt;style&gt;
+button {
+  font-family: &#34;Roboto&#34;;
+  background: #aaa;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+}
+&lt;/style&gt;
+</description>
+    </item>
     
     <item>
       <title>Building a desk</title>
@@ -2503,31 +2542,6 @@ output.&lt;/p&gt;
 &lt;p&gt;Office and telephone:
 &lt;a href=&#34;https://ssbp.mycampus.ca/prod/www_directory.directory_uoit.p_ShowPeople?first_name_in=ken&amp;amp;last_name_in=pu&amp;amp;button_text_in=Search&#34;&gt;See here&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://db.science.uoit.ca/sandbox/slide/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/sandbox/slide/</guid>
-      <description>
-
-&lt;h1 id=&#34;hello&#34;&gt;Hello&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure sm clipboard&#34;&gt;(println &amp;quot;hello&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-
-
-&lt;iframe 
-    
-    data-src=&#39;http://db.science.uoit.ca:8080/?arg=kenpu/clojure&#39;
-    
-    style=&#39;max-width:100%;width:100%;height:400px&#39;&gt;&lt;/iframe&gt;
-
-
 </description>
     </item>
     

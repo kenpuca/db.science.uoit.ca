@@ -125,7 +125,7 @@ class Student(val name:String, var year:Int) {
         this(name, Calendar.getInstance().get(Calendar.YEAR))
     }
     var grade = 0.0f
-    def message() = s&quot;${name} in ${year} has grade ${grade}&quot;
+    def report() = s&quot;${name} in ${year} has grade ${grade}&quot;
 }
 </code></pre>
 
@@ -162,7 +162,7 @@ the symbol is bound to, not by the type of the symbol.</p>
 <p>Try this out:</p>
 
 <pre><code class="language-scala sm">val jack: Student = new GradStudent(&quot;Jack&quot;, 2016, &quot;MSc&quot;, &quot;UA2001&quot;)
-jack.print
+println(jack.report)
 </code></pre>
 
 <p><a href="note 3">!</a> Make sure you understand the output.  Note that Scala is performing
@@ -178,7 +178,7 @@ dynamic dispatching.</p>
 
 <h1 id="example-3">Example</h1>
 
-<pre><code class="language-scala">abstract Person {
+<pre><code class="language-scala">abstract class Person {
     val name: String
     def report(): String
 }
@@ -196,7 +196,7 @@ dynamic dispatching.</p>
 
 <p>Abstract class can have a primary constructor.</p>
 
-<pre><code class="language-scala">abstract Person(val name:String) {
+<pre><code class="language-scala">abstract class Person(val name:String) {
     def report(): String
 }
 </code></pre>
@@ -233,7 +233,7 @@ help students.</p>
 <p>We would like to do the following:</p>
 
 <pre><code class="language-scala">class TA(...) extends GradStudent(...), Staff {
-    def help(Student s) = {
+    override def help(Student s) = {
         ...
     }
 }
@@ -277,7 +277,7 @@ help students.</p>
 <p>All traits can be used as an abstract class.</p>
 
 <pre><code class="language-scala">class Professor(var office:String) extends Staff {
-    def help(Student s) {
+    override def help(Student s) {
         println(&quot;&quot;&quot;My office hour is:
         | Tuesday 2-3pm, and my email is
         | Albert.Einstein@gmail.com
@@ -394,8 +394,8 @@ that it&rsquo;s modifying the underlying method.</p>
 
 <pre><code class="language-scala">var jack = new GradStudent(&quot;jack&quot;, 2016, &quot;MSc&quot;, &quot;UA2001&quot;) 
             with Staff
-            with Uppercase
             with Richformat
+            with Uppercase
 </code></pre>
 
 <h1 id="linearization">Linearization</h1>

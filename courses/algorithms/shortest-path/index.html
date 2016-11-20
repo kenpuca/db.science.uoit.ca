@@ -1,0 +1,500 @@
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Shortest path</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+            if(window.location.search.match(/receiver/)) {
+                window.remote_controller = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="shortest-path-algorithms">Shortest-path algorithms</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li><p>Bellman-Ford algorithm</p></li>
+
+<li><p>Dijkstra&rsquo;s algorithm</p></li>
+</ul>
+
+<h1 id="single-source-shortest-path">Single-source shortest path</h1>
+
+<p>Let $G$ be a <em>directed</em> graph, with edge weights given by
+$w:E(G)\to\mathbb{R}^+$.</p>
+
+<p>Recall: a path <code>$p = \left&lt;v_1, v_2, \dots, v_n\right&gt;$</code> such that
+<code>$(v_i, v_{i+1})\in E(G)$</code>.</p>
+
+<p><em>Definition</em>: Shortest path</p>
+
+<blockquote>
+<p>The weight of a path is the sum of the weights of edges in $p$:</p>
+
+<p><code>$$w(p) = \sum_{i=1}^{n-1}w(v_i, v_{i+1})$$</code></p>
+
+<p>A shortest-path from $u$ to $v$ is a path from $u$ to $v$ with the smallest
+possible weight.</p>
+
+<p>The distance from $u$ to $v$, $\delta(u, v)$, is the weight of a shortest
+path from $u$ to $v$.</p>
+</blockquote>
+
+<h1 id="properties-of-shortest-paths">Properties of shortest paths</h1>
+
+<p>A path <code>$p = \left&lt;v_1, v_2, \dots, v_n\right&gt;$</code>
+is a <em>shortest path</em> if for all other paths $p&rsquo;$ from $v_1$ to $v_n$ are such
+that:</p>
+
+<p><code>$$ w(p)\leq w(p')$$</code></p>
+
+<p><a href="***">!</a></p>
+
+<p><em>Theorem</em>:</p>
+
+<p>If $p$ is a shortest path, any subpaths of $p$ is also a shortest path.</p>
+
+<h1 id="toc_3">______________________</h1>
+
+<p><img src="shortest-path.png"></img></p>
+
+<h1 id="toc_4">______________________</h1>
+
+<p><img src="shortest-subpaths.png"></img></p>
+
+<h1 id="the-single-source-shortest-path-problem">The single source shortest path problem</h1>
+
+<p><em>Problem</em>:</p>
+
+<blockquote>
+<p>Let $G$ be a graph, and $s$ a vertex in $G$.  We want to compute a tree $T$ from $s$
+to all other <em>reachable</em> vertices $t$ in $G$ such that the tree-path from $s$
+to $t$ is a shortest path from $s$ to $t$ in $G$</p>
+</blockquote>
+
+<p><em>Solution</em>:</p>
+
+<blockquote>
+<p>We want to encode the shortest paths tree as a predecessor function (as was done
+in BFS):</p>
+
+<p>$$\pi: V(G)\to V(G)$$</p>
+
+<p>Also, for each vertex $v$, we also compute the distance $\delta(s, v)$.</p>
+
+<p>$$d : V(G)\to\mathbb{R} : v\mapsto \delta(s, v) $$</p>
+</blockquote>
+
+<h1 id="bellman-ford-algorithm">Bellman-Ford Algorithm</h1>
+
+<ul>
+<li><p>We also maintain an over-estimate of the distances initially.</p></li>
+
+<li><p>We use the edge weights to &ldquo;correct&rdquo; the estimates.</p></li>
+
+<li><p>Keep &ldquo;correcting&rdquo; the estimates until they cannot be reduced anymore.</p></li>
+
+<li><p>The final estimates guaranteed to be accurate.</p></li>
+</ul>
+
+<h1 id="initial-over-estimates">Initial over-estimates</h1>
+
+<pre><code># d: distance function
+# parent: predecessor function
+
+def initialize(G, s):
+    N = len(G.nodes())
+
+    for v in G.nodes():
+        d(v) = N
+        parent(v) = nil
+
+    d(s) = 0
+    parent(s) = nil
+
+</code></pre>
+
+<h1 id="correction-by-relaxation">Correction by &ldquo;Relaxation&rdquo;</h1>
+
+<p><img src="relaxation.png"></img></p>
+
+<h1 id="toc_9">________</h1>
+
+<pre><code class="language-python"># G: the graph
+# w: weights
+# (u,v) is an edge
+
+def relax(u, v):
+    if d(v) &gt; d(u) + w(u,v):
+        d(v) = d(u) + w(u,v)
+        parent(v) = u
+        return True
+    return False
+</code></pre>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>The <em>Bellman-Ford</em> algorithm:</p>
+
+<pre><code class="language-python template">def bellman_ford(G, w, s):
+    d = dict()
+    parent = dict()
+
+    __initialize__(G, s)
+
+    while True:
+        modified = False
+        for e in G.edges():
+            (u, v) = e
+            modified = __relax__(u, v) or modified
+        if not modified:
+            break
+
+    return (d, parent)
+</code></pre>
+
+<h1 id="complexity-analysis">Complexity analysis</h1>
+
+<p><a href="columns 8:">!</a></p>
+
+<pre><code class="language-python sm nu">def bellman_ford(G, w, s):
+    d = dict()
+    parent = dict()
+
+    __initialize__(G, s)
+
+    while True:
+        modified = False
+        for e in G.edges():
+            (u, v) = e
+            modified = __relax__(u, v) or modified
+        if not modified:
+            break
+
+    return (d, parent)
+</code></pre>
+
+<p><a href="split note">!</a></p>
+
+<p>Suppose $G$ has $V$ vertices and $E$ edges.</p>
+
+<ul>
+<li><p>$T_\mathrm{relax} = \Theta(1)$</p></li>
+
+<li><p>The inner loop (line 9-11) is $E\cdot\Theta(1) = \Theta(E)$</p></li>
+
+<li><p>For each iteration of the outer loop (line 7), at lease one more $d(v)$ will
+be accurate. (Why?)  Thus, there can be at most $V$ outer iterations.</p></li>
+</ul>
+
+<p>Therefore, $T = \Theta(V\cdot E)$.</p>
+
+<p>$E \leq V^2$, thus, $T = \mathcal{O}(V^3)$.</p>
+
+<h1 id="special-case-dag">Special case: DAG</h1>
+
+<p>If the graph is a DAG, then we can predictively select the <em>right</em> edges to
+instantly get the correct estimation.</p>
+
+<pre><code class="language-python">def DAG_shortestpath(G, w):
+    d = dict()
+    parent = dict()
+
+    initialize(G, w)
+
+    for u in topological_sort(G):
+        for v in G.adjacency[u]:
+            relax(u, v)
+
+    return d, parent
+</code></pre>
+
+<p><a href="note">!</a>
+The specialized Bellman-Ford algorithm runs in $\Theta(V + E)$.</p>
+
+<h1 id="dijkstra-s-algorithm">Dijkstra&rsquo;s Algorithm</h1>
+
+<p>As the DAG-Bellman-Ford algorithm demonstrates, careful selection of the edges
+to relax will greatly speed up the shortest path construction.</p>
+
+<p>Dijkstra&rsquo;s observations:</p>
+
+<ul>
+<li>A vertex that has the <em>lowest</em> estimate is <em>correct</em>.</li>
+</ul>
+
+<h1 id="toc_14">_______________________________</h1>
+
+<pre><code class="language-python">def dijkstra(G, w):
+    d = dict()
+    parent = dict()
+    initialize(G, w)
+    Q = sorted(G.nodes, key=d)
+    while len(Q) &gt; 0:
+        u = Q.pop(0)
+        for each v in G.adj[u]:
+            relax(u, v)
+            reorder(Q, v) # can be done in log(n)-time.
+</code></pre>
+
+<h1 id="toc_15">_________________________________</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-python sm nu">def dijkstra(G, w):
+    d = dict()
+    parent = dict()
+    initialize(G, w)
+    Q = sorted(G.nodes, key=d)
+    while len(Q) &gt; 0:
+        u = Q.pop(0)
+        for each v in G.adj[u]:
+            relax(u, v)
+            reorder(Q, v)
+</code></pre>
+
+<p><a href="split note">!</a></p>
+
+<ul>
+<li><p>There are $V+E$ iterations of (line 9-10).</p></li>
+
+<li><p>The total complexity is therefore: $\Theta((V + E)\log(V))$.</p></li>
+</ul>
+
+<h1 id="summary">Summary</h1>
+
+<p><a href="highlight">!</a></p>
+
+<p>The problem is finding single-source shortest paths in a directed graph $G$.</p>
+
+<ol>
+<li><p>Bellman-Ford algorithm is $\Theta(V^3)$ in general.</p></li>
+
+<li><p>If $G$ is a DAG, then modified Bellman-Ford can run in $\Theta(V + E)$.</p></li>
+
+<li><p>Dijkstra&rsquo;s algorithm is $\Theta((V+E)\log(V))$ in general.</p></li>
+</ol>
+</div>
+        </div>
+
+        
+        <div class="footnote" style="position: fixed; 
+            bottom:0; 
+            left:0;
+            padding: 10px;
+            font-family: Roboto;
+            font-weight: 600;
+            font-size: 12pt;
+            color: #88a;">
+            <div class="btn-group btn-group-sm">
+                <a href="#" class="btn btn-default cmd-fullscreen">
+                    <i class="fa fa-arrows-alt"></i></a>
+                <a href="?print-pdf" class="btn btn-default cmd" style="color:red">
+                    <i class="fa fa-file-pdf-o"></i>
+                </a>
+                <a href=".." class="btn btn-default" 
+                    style="font-family:'Old Standard TT'; font-style:italic">
+                    <i lass="fa fa-angle-left"></i> back
+                </a>
+            </div>
+            <span style="
+                margin-left:10px;
+                font-family:Roboto;
+                font-weight: 300;"> © KEN PU, 2016 </span>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+        
+
+        <script>
+        window.invokeHandler = function(f, args) {
+            if(f) f.apply(null, args);
+        };
+        if(window.print_pdf || window.remote_controller) {
+            $("div.footnote").remove();
+            window.invokeHandler = function() { }
+        }
+        var fullscreen = false;
+        $("body").on("click", ".cmd-fullscreen", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            function exitFullscreen() {
+              if(document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if(document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if(document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              }
+              fullscreen = false;
+            }
+
+            function launchIntoFullscreen(element) {
+              if(element.requestFullscreen) {
+                element.requestFullscreen();
+              } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+              } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+              } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+              }
+              fullscreen = true;
+            }
+
+            if(fullscreen)
+                exitFullscreen();
+            else
+                launchIntoFullscreen(document.documentElement); 
+        });
+
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+                chalkboard: { 
+                    
+                    
+                },
+
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+                ],
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+                if(window.myEvents) myEventReady(window.myEvents);
+            });
+
+            Reveal.addEventListener("slidechanged", function(e) {
+                if(window.myEvents) myEventSlide(window.myEvents, e);
+            });
+        }
+
+        function myEventReady(evs) {
+            console.debug("myEventReady", evs);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                $(".reveal section").each(function() {
+                    var $section = $(this);
+                    if($section.find(selector).size() > 0) {
+                        window.invokeHandler(handlers.init, [$section]);
+                    }
+                });
+            }
+        }
+
+        function myEventSlide(evs, e) {
+            var $current = $(e.currentSlide);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                var $anchor = $current.find(selector);
+                if($anchor.size() > 0) {
+                    if(! $anchor.is(".invoked-once")) {
+                        window.invokeHandler(handlers.once, [$current]);
+                        $anchor.addClass("invoked-once");
+                    }
+                    window.invokeHandler(handlers.enter, [$current]);
+                }
+            }
+        }
+		</script>
+	</body>
+</html>
+
+

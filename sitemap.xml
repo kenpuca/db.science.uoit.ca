@@ -3,11 +3,16 @@
   
   <url>
     <loc>http://db.science.uoit.ca/</loc>
-    <lastmod>2016-09-01T00:00:00+00:00</lastmod>
+    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/slides/sandbox/</loc>
+    <loc>http://db.science.uoit.ca/writings/concurrency/</loc>
+    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</loc>
     <lastmod>2016-09-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -109,10 +114,6 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/slides/concurrency/</loc>
-  </url>
-  
-  <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/recurrence-equation/</loc>
   </url>
   
@@ -134,10 +135,6 @@
   
   <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language-5/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</loc>
   </url>
   
   <url>

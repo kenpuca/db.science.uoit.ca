@@ -1,0 +1,996 @@
+
+
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Programming languages &amp; Concurrency</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+            if(window.location.search.match(/receiver/)) {
+                window.remote_controller = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="programming-languages-concurrency">Programming Languages &amp; Concurrency</h1>
+
+<blockquote>
+<blockquote>
+<p>Scaling from single-core to multi-core to multiple hundreds of cores.</p>
+</blockquote>
+</blockquote>
+
+<p><a href="--------------">!</a></p>
+
+<div style="float:right">
+Ken Pu <br>
+UOIT, 2016
+</div>
+
+<p><a href="highlight">!</a></p>
+
+<h1 id="elements-of-computation">Elements of Computation</h1>
+
+<ul>
+<li><p>CPU as a function.</p></li>
+
+<li><p>Memory as persistent state.</p></li>
+
+<li><p>Programming languages are designed to communicate:</p>
+
+<ol>
+<li><p><strong>Types</strong>: Format and interpretation of memory content.</p></li>
+
+<li><p><strong>Expressions</strong>: Description of computations to be carried out.</p></li>
+</ol></li>
+</ul>
+
+<p><a href="box">!</a> Today, we will examine the <em>expressions</em> that support concurrent
+programming.</p>
+
+<h1 id="programming-paradigm">Programming paradigm</h1>
+
+<ul>
+<li><p>Imperative programming:</p>
+
+<blockquote>
+<p>A programming paradigm that makes the distinction
+between <em>statements</em> and <em>expressions</em>.  Statements modify the state of
+its runtime environment, while expressions use certain existing values to
+evaluate another value.</p>
+</blockquote></li>
+
+<li><p>Functional programming:</p>
+
+<blockquote>
+<p>A programming paradigm that forbiddens modification of existing values.
+All values are created once, and remain read-only.  Functions and data are
+unified, known as <em>functions as data</em>.  State of the runtime is modeled
+not by data (in the sense of imperative programming), but rather one or
+more functions.</p>
+</blockquote></li>
+</ul>
+
+<p><a href="&amp;&amp;&amp;">!</a></p>
+
+<p>Modern languages are designed with features supporting both paradigms.</p>
+
+<p><a href="note">!</a> But what about <em>Object-oriented</em> programming paradigm?</p>
+
+<h1 id="concurrency">Concurrency</h1>
+
+<p>First of all, <em>concurrency is not parallism</em>.
+<a href="https://talks.golang.org/2012/waza.slide#1">1</a></p>
+
+<p>What&rsquo;s the distinction?</p>
+
+<ol>
+<li><p>Concurrency is about the <em>programming</em> constructs that allow <em>programmers</em> to
+compose multiple interdependent (but non-sequential) units of computation.</p></li>
+
+<li><p>Parallelism is about <em>executing</em> units of computation using multiple
+interdependent processors.</p></li>
+</ol>
+
+<hr />
+
+<p><a href="columns 6:">!</a></p>
+
+<p><em>Parallelism</em></p>
+
+<ul>
+<li>Multi-core</li>
+<li>Cluster</li>
+<li>The Internet</li>
+</ul>
+
+<p><a href="split">!</a></p>
+
+<p><em>Concurrency</em></p>
+
+<ul>
+<li>Code constructs (threads, goroutines, channels, futures, promises, async,
+scatter-gather, &hellip;)</li>
+<li>Even single-core, one-process program can be <em>concurrent</em></li>
+</ul>
+
+<h1 id="concurrency-supset-parallelism">Concurrency $\supset$ Parallelism</h1>
+
+<ul>
+<li><p>Concurrency is about <em>programming</em>.</p></li>
+
+<li><p>Concurrency is about a way to <em>think</em>.</p></li>
+
+<li><p>Concurrent programming is to adapt to the ever increasing parallel runtime
+environments.</p></li>
+</ul>
+
+<hr />
+
+<pre><code class="language-plain">                    +------------------------+
+                    | Concurrent Programming |
+                    +-----------+------------+
+                                |
+      +--------------+----------+-----+------------------+
+      |              |                |                  |
+      |              |                |                  |
++----------+    +----------+   +-------------+   +-----------------+
+| IPHONE   |    | ANDROID  |   | Desktop     |   | Cluster         |
+| 2 cores  |    | 4 cores  |   | 16-32 cores |   | ~500-1000 cores |
++----------+    +----------+   +-------------+   +-----------------+
+</code></pre>
+
+<h1 id="concurrent-programming">Concurrent programming</h1>
+
+<ul>
+<li><p>Concurrent programming is not an extention of imperative programming.</p></li>
+
+<li><p>Java&rsquo;s threading model is fundamentally prohibitive from a programmer&rsquo;s
+perspective.</p></li>
+</ul>
+
+<h1 id="computation-composition">Computation &amp; Composition</h1>
+
+<p><em>Composition</em></p>
+
+<pre><code>let x = f(...)
+let y = g(x)
+let z = h(y)
+</code></pre>
+
+<p>Or simply:</p>
+
+<pre><code>let z = h(g(f(...)))
+</code></pre>
+
+<p><a href="***">!</a></p>
+
+<p>No concurrency.</p>
+
+<h1 id="toc_7">________________________</h1>
+
+<p><em>Independent computation</em></p>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code>let x = f(...)
+let y = g(...)
+let z = h(...)
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>We can evaluate <code>f, g</code> and <code>h</code> on separate processors.</p>
+
+<pre><code class="language-scala">spawn { x = f(...) }
+spawn { y = g(...) }
+spawn { z = h(...) }
+</code></pre>
+
+<h1 id="toc_8">_________________________</h1>
+
+<p><em>Partial composition</em></p>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-rust">let x = f(...)
+let y = g(...)
+let z = h(x, y)
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<p>We can evaluate <code>f</code> and <code>g</code> on separate processors, and use the results to
+evaluate <code>h</code>.</p>
+
+<pre><code class="language-scala">x = result of spawn { f(...) }
+y = result of spawn { g(...) }
+
+wait-for-all(x, y) as (x, y) {
+    z = h(x, y)
+}
+</code></pre>
+
+<h1 id="toc_9">____________________________</h1>
+
+<p><em>Partial composition</em></p>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code>let x = f(...)
+let y = g(...)
+let z = x or y
+</code></pre>
+
+<p><a href="split">!</a></p>
+
+<pre><code class="language-scala">x = result of spawn { f(...) }
+y = result of spawn { g(...) }
+
+wait-for-any(x, y) as (u) {
+    z = u
+}
+</code></pre>
+
+<h1 id="toc_10">________________________</h1>
+
+<p><em>Transaction</em></p>
+
+<p><a href="columns 6:">!</a></p>
+
+<ul>
+<li><p>Functions may <em>fail</em> to complete, and result in error.</p></li>
+
+<li><p>Transaction:</p>
+
+<pre><code class="language-scala">snapshot()
+h(g(f(...)))
+
+if error:
+  reverse back to snapshot()
+</code></pre></li>
+</ul>
+
+<p><a href="split">!</a></p>
+
+<pre><code class="language-scala">transaction {
+    f()
+    g()
+    h()
+}
+</code></pre>
+
+<h1 id="toc_11">_______________________</h1>
+
+<p><em>Data exchange</em></p>
+
+<ul>
+<li>Long running functions that require data from one another mutually
+recursively.</li>
+</ul>
+
+<p><a href="***">!</a></p>
+
+<pre><code class="language-nosyntax">F() {
+  get x from G
+  send x' back to G
+  ...
+}
+
+G() {
+  send x to F
+  get x' from F
+  ...
+}
+
+spawn F()
+spawn G()
+</code></pre>
+
+<p><a href="note">!</a> We can have multi-way data exchange among multiple long running
+functions.</p>
+
+<h1 id="let-s-get-practical">Let&rsquo;s get <em>practical</em> ✌</h1>
+
+<p>Multicore</p>
+
+<blockquote>
+<p>1) Go</p>
+
+<p>2) Clojure</p>
+</blockquote>
+
+<hr />
+
+<p>Hundreds of cores</p>
+
+<blockquote>
+<p>3) RabbitMQ</p>
+</blockquote>
+
+<h1 id="go-independent-computation">Go: independent computation</h1>
+
+<p><a href="columns 6:">!</a></p>
+
+<pre><code class="language-go sm clipboard">func is_prime(n int64) bool {
+    for(i := 2; i &lt; n; i++) {
+        if n % i == 0 {
+            return false
+        }
+    }
+    return true
+}
+</code></pre>
+
+<p>Compute the 1000th prime number.</p>
+
+<p><a href="split">!</a></p>
+
+<pre><code class="language-go sm clipboard">func is_perfect(n int64) bool {
+    var total int64 = 0
+    for i := int64(1); i &lt; n; i++ {
+        if n % i == 0 {
+            total += i
+        }
+    }
+    return total == n
+}
+</code></pre>
+
+<p>Compute the 4th perfect number.</p>
+
+<h1 id="toc_14">__________________________</h1>
+
+<pre><code class="language-go sm clipboard">func nth_prime(nth int) int64 {
+    found := 0
+    var n int64
+    for n = 2; found &lt; nth; i++ {
+        if is_prime(n) {
+            found += 1
+        }
+    }
+
+    if found == nth {
+        prime_1000 = n
+    }
+}
+
+ans1 := nth_prime(1000)
+</code></pre>
+
+<p>Let&rsquo;s do some refactoring so we can reuse the code for the 4th perfect number.</p>
+
+<h1 id="toc_15">______________</h1>
+
+<pre><code class="language-go sm clipboard">func look_for(predicate func(int64) bool, nth int) {
+    found := 0
+    var n int64
+    for n = 2; found &lt; nth; i++ {
+        if predicate(n) {
+            found += 1
+        }
+    }
+    if found == nth {
+        return n
+    } else {
+        return 0
+    }
+}
+</code></pre>
+
+<h1 id="toc_16">__________________</h1>
+
+<pre><code class="language-go sm">var prime_1000 int
+var perfect_4 int
+
+go func() {
+    prime_1000 = look_for(is_prime, 1000)
+}()
+
+go func() {
+    perfect_4 = look_for(is_perfect, 4)
+}()
+</code></pre>
+
+<h1 id="clojure-independent-computation">Clojure: Independent computation</h1>
+
+<pre><code class="language-clojure sm">(defn prime? [n]
+  (every? #(not (zero? (mod n %1))) (range 2 n)))
+</code></pre>
+
+<pre><code class="language-clojure sm">(defn perfect? [n]
+  (let [factors (filter #(zero? (mod n %)) (range 1 n))]
+    (reduce + 0 factors)))
+</code></pre>
+
+<pre><code class="language-clojure sm">(defn look-for [pred n]
+  (nth (filter pred (iterate inc 2)) n))
+</code></pre>
+
+<h1 id="toc_18">_______________________</h1>
+
+<pre><code class="language-clojure sm">(def prime-1000 (future (look-for prime? 1000)))
+
+(def perfect-4  (future (look-for perfect? 4)))
+</code></pre>
+
+<p><a href="note">!</a>
+<code>(future ...)</code> evaluates the expression in the background.  When it&rsquo;s complete,
+the result is saved in the <em>reference</em>.</p>
+
+<h1 id="partial-composition">Partial composition</h1>
+
+<p><em>Problem to solve</em>:</p>
+
+<p>Find the sum of the 1000-th prime and the 4th perfect number.</p>
+
+<p><em>Solutions</em>:</p>
+
+<ol>
+<li><p>Goroutine &amp; channels</p></li>
+
+<li><p>Clojure futures and deref of futures</p></li>
+</ol>
+
+<h1 id="goroutine-and-channels">Goroutine and channels</h1>
+
+<ul>
+<li>We have already seen goroutines:</li>
+</ul>
+
+<pre><code class="language-go sm">go f(...)
+</code></pre>
+
+<ul>
+<li>Channels are native type in Go.  You can send <em>anything</em> over a channel.</li>
+</ul>
+
+<pre><code class="language-go sm">var ch = make(chan int)
+</code></pre>
+
+<p><a href="note">!</a> Create a bi-directional channel for exchanging integers.</p>
+
+<pre><code class="language-go sm">var i int = &lt;- ch
+</code></pre>
+
+<p><a href="note">!</a> Read an integer from the channel.  If nothing is in the channel, this
+will block.</p>
+
+<pre><code class="language-go sm">ch &lt;- 42
+</code></pre>
+
+<p><a href="note">!</a> Writes an integer into the channel.</p>
+
+<h1 id="toc_21">______________________________</h1>
+
+<pre><code class="language-go sm nu">func computation() int64 {
+    var ch chan int64 = make(chan int64)
+
+    go func() {
+        p := look_for(is_prime, 1000)
+        ch &lt;- p
+    }()
+
+    go func() {
+        q := look_for(is_perfect, 4)
+        ch &lt;- q
+    }()
+
+    result := (&lt;-ch) + (&lt;-ch)
+    return result
+}
+</code></pre>
+
+<p><a href="note">!</a> Line 14. blocks until both prime/perfect numbers are computed.</p>
+
+<h1 id="clojure-s-solution">Clojure&rsquo;s solution</h1>
+
+<pre><code class="language-clojure sm">(def prime-1000 (future (look-for prime? 1000)))
+(def perfect-4  (future (look-for perfect? 4)))
+(println (+ (deref prime-1000) (deref perfect-4)))
+</code></pre>
+
+<p><a href="note">!</a>
+<code>deref</code> blocks until the result of the <code>future</code>s are available, and returns the
+result.</p>
+
+<hr />
+
+<p>Here is a more functional style:</p>
+
+<pre><code class="language-clojure sm">(let [a (future (look-for prime? 1000))
+      b (future (look-for perfect? 4))
+      result (+ @a @b)]
+  (println result))
+</code></pre>
+
+<h1 id="partial-composition-1">Partial composition</h1>
+
+<p>Now, let&rsquo;s consider a different problem:</p>
+
+<blockquote>
+<p>Compute either the 1000th prime, or the 4th perfect number.</p>
+</blockquote>
+
+<p>The strategy is to concurrently evaluate both computations, and as soon as one
+is done, return it.</p>
+
+<h1 id="go-s-channel-selection">Go&rsquo;s channel selection</h1>
+
+<pre><code class="language-go sm">select {
+case v1 = &lt;- ch1:
+    ...
+case v2 = &lt;- ch2:
+    ...
+}
+</code></pre>
+
+<p><a href="note">!</a>
+This tries to read from <code>ch1</code> or <code>ch2</code>, and it guarantees to read only at most one of
+them.  If both channels are empty, then <code>default</code> case is evaluated.</p>
+
+<h1 id="go-s-solution-using-select">Go&rsquo;s solution using <code>select</code></h1>
+
+<pre><code class="language-go sm">func async_look_for(cond func(int64) bool, nth int) chan int64 {
+    ch := make(chan int64)
+    go func() {
+        ch&lt;- look_for(cond, nth)
+    }()
+    return ch
+}
+</code></pre>
+
+<p><a href="note 3">!</a> Pretty cool.  Instead of returning the result, we wrap the result in a
+channel.</p>
+
+<pre><code class="language-go sm">func computation() int64 {
+    result1 := async_look_for(is_prime, 1000)
+    result2 := async_look_for(is_perfect, 4)
+
+    var answer int64
+    select {
+    case answer = &lt;-result1:
+    case answer = &lt;-result2:
+    }
+    return answer
+}
+</code></pre>
+
+<p><a href="note 3">!</a> The <code>select { ... }</code> will block until the first prime/perfect number
+is computed.</p>
+
+<h1 id="go-s-solution-using-pure-channel-operations">Go&rsquo;s solution using pure channel operations</h1>
+
+<pre><code class="language-go sm">func async_look_for(cond func(int64) bool, nth int, results chan int64) {
+    ch := make(chan int64)
+    go func() {
+        results&lt;- look_for(cond, nth)
+    }()
+}
+</code></pre>
+
+<pre><code class="language-go sm">func computation() {
+    results = chan int64
+
+    async_look_for(is_prime, 1000, results)
+    async_look_for(is_perfect, 4, results)
+
+    answer := &lt;-results
+    close(results)
+    return answer
+}
+</code></pre>
+
+<p><a href="note">!</a> We pass a channel into <code>async_look_for</code> to collect their results of
+computation.  As soon as one result appears in the channel, we are done.</p>
+
+<h1 id="conclusion-for-go">Conclusion for Go:</h1>
+
+<ul>
+<li><p>Channels + Goroutines = Really powerful and universal solution</p></li>
+
+<li><p>This is called the <em>Communicating Sequential Processes</em> (CSP)</p></li>
+</ul>
+
+<h1 id="clojure-s-csp">Clojure&rsquo;s CSP</h1>
+
+<p><code>(require '[clojure.core.async :as async :refer :all])</code></p>
+
+<pre><code class="language-clojure sm">(go ...)
+</code></pre>
+
+<p><a href="note">!</a> Starts a go-routine.</p>
+
+<pre><code class="language-clojure sm">(chan)
+</code></pre>
+
+<p><a href="note">!</a> Constructs a bi-directional channel.</p>
+
+<pre><code class="language-clojure sm">(&lt;! ch)
+</code></pre>
+
+<p><a href="note">!</a> Read one value from the channel.  It blocks in the go-routine.</p>
+
+<pre><code class="language-clojure sm">(&gt;! ch x)
+</code></pre>
+
+<p><a href="note">!</a> Writes one value into the channel.</p>
+
+<pre><code class="language-clojure sm">(close! ch)
+</code></pre>
+
+<p><a href="note">!</a> Closes the channel.</p>
+
+<h1 id="clojure-s-solution-using-alt">Clojure&rsquo;s solution - using alt!</h1>
+
+<pre><code class="language-clojure">(let [[val ch] (alt! [ch1 ch2 ...])]
+    ...)
+</code></pre>
+
+<p><a href="note">!</a> <code>alt!</code> blocks until one of the channels receives some value.
+Returns the value and the channel it comes from.</p>
+
+<p>There are two version:</p>
+
+<ul>
+<li><code>alt!</code> is used in a go-routine.</li>
+<li><code>alt!!</code> is used in the context of an actual thread.</li>
+</ul>
+
+<h1 id="toc_30">___________________</h1>
+
+<pre><code class="language-clojure">(defn async-look-for [pred n]
+  (let [ch (chan)]
+    (go (&gt;! ch (look-for pred n)))
+    ch))
+</code></pre>
+
+<pre><code class="language-clojure">(defn computation []
+  (let [ch1 (async-look-for prime? 1000)
+        ch2 (async-look-for perfect? 4)]
+    (let [ans ch] (alt!! [ch1 ch2])
+      ans)))
+</code></pre>
+
+<h1 id="clojure-s-solution-using-pure-channel-operations">Clojure&rsquo;s solution - using pure channel operations</h1>
+
+<pre><code class="language-clojure">(defn async-look-for [pred n results]
+  (go (&gt;! results (look-for pred n))))
+</code></pre>
+
+<pre><code class="language-clojure">(defn computation []
+  (let [ch (chan)]
+    (future
+      (do (async-look-for prime? 1000 ch)
+          (async-look-for perfect? 4 ch)))
+    (let [ans (&lt;!! ch)]
+      (close! ch)
+      ans)))
+</code></pre>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<ul>
+<li><p>Clojure already had a rich set of concurrency constructs (2007-2015).</p></li>
+
+<li><p>CSP is so successful as a model to express concurrency compositions that
+Clojure added support for CSP, and it is the preferred way.</p></li>
+</ul>
+
+<h1 id="scaling-to-multiple-machines">Scaling to multiple machines</h1>
+
+<p>Let&rsquo;s revisit CSP:</p>
+
+<ul>
+<li><p>Go routines</p></li>
+
+<li><p>Channels</p></li>
+</ul>
+
+<hr />
+
+<p>We just need to implement go-routines and channels over the network.</p>
+
+<ul>
+<li><p>go-routines = processes</p></li>
+
+<li><p>channels = message queues</p></li>
+</ul>
+
+<h1 id="introducing-rabbitmq">Introducing RabbitMQ</h1>
+
+<p><img src="rabbitmq.jpg"></img></p>
+
+<p><a href="note">!</a> Provides queueing service as a standalone server, or a server cluster.</p>
+
+<h1 id="message-queues-are-channels-between-machines">Message queues are channels between machines</h1>
+
+<p><img src="rmq-example.png"></img></p>
+
+<h1 id="discovering-primes">Discovering primes</h1>
+
+<pre><code class="language-clojure">(defn feed []
+  (let [server (connect connection-info)
+        ch (open server)
+        queue &quot;input-queue&quot;]
+    (doseq [i (iterate inc 0)]
+      (publish ch queue i))))
+</code></pre>
+
+<p><a href="note">!</a> Places all numbers on the queue called <em>input-queue</em>.</p>
+
+<h1 id="toc_37">___________________</h1>
+
+<pre><code class="language-clojure sm">(def output
+  (let [server (connect connection-info)
+        ch (open server)
+        queue &quot;output-queue&quot;]
+    {:ch ch
+     :queue queue}))
+</code></pre>
+
+<p><a href="note">!</a> Declare the queue that will gather the answers.</p>
+
+<pre><code class="language-clojure sm">(defn task []
+  (let [server (connect connection-info)
+        ch (open server)
+        queue &quot;input-queue&quot;]
+    (subscribe ch queue 
+            (fn [i] (when (__prime__? i)
+                      (publish output i))))))
+</code></pre>
+
+<blockquote>
+<ol>
+<li>Get a job, <code>i</code>.</li>
+<li>Performs the computation <code>(prime? i)</code>.</li>
+<li>If we get a prime, send it to the output queue.</li>
+</ol>
+
+<p><a href="note">!</a></p>
+</blockquote>
+
+<pre><code class="language-clojure sm"> (defn worker []
+  (dotimes [i 32] (future (task))))
+</code></pre>
+
+<p><a href="note">!</a> start 32 concurrent sessions to do the tasks assuming we have 32 cores.</p>
+
+<h1 id="toc_38">_____________________</h1>
+
+<pre><code class="language-bash">## Start the job feeder
+nohup clojure feed.clj &amp;
+
+## start the remote workers
+for m in $machines
+do
+    ssh $m nohup clojure worker.clj
+done
+
+## Subscribe to output queue, and save to database
+nohup clojure result-to-db.clj
+</code></pre>
+
+<p><a href="note">!</a> <code>$machine</code> may have 100 AWS instances = $32\times 100 = 3,200$ cores.</p>
+</div>
+        </div>
+
+        
+        <div class="footnote" style="position: fixed; 
+            bottom:0; 
+            left:0;
+            padding: 10px;
+            font-family: Roboto;
+            font-weight: 600;
+            font-size: 12pt;
+            color: #88a;">
+            <div class="btn-group btn-group-sm">
+                <a href="#" class="btn btn-default cmd-fullscreen">
+                    <i class="fa fa-arrows-alt"></i></a>
+                <a href="?print-pdf" class="btn btn-default cmd" style="color:red">
+                    <i class="fa fa-file-pdf-o"></i>
+                </a>
+                <a href=".." class="btn btn-default" 
+                    style="font-family:'Old Standard TT'; font-style:italic">
+                    <i lass="fa fa-angle-left"></i> back
+                </a>
+            </div>
+            <span style="
+                margin-left:10px;
+                font-family:Roboto;
+                font-weight: 300;"> © KEN PU, 2016 </span>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+        
+
+        <script>
+        window.invokeHandler = function(f, args) {
+            if(f) f.apply(null, args);
+        };
+        if(window.print_pdf || window.remote_controller) {
+            $("div.footnote").remove();
+            window.invokeHandler = function() { }
+        }
+        var fullscreen = false;
+        $("body").on("click", ".cmd-fullscreen", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            function exitFullscreen() {
+              if(document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if(document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if(document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              }
+              fullscreen = false;
+            }
+
+            function launchIntoFullscreen(element) {
+              if(element.requestFullscreen) {
+                element.requestFullscreen();
+              } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+              } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+              } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+              }
+              fullscreen = true;
+            }
+
+            if(fullscreen)
+                exitFullscreen();
+            else
+                launchIntoFullscreen(document.documentElement); 
+        });
+
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+                chalkboard: { 
+                    
+                    
+                },
+
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+                ],
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+                if(window.myEvents) myEventReady(window.myEvents);
+            });
+
+            Reveal.addEventListener("slidechanged", function(e) {
+                if(window.myEvents) myEventSlide(window.myEvents, e);
+            });
+        }
+
+        function myEventReady(evs) {
+            console.debug("myEventReady", evs);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                $(".reveal section").each(function() {
+                    var $section = $(this);
+                    if($section.find(selector).size() > 0) {
+                        window.invokeHandler(handlers.init, [$section]);
+                    }
+                });
+            }
+        }
+
+        function myEventSlide(evs, e) {
+            var $current = $(e.currentSlide);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                var $anchor = $current.find(selector);
+                if($anchor.size() > 0) {
+                    if(! $anchor.is(".invoked-once")) {
+                        window.invokeHandler(handlers.once, [$current]);
+                        $anchor.addClass("invoked-once");
+                    }
+                    window.invokeHandler(handlers.enter, [$current]);
+                }
+            }
+        }
+		</script>
+	</body>
+</html>
+
+

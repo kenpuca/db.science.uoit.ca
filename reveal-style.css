@@ -96,6 +96,12 @@
 .reveal pre:first-child {
     margin-top: 0;
 }
+.reveal .row:first-child {
+    margin-top: 0;
+}
+.reveal .row {
+    margin-top: 20px;
+}
 
 .reveal pre code {
     padding: 20px;

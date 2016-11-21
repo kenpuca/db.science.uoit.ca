@@ -10,74 +10,9 @@
     <atom:link href="http://db.science.uoit.ca/slides/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Hello sandbox</title>
-      <link>http://db.science.uoit.ca/slides/sandbox/</link>
-      <pubDate>Thu, 01 Sep 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/slides/sandbox/</guid>
-      <description>
-
-&lt;h1 id=&#34;sandbox&#34;&gt;Sandbox&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 4:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This is clojure.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-clojure&#34;&gt;(defn hello [world] (println world))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;toc_1&#34;&gt;___________&lt;/h1&gt;
-
-&lt;p&gt;Another slide&lt;/p&gt;
-
-&lt;p&gt;&lt;a class=&#34;my-first-slide&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;button id=&#34;click&#34;&gt;Click me&lt;/button&gt;&lt;/p&gt;
-
-&lt;style&gt;
-button {
-  font-family: &#34;Roboto&#34;;
-  background: #aaa;
-  outline: none;
-  border: none;
-  border-radius: 3px;
-}
-&lt;/style&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Programming languages &amp; Concurrency</title>
-      <link>http://db.science.uoit.ca/slides/concurrency/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/slides/concurrency/</guid>
-      <description>
-
-&lt;h1 id=&#34;programming-languages-concurrency&#34;&gt;Programming Languages &amp;amp; Concurrency&lt;/h1&gt;
-
-&lt;h2 id=&#34;scaling-from-single-core-to-multi-core-to-multiple-hundreds-of-cores&#34;&gt;Scaling from single-core to multi-core to multiple hundreds of cores.&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Ken Pu&lt;/p&gt;
-
-&lt;p&gt;UOIT (2016)&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Symposium</title>
       <link>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Sep 2016 00:00:00 +0000</pubDate>
       
       <guid>http://db.science.uoit.ca/slides/talks/symposium-on-teaching/</guid>
       <description>

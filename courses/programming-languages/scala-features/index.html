@@ -79,7 +79,7 @@ case _           =&gt; &quot;other cases&quot;
 
 <pre><code class="language-scala">val x: List[Int] = ...
 
-expr match {
+x match {
   case Nil         =&gt; println(&quot;empty list&quot;)
   case List(1,2,3) =&gt; println(&quot;ready, set, go&quot;)
   case List(0, _*) =&gt; println(&quot;Starts with zero&quot;)
@@ -92,7 +92,7 @@ expr match {
 
 <p>Destructuring with match:</p>
 
-<pre><code class="language-scala">val point: Tuple[Float, Float] = (3.14, 8)
+<pre><code class="language-scala">val point: Tuple2[Double, Double] = (3.14, 8)
 
 point match {
   case (x, y) =&gt; println(s&quot;First coordinate is ${x}&quot;)

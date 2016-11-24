@@ -404,6 +404,173 @@ that it&rsquo;s modifying the underlying method.</p>
 layers of an onion.</p>
 
 <p>This is called linearization of trait mixins.</p>
+
+<h1 id="type-parameterization">Type parameterization</h1>
+
+<ul>
+<li>Scala supports generic types and generic methods.</li>
+</ul>
+
+<pre><code class="language-scala">class MyList[T] {
+    ...
+}
+</code></pre>
+
+<pre><code class="language-scala">def selectOne[T](list: Array[T]):T = ...
+</code></pre>
+
+<ul>
+<li>The syntax is that after the symbol, we indicate the type parameters by <code>[U,
+V, W]</code>.</li>
+</ul>
+
+<h1 id="bounds-on-type-parameters">Bounds on type parameters</h1>
+
+<p>Consider the following:</p>
+
+<pre><code class="language-scala">def max[T](list: Array[T]): T = {
+    var x = list[0]
+    for(i &lt;- 1 until list.length) {
+        val y = list[i]
+        if(x &lt; y) x = y
+    }
+    return x
+}
+</code></pre>
+
+<ul>
+<li><p>What is <code>x &lt; y</code>?</p></li>
+
+<li><p>It&rsquo;s a syntactic short-hand for <code>x.&lt;(y)</code>.</p></li>
+
+<li><p>This means that <code>T</code> must have the method <code>def &lt;(T):Boolean</code>.</p></li>
+</ul>
+
+<h1 id="toc_25">_______________________________</h1>
+
+<p>Scala has a trait:</p>
+
+<pre><code class="language-scala">scala.math.Ordered[A]
+</code></pre>
+
+<p><a href="note">!</a> The <code>Ordered</code> trait provides the implementation for <code>&lt;</code>.  But it
+<em>requires</em> the implementation of <code>def compare(A):Int</code></p>
+
+<pre><code class="language-scala">def max[T &lt;: Ordered[T]](list: Array[T]): T = {
+    ...
+}
+</code></pre>
+
+<p>The syntax <code>[T &lt;: U]</code> states that <code>T</code> must be a subtype of <code>U</code>.
+In this case, we want <code>T</code> to be a type with the trait of <code>Ordered[T]</code>.</p>
+
+<h1 id="variance">Variance</h1>
+
+<p>If <code>Apple &lt;: Fruit</code>, should <code>Box[Apple] &lt;: Box[Fruit]</code>?</p>
+
+<ul>
+<li><p>The answer depends on the definition of <code>Box[T]</code>.</p></li>
+
+<li><p>A type parameter can have an optional <em>variance</em>.</p>
+
+<ol>
+<li><p>Default is <em>no variance</em>.</p></li>
+
+<li><p>Covariance: <code>[+T]</code> means that the subtype relation is preserved.</p></li>
+
+<li><p>Contravariance: <code>[-T]</code> means that the subtype relation is reversed.</p></li>
+</ol></li>
+</ul>
+
+<hr />
+
+<p>The variance is to provide maximal class reusability while preserving type
+correctness.</p>
+
+<h1 id="toc_27">______________________</h1>
+
+<p>Consider the implementation:</p>
+
+<pre><code class="language-scala">class Box[T](val item: T)
+</code></pre>
+
+<p>Is it safe to assume <code>Box[Apple] &lt;: Box[Fruit]</code>?</p>
+
+<p>Suppose <em>yes</em>, we allow <code>Box[Apple] &lt;: Box[Fruit]</code>.</p>
+
+<pre><code class="language-scala">val box: Box[Fruit] = new Box[Apple](🍎)         ✓
+box.item : Fruit    = 🍎:Apple                   ✓
+</code></pre>
+
+<p>So, we can safely declare the type parameter of Box covariant.</p>
+
+<pre><code class="language-scala">class Box[+T](val item: T)
+</code></pre>
+
+<p><a href="note">!</a> The reason we can do so is that <em>Box</em> is read-only.</p>
+
+<h1 id="toc_28">__________________________</h1>
+
+<p>Now, consider:</p>
+
+<pre><code class="language-scala">class Box[T](var item: T)
+</code></pre>
+
+<p><a href="note">!</a> The only difference is that <em>item</em> is now mutable.</p>
+
+<p>Can we still assume <code>Box[Apple] &lt;: Box[Fruit]</code>?</p>
+
+<p>Assume <em>yes</em>.  This means that we have:</p>
+
+<p><code>Box[Apple] &lt;: Box[Fruit]</code> and <code>Box[Banana] &lt;: Box[Fruit]</code></p>
+
+<p>Let&rsquo;s see what can happen:</p>
+
+<pre><code class="language-scala">val box1: Box[Apple] = new Box[Apple](🍎)        ✓
+val box2: Box[Fruit] = box1                     ✓ // by assumption
+box2.item = 🍌                                   ✓
+// box1.item:Apple == 🍌:Banana                  ✘ type error
+</code></pre>
+
+<h1 id="toc_29">_______________________</h1>
+
+<p>Now, consider:</p>
+
+<pre><code class="language-scala">class Box[T](private var item: T) {
+    def set(x:T) = this.item = x
+}
+</code></pre>
+
+<p><a href="note">!</a> <em>Box</em> is write-only.</p>
+
+<p>You can check that it is <em>safe</em> to declare the write-only <code>Box</code> with a
+contravariant type parameter.</p>
+
+<pre><code class="language-scala">class Box[-T](private var item: T) {
+    def set(x:T) = this.item = x
+}
+</code></pre>
+
+<h1 id="toc_30">____________________________</h1>
+
+<p>Can you justify why functions have the following trait?</p>
+
+<pre><code class="language-scala">trait Function1[-T, +R]
+</code></pre>
+
+<ul>
+<li><p>The input is contravariant, and</p></li>
+
+<li><p>the output is covariant.</p></li>
+</ul>
+
+<p><a href="***">!</a></p>
+
+<p>This means:</p>
+
+<p><code>Fruit $\to$ Cat</code> is a subtype of <code>Apple $\to$ Animal</code></p>
+
+<p><a href="note">!</a> Can you verify it?</p>
 </div>
         </div>
 
@@ -526,6 +693,7 @@ layers of an onion.</p>
 
         function startReveal($slides) {
 			Reveal.initialize({
+                controls: false, 
 				history: true,
                 slideNumber: true,
                 center: false,

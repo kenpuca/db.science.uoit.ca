@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Introduction to Scala</title>
+        <title>More features of Scala</title>
 
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
         <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
@@ -38,167 +38,96 @@
         <div class="reveal">
             <div class="slides" style="opacity: 0">
 
-<h1 id="scala">Scala</h1>
+<h1 id="matching">Matching</h1>
 
-<ul>
-<li><p>Java is a <em>simple</em> and <em>impure</em> object-oriented programming language.</p></li>
-
-<li><p>Scala</p>
-
-<ul>
-<li><p>designed by <em>Martin Odersky</em></p></li>
-
-<li><p>first released in 2004</p></li>
-
-<li><p>a <em>pure</em> object-oriented programming language</p></li>
-
-<li><p>high degree of complexity</p></li>
-</ul></li>
-</ul>
-
-<h1 id="object-oriented-programming-oop">Object-oriented programming (OOP)</h1>
-
-<blockquote>
-<blockquote>
-<p>All types are classes.</p>
-
-<p>All data are objects.</p>
-
-<p>All computation are method invocations.</p>
-</blockquote>
-</blockquote>
-
-<h1 id="java-as-an-oop">Java as an OOP</h1>
-
-<p>Type as class:</p>
-
-<pre><code class="language-java">class String {
-    String substring(int start, int end) { ... }
+<pre><code class="language-scala template">__expression__ match {
+case __pattern__ =&gt; ...
+case __pattern__ =&gt; ...
+    ...
 }
 </code></pre>
 
-<p>Data as object:</p>
+<p>This generalizes <code>if-else if- ...else</code> completely.</p>
 
-<pre><code class="language-java">String message = &quot;Hello world&quot;;
+<h1 id="toc_1">____________</h1>
+
+<p>Consider</p>
+
+<pre><code class="language-scala">val num:Int = ...
+val message = if(num == 0) 
+                    &quot;zero&quot;
+                else if(num &gt; 10) 
+                    &quot;greater than 10&quot;
+                else
+                    &quot;other cases&quot;
 </code></pre>
 
-<p>Computations as method invocations:</p>
+<p>It can be nicely expressed as:</p>
 
-<pre><code class="language-java">System.out.println(message.substring(3, 6));
+<pre><code class="language-scala">val num:Int = ...
+
+val message = num match {
+case 0           =&gt; &quot;zero&quot;
+case x if x &gt; 10 =&gt; &quot;greater than 10&quot;
+case _           =&gt; &quot;other cases&quot;
+}
 </code></pre>
 
-<h1 id="java-as-non-oop">Java as non-OOP</h1>
+<h1 id="toc_2">____________________</h1>
 
-<ol>
-<li><p>Types are not classes:</p>
+<p>Patterns used in <code>match</code> case clauses can be very powerful.</p>
 
-<blockquote>
-<ul>
-<li><p><code>int</code>, <code>float</code>, etc. are not classes.</p></li>
+<pre><code class="language-scala">val x: List[Int] = ...
 
-<li><p>Try: <code>List&lt;int&gt; numbers;</code></p></li>
-</ul>
-</blockquote></li>
-
-<li><p>Data are not objects:</p>
-
-<blockquote>
-<ul>
-<li><p><code>&quot;Hello world&quot;.hashCode()</code> works because <code>&quot;Hello world&quot;</code> is an object,
-and all objects are with the method <code>int hashCode()</code>.</p></li>
-
-<li><p><code>123.hashCode()</code> fails.</p></li>
-</ul>
-</blockquote></li>
-
-<li><p>Computation is not method invocation:</p>
-
-<blockquote>
-<pre><code class="language-java">i = 1 + 2
+expr match {
+  case Nil         =&gt; println(&quot;empty list&quot;)
+  case List(1,2,3) =&gt; println(&quot;ready, set, go&quot;)
+  case List(0, _*) =&gt; println(&quot;Starts with zero&quot;)
+  case head::tail  =&gt; println(s&quot;First element is ${head}, 
+                              | followed by ${tail}&quot;)
+}
 </code></pre>
 
-<p>The integer addition <code>+</code> is not a method.</p>
-</blockquote></li>
-</ol>
+<h1 id="toc_3">______________________</h1>
 
-<h1 id="scala-1">Scala</h1>
+<p>Destructuring with match:</p>
 
-<ul>
-<li>Every type is a class.</li>
-</ul>
+<pre><code class="language-scala">val point: Tuple[Float, Float] = (3.14, 8)
 
-<pre><code class="language-scala">List[Int]
-Array[Float]
+point match {
+  case (x, y) =&gt; println(s&quot;First coordinate is ${x}&quot;)
+}
 </code></pre>
 
-<p><a href="note">!</a>
-Parameteric types</p>
+<h1 id="toc_4">________________________</h1>
 
-<ul>
-<li>Everything is an object.</li>
-</ul>
+<p>Guarded patterns</p>
 
-<pre><code class="language-scala">print(1.toBinaryString)
+<pre><code class="language-scala">point match {
+  case (x, y) if x &gt; 0 and y &gt; 0 =&gt; {
+    println(&quot;Point is in the first quadrant.&quot;)
+  }
+  case (x, y) =&gt; println(s&quot;${x} or ${y} is negative.&quot;)
+}
 </code></pre>
 
-<p><a href="note">!</a> Invoking a method of integer that accepts no arguments.</p>
+<h1 id="toc_5">________________________</h1>
 
-<ul>
-<li>All operators are methods.</li>
-</ul>
+<p>Matching against types</p>
 
-<pre><code class="language-scala">1 + 2
-1.+(2)
+<p>If <code>obj</code> is a symbol of type <code>T</code>, then we know that the data <code>obj</code> is bound to
+must be an instance of <code>T</code> or any of its subtypes.</p>
+
+<p><code>match</code> patterns can be used to examine which subtype an object is bound to.</p>
+
+<pre><code class="language-scala">val names: Iterable[String] = Set(&quot;Jack&quot;, &quot;John&quot;, &quot;Joe&quot;)
+
+val type = names match {
+             case x:List[String] =&gt; &quot;list&quot;
+             case x:Set[String] =&gt; &quot;set&quot;
+             case _ =&gt; &quot;some other iterable&quot;
+           }
 </code></pre>
-
-<p><a href="note">!</a>
-Addition <code>+</code> is a method of an integer <code>1</code>.</p>
-
-<h1 id="toc_5">_____</h1>
-
-<ul>
-<li><p>Scala insists on pure object oriented programming (OOP)</p></li>
-
-<li><p>Using syntactic resolution rules, Scala programmers can
-create rich syntactic constructs that are built on
-objects.</p></li>
-
-<li><p>Scala promotes functional programming built on OOP.</p></li>
-</ul>
-
-<h1 id="hello-world">Hello world</h1>
-
-<p>Setting up the compiler:</p>
-
-<blockquote>
-<ol>
-<li><p>Download <code>scala-2.xx.x.tgz</code> from the download site:
-<a href="http://www.scala-lang.org/download/">http://www.scala-lang.org/download/</a></p></li>
-
-<li><p>Uncompress the file, and you will find
-<code>bin/scala</code> which is the interpreter for Scala.</p></li>
-</ol>
-</blockquote>
-
-<p>REPL</p>
-
-<blockquote>
-<pre><code class="language-nosyntax sm">$ scala
-Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_111).
-Type in expressions for evaluation. Or try :help.
-
-scala&gt; println(&quot;Hello world&quot;)
-</code></pre>
-</blockquote>
-
-<p>Scripting</p>
-
-<blockquote>
-<ol>
-<li>Create a file <code>hello.scala</code></li>
-<li>Run it <code>scala hello.scala</code></li>
-</ol>
-</blockquote>
 </div>
         </div>
 

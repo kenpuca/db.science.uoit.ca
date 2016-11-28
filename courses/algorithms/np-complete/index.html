@@ -1,0 +1,552 @@
+
+    <!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>NP Completeness</title>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/bootstrap.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/fonts/fonts.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/css/font-awesome/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/css/theme/white.css">
+
+		
+        
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal.js/lib/css/github.css">
+
+		
+		<script>
+            if(window.location.search.match(/print-pdf/gi)) {
+                window.print_pdf = true;
+            }
+            if(window.location.search.match(/receiver/)) {
+                window.remote_controller = true;
+            }
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+            link.href = window.print_pdf ? 'http:\/\/db.science.uoit.ca/reveal.js/css/print/pdf.css' : 'http:\/\/db.science.uoit.ca/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <link rel="stylesheet" href="http://db.science.uoit.ca/reveal-style.css">
+	</head>
+	<body>
+        <div class="reveal">
+            <div class="slides" style="opacity: 0">
+
+<h1 id="np-completeness">NP-completeness</h1>
+
+<p><a href="highlight">!</a></p>
+
+<ul>
+<li><p>Decision problems</p></li>
+
+<li><p>From optimization to decision problems</p></li>
+
+<li><p>Verification</p></li>
+
+<li><p>P &amp; NP</p></li>
+
+<li><p>Completeness</p></li>
+
+<li><p>NP-completeness</p></li>
+</ul>
+
+<h1 id="decision-problem">Decision problem</h1>
+
+<p><em>Definition</em></p>
+
+<blockquote>
+<p>A decision problem is a problem whose answer is YES or NO.</p>
+</blockquote>
+
+<p><a href="***">!</a></p>
+
+<p>Examples of problems:</p>
+
+<ul>
+<li><p><em>Connectivity test</em>: Given a graph $G$, is it fully connected?</p></li>
+
+<li><p>Given a polynomial $P(x)$ does it have an integer valued solution?</p></li>
+
+<li><p>Given an array $A$ and an element $x$, does $x$ appear in $A$?</p></li>
+
+<li><p><em>Primality test</em>: Given an integer $K$, is it a prime number?</p></li>
+</ul>
+
+<h1 id="size-of-problem">Size of problem</h1>
+
+<ul>
+<li><p>Each problem can have infinitely many instances.  Each instance has a size.</p></li>
+
+<li><p>The size of a problem is the number of symbols required to represent the
+problem.</p>
+
+<blockquote>
+<blockquote>
+<p>We actually don&rsquo;t care if it&rsquo;s in binary or ASCII encoding.</p>
+</blockquote>
+</blockquote></li>
+</ul>
+
+<h1 id="toc_3">________________________</h1>
+
+<p>Connectivity of a graph $G$:</p>
+
+<blockquote>
+<ul>
+<li><p>We need $V$ symbols to represent each vertex.  Each symbol requires $\log(V)$
+bits for the vertex ID.</p></li>
+
+<li><p>Each edge is $2\log(V)$ bits to encode the end-points of the edge.
+We need $E$ number of edges.</p></li>
+
+<li><p>So the size of the instance is $V\log(V) + 2E\log(V)$ as a binary string.</p></li>
+</ul>
+</blockquote>
+
+<p>Primality test:</p>
+
+<blockquote>
+<ul>
+<li><p>We need $\log(K)$ bits to represent the integer.</p></li>
+
+<li><p>So the size of the instance is $\log(K)$ as a binary string.</p></li>
+</ul>
+</blockquote>
+
+<h1 id="why-decision-problems">Why decision problems?</h1>
+
+<ol>
+<li><p>We don&rsquo;t need to worry about the presentation of the solution. It&rsquo;s always 0
+or 1.</p></li>
+
+<li><p>It captures the essence of optimization.</p></li>
+</ol>
+
+<h1 id="optimization-to-decision">Optimization $\to$ decision</h1>
+
+<p>An optimization has two components:</p>
+
+<blockquote>
+<ul>
+<li><p>An instance of the problem $P$, and</p></li>
+
+<li><p>a cost function $f$ over all possible solutions.</p></li>
+
+<li><p><a href="comfortable">!</a></p></li>
+</ul>
+</blockquote>
+
+<p>The solution is $S$ such that $f(S)$ is <em>optimal</em>.</p>
+
+<h1 id="toc_6">__________________________</h1>
+
+<p>We can convert an optimization problem to a decision problem:</p>
+
+<p><a href="columns 6:">!</a></p>
+
+<ul>
+<li><p>An instance $P$</p></li>
+
+<li><p>A cost function $f$</p></li>
+</ul>
+
+<hr />
+
+<p>Solution is $S$ such that $f(S)$ is maximized.</p>
+
+<p><a href="split">!</a></p>
+
+<ul>
+<li><p>An instance $P$</p></li>
+
+<li><p>A cost function $f$ and a threshold $k$.</p></li>
+</ul>
+
+<hr />
+
+<p>Yes if there exists a solution $S$ such that $f(S) \geq k$.</p>
+
+<h1 id="toc_7">_____________________</h1>
+
+<p><em>Example</em></p>
+
+<p>Optimization:</p>
+
+<blockquote>
+<p>Given a graph $G$, and two vertices $s, t\in V(G)$, find the shortest path $p$ from
+$s$ to $t$.</p>
+</blockquote>
+
+<hr />
+
+<p>Decision:</p>
+
+<blockquote>
+<p>Given a graph $G$, and two vertices $s, t\in V(G)$, and a threshold $k$.</p>
+
+<p>Is there a path $p$ from $s$ to $t$ with $w(p)\leq k$.</p>
+</blockquote>
+
+<h1 id="back-to-decision-problems">Back to decision problems</h1>
+
+<h2 id="solving-a-decision-problem">Solving a decision problem</h2>
+
+<p>An algorithm $\mathcal{A}$ such that for every instance $P$ of a certain type of
+problem, $\mathcal{A}(P)\in\mathrm{Boolean}$ is the correct decision.</p>
+
+<hr />
+
+<h2 id="verifying-a-decision-problem">Verifying a decision problem</h2>
+
+<p>An algorithm $\mathcal{B}$ such that for every instance $P$, a cost function
+$f$, and the threshold $k$</p>
+
+<ul>
+<li><p>Given a candidate solution $S$ of $P$,</p></li>
+
+<li><p>$\mathcal{B}(P, k, S)$ verifies that $f(S)\leq k$.</p></li>
+</ul>
+
+<h1 id="verification-is-easier">Verification is easier</h1>
+
+<p>Example:</p>
+
+<blockquote>
+<p>Given a graph $G$ and $s,t\in V(G)$, is there a path $p$ such that $w(p)\leq
+k$?</p>
+</blockquote>
+
+<p>Can you construct $\mathcal{A}(G, s, t, k)$?</p>
+
+<blockquote>
+<p>Maybe, but it&rsquo;s just as difficult of constructing the Dijkstra&rsquo;s algorithm.</p>
+
+<blockquote>
+<blockquote>
+<p>Just as hard as the optimization problem.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h1 id="toc_12">_____________</h1>
+
+<p>Example:</p>
+
+<blockquote>
+<p>Given a graph $G$ and $s,t\in V(G)$, is there a path $p$ such that $w(p)\leq
+k$?</p>
+</blockquote>
+
+<p>Can you construct $\mathcal{B}(G, s, t, k, p)$, where $p$ is a path in $G$?</p>
+
+<blockquote>
+<ol>
+<li><p>Check $p$ connects $s$ to $t$.</p></li>
+
+<li><p>Find the total weight $w(p)$ and test if $w(p) \leq k$.</p></li>
+</ol>
+
+<blockquote>
+<blockquote>
+<p>Easy - can be done in $\mathcal{O}(n)$.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<h1 id="complexity-classes-p">Complexity classes: P</h1>
+
+<p><em>Definition</em>: The <strong>P</strong> complexity class</p>
+
+<blockquote>
+<p>A class of decision problems is in <strong>P</strong> if the $\mathcal{A}$ can be
+implemented in $\mathcal{O}(n^k)$ for some $k$, where $n$ is the input problem
+size.</p>
+
+<p><strong>P</strong> is the collection of all types of problems that can be solved by
+algorithms in polynomial time.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="example">Example:</h2>
+
+<ul>
+<li>Graph connectivity is in <strong>P</strong>.</li>
+</ul>
+
+<h1 id="complexity-classes-np">Complexity classes: NP</h1>
+
+<p><em>Definition</em>: The <strong>NP</strong> complexity class</p>
+
+<blockquote>
+<p>A class of decision problems is in <strong>NP</strong> if the $\mathcal{B}$ can be
+implemented in $\mathcal{O}(n^k)$ for some $k$.</p>
+
+<p><strong>NP</strong> is the collection of all types of problems that can be <em>verified</em> in
+polynomial time.</p>
+</blockquote>
+
+<hr />
+
+<p><em>Theorem</em>:</p>
+
+<p>$$ \mathbf{P} \subseteq \mathbf{NP} $$</p>
+
+<h1 id="the-knapsack-problem">The knapsack problem:</h1>
+
+<p><a href="columns 7:">!</a></p>
+
+<p><img src="knapsack.svg"></img></p>
+
+<p><a href="http://creativecommons.org/licenses/by-sa/2.5" title="Creative Commons
+Attribution-Share Alike 2.5">CC BY-SA 2.5</a>, <a
+href="https://commons.wikimedia.org/w/index.php?curid=985491">Link</a></p>
+
+<p><a href="split">!</a></p>
+
+<p>We have a collection of items, each with some weight $w_i$, and value $v_i$.</p>
+
+<p>We have a total capacity $C$.</p>
+
+<p>Which items $J$ do we take so that <code>$$\sum_{i\in J}  w_i \leq C$$</code> and we maximize
+the total value <code>$$\sum_{i\in J} v_i$$</code>?</p>
+
+<h1 id="knapack-the-decision-problem">Knapack: the decision problem</h1>
+
+<h2 id="problem-instance">Problem instance:</h2>
+
+<ul>
+<li>The weights ${w_i}$ and values ${v_i}$, and capacity $C$.</li>
+<li>A threshold on value $k$.</li>
+</ul>
+
+<h2 id="solving">Solving:</h2>
+
+<ul>
+<li>$\mathcal{A}(P)$ is a collection of items <code>$J= \{i_1, i_2, \dots\}$</code> such that
+<code>$\sum_J w_i \leq C$</code> and <code>$\sum_J v_i \geq k$</code>.</li>
+</ul>
+
+<h2 id="verifying">Verifying:</h2>
+
+<ul>
+<li>We are given a collection of items $J$, we need to check
+<code>$\sum_J w_i \leq C$</code> and <code>$\sum_J v_i \geq k$</code>.</li>
+</ul>
+
+<h1 id="knapsack">Knapsack:</h1>
+
+<p>Verification of knapsack can be done in $\Theta(n)$.</p>
+
+<p>Therefore, $\mathbf{KNAPSACK} \in \mathbf{NP}$</p>
+
+<hr />
+
+<p>So, $\mathbf{KNAPSACK} \in \mathbf{P}$ ???</p>
+
+<blockquote>
+<p>We don&rsquo;t know, and we have been working on it since 1970.</p>
+</blockquote>
+
+<p><img src="np-complete.jpg"></img></p>
+</div>
+        </div>
+
+        
+        <div class="footnote" style="position: fixed; 
+            bottom:0; 
+            left:0;
+            padding: 10px;
+            font-family: Roboto;
+            font-weight: 600;
+            font-size: 12pt;
+            color: #88a;">
+            <div class="btn-group btn-group-sm">
+                <a href="#" class="btn btn-default cmd-fullscreen">
+                    <i class="fa fa-arrows-alt"></i></a>
+                <a href="?print-pdf" class="btn btn-default cmd" style="color:red">
+                    <i class="fa fa-file-pdf-o"></i>
+                </a>
+                <a href=".." class="btn btn-default" 
+                    style="font-family:'Old Standard TT'; font-style:italic">
+                    <i lass="fa fa-angle-left"></i> back
+                </a>
+            </div>
+            <span style="
+                margin-left:10px;
+                font-family:Roboto;
+                font-weight: 300;"> © KEN PU, 2016 </span>
+        </div>
+
+        <script src="/js/jquery-2.2.1.min.js"></script>
+        <script src="/js/pdf.js"></script>
+        <script src="/js/clipboard.min.js"></script>
+
+        <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
+        <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
+
+        
+
+        <script>
+        window.invokeHandler = function(f, args) {
+            if(f) f.apply(null, args);
+        };
+        if(window.print_pdf || window.remote_controller) {
+            $("div.footnote").remove();
+            window.invokeHandler = function() { }
+        }
+        var fullscreen = false;
+        $("body").on("click", ".cmd-fullscreen", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            function exitFullscreen() {
+              if(document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if(document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if(document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              }
+              fullscreen = false;
+            }
+
+            function launchIntoFullscreen(element) {
+              if(element.requestFullscreen) {
+                element.requestFullscreen();
+              } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+              } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+              } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+              }
+              fullscreen = true;
+            }
+
+            if(fullscreen)
+                exitFullscreen();
+            else
+                launchIntoFullscreen(document.documentElement); 
+        });
+
+        
+        function isBreak($p, $section) {
+            if($p.is("h1") && $section.children().size() > 0)
+                return true;
+
+            var a = $p.find("a:first");
+            if(a.size() > 0 &&
+                    a.text() == "!" && 
+                    a.attr("href") == "break") {
+                a.detach();
+                return true;
+            }
+            return false;
+        }
+        $(function() {
+            var $reveal = $(".reveal > .slides");
+            var $elems = $reveal.children();
+            var $section = $("<section>");
+            for(var i=0; i < $elems.length; i++) {
+                var $elem = $($elems[i]);
+                if(isBreak($elem, $section)) {
+                    $section.appendTo($reveal);
+                    $elem.appendTo($section)
+                        .wrap("<aside class='notes'>");
+                    $section = $("<section>");
+                    if($elem.is("h1")) {
+                        $elem.appendTo($section);
+                    }
+                } else {
+                    $elem.appendTo($section);
+                }
+            }
+            if($section.children().length > 0) {
+                $section.appendTo($reveal);
+            }
+
+            startReveal($reveal);
+        });
+
+        function startReveal($slides) {
+			Reveal.initialize({
+                controls: false, 
+				history: true,
+                slideNumber: true,
+                center: false,
+                transition: "zoom",
+                transitionSpeed: "fast",
+
+                chalkboard: { 
+                    
+                    
+                },
+
+
+				
+				dependencies: [
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/notes/notes.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/highlight/highlight.js', 
+                        async: true, 
+                        callback: function() { hljs.initHighlightingOnLoad(); } 
+                    },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/hljslinenumber/index.js', async: true},
+                    
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/math/math.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/multicolumn/multicolumn.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/kensextensions/main.js', async: true },
+                    {src: 'http:\/\/db.science.uoit.ca/reveal.js/plugin/pdfviewer/pdfviewer.js', async: true},
+                ],
+			});
+            Reveal.addEventListener('ready', function() {
+                console.debug("Ready to reveal");
+                $slides.animate({
+                    opacity: 1.0,
+                });
+                if(window.myEvents) myEventReady(window.myEvents);
+            });
+
+            Reveal.addEventListener("slidechanged", function(e) {
+                if(window.myEvents) myEventSlide(window.myEvents, e);
+            });
+        }
+
+        function myEventReady(evs) {
+            console.debug("myEventReady", evs);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                $(".reveal section").each(function() {
+                    var $section = $(this);
+                    if($section.find(selector).size() > 0) {
+                        window.invokeHandler(handlers.init, [$section]);
+                    }
+                });
+            }
+        }
+
+        function myEventSlide(evs, e) {
+            var $current = $(e.currentSlide);
+            for(var selector in evs) {
+                var handlers = evs[selector];
+                var $anchor = $current.find(selector);
+                if($anchor.size() > 0) {
+                    if(! $anchor.is(".invoked-once")) {
+                        window.invokeHandler(handlers.once, [$current]);
+                        $anchor.addClass("invoked-once");
+                    }
+                    window.invokeHandler(handlers.enter, [$current]);
+                }
+            }
+        }
+		</script>
+	</body>
+</html>
+
+

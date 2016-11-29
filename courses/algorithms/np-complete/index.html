@@ -355,6 +355,53 @@ the total value <code>$$\sum_{i\in J} v_i$$</code>?</p>
 </blockquote>
 
 <p><img src="np-complete.jpg"></img></p>
+
+<h1 id="polynomial-reduction">Polynomial reduction</h1>
+
+<p><em>Definition</em></p>
+
+<p>Let $X$ be a decision problem, and $Y$ another decision problem.  We can say
+that $X$ no harder than $Y$ if there exists a polynormial-time algorithm</p>
+
+<p><code>$$\theta:\mathrm{instance}(X)\to \mathrm{instance}(Y)$$</code></p>
+
+<p>such that:</p>
+
+<p>$$ \forall P\in\mathrm{instance}(X), P\mathrm{\ is\ true} \iff \theta(P)
+\mathrm{\ is\ true}$$</p>
+
+<p>If there exists such $\theta$, then we say that</p>
+
+<p>$$ X\leq^P Y $$</p>
+
+<p>which reads $X$ is reduced to $Y$, and $\theta$ is the reduction.</p>
+
+<h1 id="toc_23">_______________________</h1>
+
+<p><em>Intuition</em></p>
+
+<p>If $X\leq^P Y$, then $X$ can be solved using a solver for $Y$.  Furthermore,
+since the reduction must be in polynormial time, we have:</p>
+
+<p>$$ Y\in\mathbf{P} \implies X\in\mathcal{P} $$</p>
+
+<hr />
+
+<p>$X$ is no harder than $Y$.</p>
+
+<h1 id="np-hard-problems">NP-hard problems</h1>
+
+<p><em>Definition</em></p>
+
+<p>A problem $Y$ is NP-hard if:</p>
+
+<p>$$\forall\ X\in \mathbf{NP},\ X\leq^P Y$$</p>
+
+<hr />
+
+<p><em>A surprising discovery</em>:</p>
+
+<p>There exists $Y\in\mathbf{NP}$ that is NP-hard.</p>
 </div>
         </div>
 

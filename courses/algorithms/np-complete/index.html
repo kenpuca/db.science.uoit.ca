@@ -383,7 +383,7 @@ that $X$ no harder than $Y$ if there exists a polynormial-time algorithm</p>
 <p>If $X\leq^P Y$, then $X$ can be solved using a solver for $Y$.  Furthermore,
 since the reduction must be in polynormial time, we have:</p>
 
-<p>$$ Y\in\mathbf{P} \implies X\in\mathcal{P} $$</p>
+<p>$$ Y\in\mathbf{P} \implies X\in\mathbf{P} $$</p>
 
 <hr />
 
@@ -397,11 +397,220 @@ since the reduction must be in polynormial time, we have:</p>
 
 <p>$$\forall\ X\in \mathbf{NP},\ X\leq^P Y$$</p>
 
-<hr />
+<h1 id="np-completeness-1">NP-completeness</h1>
+
+<p><a href="columns 6:">!</a></p>
 
 <p><em>A surprising discovery</em>:</p>
 
 <p>There exists $Y\in\mathbf{NP}$ that is NP-hard.</p>
+
+<hr />
+
+<p><em>Definition</em>:</p>
+
+<p>$\newcommand{\npc}{\mathbf{NP}\text{-complete}}$
+$\newcommand{\nphard}{\mathbf{NP}\text{-hard}}$</p>
+
+<p><code>$$\npc = \mathbf{NP}\cap\nphard$$</code></p>
+
+<p><a href="split">!</a></p>
+
+<p><img src="cook.jpg"></img></p>
+
+<p><em>Stephen Cook</em>, University of Toronto, 2013</p>
+
+<h1 id="the-significance-of-np-complete-problems">The significance of NP-complete problems</h1>
+
+<ul>
+<li><p>They are easy to verify.</p></li>
+
+<li><p>They are the hardest problems to solve in NP.</p></li>
+
+<li><p>They are all equally hard to solve:</p>
+
+<p>$\forall X, Y\in\npc, X\leq^P Y \mathrm{\ and\ } Y\leq^P X$ (by definition)</p>
+
+<p>Therefore, $ X\simeq^P Y $</p></li>
+</ul>
+
+<h1 id="knapsack-revisited">Knapsack revisited</h1>
+
+<p><em>Theorem</em>:</p>
+
+<p>The decision problem of KNAPSACK is NP-complete.</p>
+
+<p>$$ \mathbf{KNAPSACK} \in \npc $$</p>
+
+<h1 id="finding-over-np-complete-problems">Finding over NP-complete problems</h1>
+
+<p>The key is to use <em>reduction</em>.</p>
+
+<p><em>Observation</em>:</p>
+
+<blockquote>
+<p>If:</p>
+
+<ul>
+<li>$Y\in\mathbf{NP}$, and</li>
+<li>$\exists X\in\npc$ such that $X\leq^P Y$</li>
+</ul>
+
+<p>Then $Y\in\npc$.</p>
+</blockquote>
+
+<h1 id="our-second-np-complete-problem">Our second NP-complete problem</h1>
+
+<p><em>Integer linear programming</em> (ILP)</p>
+
+<hr />
+
+<p><a href="columns 6:">!</a></p>
+
+<ul>
+<li><p>A matrix</p>
+
+<p><code>$$ A = \left[\begin{array}{ccc}
+              a_{11} &amp; a_{12} &amp; \dots \\
+              a_{21} &amp; a_{22} &amp; \dots \\
+              \vdots &amp; \vdots &amp; \ddots \\
+              \end{array}\right]_{mn} $$</code></p></li>
+
+<li><p>Vectors</p>
+
+<p><code>$$ C = \left[\begin{array}{c}
+              c_1 \\
+              c_2 \\
+              \vdots \\
+              \end{array}\right]_{m1}
+\quad
+B = \left[\begin{array}{c}
+              b_1 \\
+              b_2 \\
+              \vdots \\
+              \end{array}\right]_{n1} 
+\quad
+k \in \mathbb{R} $$</code></p></li>
+
+<li><p>variables:</p>
+
+<p><code>$$ x = \left[\begin{array}{c}
+              x_1 \\
+              x_2 \\
+              \vdots \\
+              \end{array}\right]_{n1} $$</code></p></li>
+</ul>
+
+<p><a href="split">!</a></p>
+
+<p>Does there exists a solution for $x$ such that $x_i$ are integers satisfying:</p>
+
+<ol>
+<li><p>$A\cdot x \leq C$, and</p></li>
+
+<li><p>$B^T\cdot x \leq k$ ?</p></li>
+</ol>
+
+<h1 id="integer-linear-programming">Integer Linear Programming</h1>
+
+<p><em>Claim</em>:</p>
+
+<p><a href="box">!</a> $\mathbf{ILP}\in\npc$</p>
+
+<p><em>Proof</em>:</p>
+
+<p>We can reduce KNAPSACK to ILP:</p>
+
+<ul>
+<li><p>$A$ is a diagonal matrix with the diagonal being the weights $w_i$.</p></li>
+
+<li><p>For each element $i$, we create an integer variable $x_i$.</p></li>
+
+<li><p>For each $x_i$, we impose $x_i &lt;= 1$ and $-x_i &lt;= 0$.  This forces each
+$x_i\in{0, 1}$.</p></li>
+
+<li><p>$C$ is the capacity.</p></li>
+
+<li><p>$B = [v_1 v_2 \dots v_n]$, so $B^T x$ is the total selected value.</p></li>
+</ul>
+
+<h1 id="toc_31">______________</h1>
+
+<p><em>Proof</em> continue</p>
+
+<p>So we can see that KNAPSACK is <em>yes</em> if and only if the corresponding ILP is
+<em>yes</em>.</p>
+
+<p>The transformation from KNAPSACK to ILP can be done in polynomial time, so</p>
+
+<p>$$\mathbf{KNAPSACK}\leq^P\mathbf{IPL}$$</p>
+
+<p>Since KNAPSACK$\in\npc$, we conclude IPL$\in\nphard$.</p>
+
+<p>It&rsquo;s almost trivial to check that IPL can be <em>verified</em> in polynomial time.
+Therefore, $\mathbf{IPL}\in\mathbf{NP}$.</p>
+
+<p>Therefore,</p>
+
+<p>$$\mathbf{IPL}\in\npc$$</p>
+
+<h1 id="intractability">Intractability</h1>
+
+<p>It&rsquo;s been over 30 years since we have tried to decide if $\npc\in\mathbf{P}$.</p>
+
+<p>We know:</p>
+
+<p>$$\npc\in\mathbf{P} \iff \mathbf{P} = \mathbf{NP}$$</p>
+
+<p>The 3 decades of &ldquo;failure&rdquo; certainly means <em>one</em> thing:</p>
+
+<ol>
+<li><p>No human has ever come up with a polynomial algorithm for a NP-complete problem.</p></li>
+
+<li><p>If you have a NP-hard optimization problem, don&rsquo;t bother trying to obtain the
+optimal solution.  It&rsquo;s been a failed attempt for 30+ years.</p></li>
+</ol>
+
+<h1 id="toc_33">_________________</h1>
+
+<p>There are thousands of NP-complete problems known to us:</p>
+
+<p><a href="box">!</a> <a href="https://en.wikipedia.org/wiki/List_of_NP-complete_problems">https://en.wikipedia.org/wiki/List_of_NP-complete_problems</a></p>
+
+<hr />
+
+<ul>
+<li><p>Scheduling</p></li>
+
+<li><p>Pattern matching</p></li>
+
+<li><p>Chess</p></li>
+
+<li><p>Cracking passwords</p></li>
+</ul>
+
+<p>and of course, Knapsack.</p>
+
+<h1 id="the-end">The end</h1>
+
+<p><button class="the-end show btn btn-primary" style="font-size: 100%">Thanks</button></p>
+
+<div id="terminal" 
+    style="display: none;">
+    <img src="holiday.jpg" height=300px></img>
+    <p>
+    <a style="font-family:Roboto; font-size: 80%"
+       href="http://www.bensound.com/">Bensound.com</a></span>
+       <button class="btn btn-default stop">Stop</button>
+    </p>
+
+    <div style="text-align:right">
+    Best wishes, <br>
+
+    Ken Pu, 2016.
+    </div>
+
+<p></div></p>
 </div>
         </div>
 
@@ -438,6 +647,8 @@ since the reduction must be in polynormial time, we have:</p>
         <script src="http://db.science.uoit.ca/reveal.js/lib/js/head.min.js"></script>
         <script src="http://db.science.uoit.ca/reveal.js/js/reveal.js"></script>
 
+        
+        <script src="myscript.js"></script>
         
 
         <script>

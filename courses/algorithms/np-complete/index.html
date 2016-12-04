@@ -508,7 +508,7 @@ k \in \mathbb{R} $$</code></p></li>
 <ol>
 <li><p>$A\cdot x \leq C$, and</p></li>
 
-<li><p>$B^T\cdot x \leq k$ ?</p></li>
+<li><p>$B^T\cdot x \geq k$ ?</p></li>
 </ol>
 
 <h1 id="integer-linear-programming">Integer Linear Programming</h1>
@@ -543,16 +543,16 @@ $x_i\in{0, 1}$.</p></li>
 
 <p>The transformation from KNAPSACK to ILP can be done in polynomial time, so</p>
 
-<p>$$\mathbf{KNAPSACK}\leq^P\mathbf{IPL}$$</p>
+<p>$$\mathbf{KNAPSACK}\leq^P\mathbf{ILP}$$</p>
 
-<p>Since KNAPSACK$\in\npc$, we conclude IPL$\in\nphard$.</p>
+<p>Since KNAPSACK$\in\npc$, we conclude ILP$\in\nphard$.</p>
 
-<p>It&rsquo;s almost trivial to check that IPL can be <em>verified</em> in polynomial time.
-Therefore, $\mathbf{IPL}\in\mathbf{NP}$.</p>
+<p>It&rsquo;s almost trivial to check that ILP can be <em>verified</em> in polynomial time.
+Therefore, $\mathbf{ILP}\in\mathbf{NP}$.</p>
 
 <p>Therefore,</p>
 
-<p>$$\mathbf{IPL}\in\npc$$</p>
+<p>$$\mathbf{ILP}\in\npc$$</p>
 
 <h1 id="intractability">Intractability</h1>
 

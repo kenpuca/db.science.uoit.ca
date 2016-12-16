@@ -1905,6 +1905,37 @@ to start with.&lt;/p&gt;
     
     <item>
       <title></title>
+      <link>http://db.science.uoit.ca/announcements/a/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/announcements/a/</guid>
+      <description>
+
+&lt;h1 id=&#34;bulletin-board&#34;&gt;Bulletin board&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;(Dec 14, 2016): &lt;strong&gt;Services&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I have been asked to provide reference letters for job applications and
+graduate studies.  Please be advised of the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Part of your request should include why you think I should be able to
+adequately reflect your qualities as a candidate.  Remind me your
+achievements and accomplishments that I can refer to.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Allow me at least &lt;em&gt;two&lt;/em&gt; weeks to compose the letter.  This gives me
+enough time to write a thoughtful letter to maximize the chance of
+success.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>http://db.science.uoit.ca/courses/algorithms/insert-sort/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -4727,293 +4758,6 @@ $$&lt;/code&gt;&lt;/p&gt;
 
 &lt;li&gt;&lt;p&gt;So that $n^2 + 10000= \mathcal{O}(n^3)$.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Basics of Scala</title>
-      <link>http://db.science.uoit.ca/courses/programming-languages/scala-basics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/courses/programming-languages/scala-basics/</guid>
-      <description>
-
-&lt;h1 id=&#34;basics-of-scala&#34;&gt;Basics of Scala&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;objects&#34;&gt;Objects&lt;/h1&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;var name : String = &amp;quot;hello&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
-This creates a &lt;strong&gt;variable&lt;/strong&gt;, with the type &lt;code&gt;String&lt;/code&gt;, and it&amp;rsquo;s initialized to
-&amp;ldquo;hello&amp;rdquo;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;name.CharAt(0)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
-Java-style method invocation&lt;/p&gt;
-
-&lt;h1 id=&#34;toc_2&#34;&gt;______&lt;/h1&gt;
-
-&lt;p&gt;Scala uses the same scoping and symbol bindings.&lt;/p&gt;
-
-&lt;p&gt;There are two types of &lt;em&gt;symbols&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Variables&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Bindings to &lt;code&gt;var&lt;/code&gt; can be updated.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;var name:String = &amp;quot;Albert&amp;quot;
-name = &amp;quot;Einstein&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Values&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Bindings to &lt;code&gt;val&lt;/code&gt; is permanent.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val name : String = &amp;quot;Alert&amp;quot;
-name = &amp;quot;Einstein&amp;quot;
-// error: reassignment to val
-//       x = &amp;quot;Einstein&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;box&#34;&gt;!&lt;/a&gt; This is the same as Clojure, and it&amp;rsquo;s preferred over &lt;code&gt;var&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h1 id=&#34;type-inference&#34;&gt;Type Inference&lt;/h1&gt;
-
-&lt;p&gt;&lt;em&gt;Definition&lt;/em&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;A statically typed language is one that requires the compiler to have complete
-type information on all the symbols in the source code &lt;strong&gt;at&lt;/strong&gt; compile-time.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Java &lt;strong&gt;and&lt;/strong&gt; Scala are statically typed languages.&lt;/li&gt;
-&lt;li&gt;Clojure and Python are not statically typed, but typed (at runtime).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&#34;&amp;amp;&amp;amp;&amp;amp;&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;The compiler needs type information specified for &lt;em&gt;all&lt;/em&gt; the symbols.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;String name;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val name : String = ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;toc_4&#34;&gt;____&lt;/h1&gt;
-
-&lt;p&gt;Scala has a feature, known as &lt;em&gt;type inference&lt;/em&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;At compile-time, the compiler makes a best attempt to fill in the missing type
-information.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;val small_integer = 42
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The compiler will see that &lt;code&gt;small_integer&lt;/code&gt; should be &lt;code&gt;Int&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;var x = y
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The compiler will use the type of &lt;code&gt;y&lt;/code&gt; to infer the type of &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;In the interactive interpreter session, you can always inspect the type
-information of existing symbols:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;:t small_integer
-Int
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;procedural-programming&#34;&gt;Procedural programming&lt;/h1&gt;
-
-&lt;h2 id=&#34;if&#34;&gt;IF&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;if (&amp;lt;cond&amp;gt;) {
-  &amp;lt;expression&amp;gt;
-} else if (&amp;lt;cond&amp;gt;) {
-  &amp;lt;expression&amp;gt;
-} else {
-  &amp;lt;expression&amp;gt;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
-The classic Java-style branching.  Scala has better pattern matching
-which is preferred over if-else.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;if-else&lt;/code&gt; is an expression, not a statement.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;columns 6:&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val age = 65
-var senior:String = &amp;quot;&amp;quot;
-if(age &amp;lt; 65) {
-  senior = &amp;quot;Not senior&amp;quot;
-} else {
-  senior = &amp;quot;Senior&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;split&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;val age = 65
-val senior = if(age &amp;lt; 65) 
-               &amp;quot;Not senior&amp;quot;
-             else
-               &amp;quot;Senior&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;toc_7&#34;&gt;_____&lt;/h1&gt;
-
-&lt;h2 id=&#34;for&#34;&gt;FOR&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;for(&amp;lt;val&amp;gt; &amp;lt;- &amp;lt;iterable&amp;gt;) {
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;All container data structures are iterables: arrays, lists, map, &amp;hellip;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Scala has a nice way to generate iterables over integer ranges:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;1 to 10     // 1, 2, ... 10
-1 until 10  // 1, 2, ... 9
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;for(x &amp;lt;- 1 to 10) {
-  println(x)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;
-Scala&amp;rsquo;s &lt;code&gt;for&lt;/code&gt; loop is much more powerful then simple iteration.  More on this
-in lectures on programming with sequences.&lt;/p&gt;
-
-&lt;h1 id=&#34;toc_9&#34;&gt;_____________&lt;/h1&gt;
-
-&lt;h2 id=&#34;loops&#34;&gt;Loops&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;while(&amp;lt;cond&amp;gt;) {
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala&#34;&gt;do {
-    ...
-} while(&amp;lt;cond&amp;gt;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;syntax-rules&#34;&gt;Syntax rules&lt;/h1&gt;
-
-&lt;p&gt;Suppose that an object has zero or one argument.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;obj.method()
-obj.method(arg)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then the parenthesis can be omitted:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;obj.method
-obj.method arg
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The dot can also be omitted:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;obj method
-obj method arg
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;toc_12&#34;&gt;_____&lt;/h1&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1 + 2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; This is actually a method invocation in disguise.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1.+(2)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; The equivalent syntax in method invocation.  The method name is &lt;code&gt;+&lt;/code&gt;,
-the object is &lt;code&gt;1&lt;/code&gt;, and the argument is &lt;code&gt;2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;This type of syntax rule allows us to introduce user-defined operators to
-support programming constructs such as:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;x multiplyWith y
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt; We assume that the object &lt;code&gt;x&lt;/code&gt; has a method called &lt;code&gt;multiplyWith&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;We can also invoke Java methods like operators&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;hello&amp;quot; charAt 3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h1 id=&#34;syntax-rules-1&#34;&gt;Syntax rules&lt;/h1&gt;
-
-&lt;p&gt;More syntax rules to come.&lt;/p&gt;
-
-&lt;h1 id=&#34;functions&#34;&gt;Functions&lt;/h1&gt;
-
-&lt;p&gt;Functions are in fact objects of a &lt;em&gt;function&lt;/em&gt; class.  Scala offers a succinct
-syntax for defining functions.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm&#34;&gt;import scala.math
-val area = {(count:Int, radius:Float) =&amp;gt; x * scala.math.Pi * radius * radius}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-scala sm clipboard&#34;&gt;val area : (Int, Float) =&amp;gt; Double = {
-  (count, radius) =&amp;gt; {
-    var total: Double = 0
-    for(i &amp;lt;- 0 until count) {
-        total += scala.math.Pi * radius * radius
-    }
-    total
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;The type of the &lt;code&gt;val&lt;/code&gt; is &lt;code&gt;(Int, Float) =&amp;gt; Double&lt;/code&gt;.  This is also known as
-the &lt;em&gt;function signature&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;The value is a function (instance of a class Function2).&lt;/li&gt;
-&lt;li&gt;The inputs are bound to symbols &lt;code&gt;count&lt;/code&gt; and &lt;code&gt;radius&lt;/code&gt;.
-Note the binding types are inferred based on the function signature.
-&lt;a href=&#34;note&#34;&gt;!&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&#34;highlight&#34;&gt;!&lt;/a&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Bindings&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Procedural programming&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Object method invocation&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Function as data&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     

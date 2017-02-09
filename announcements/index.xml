@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Announcements-rsses on db@uoit</title>
-    <link>http://db.science.uoit.ca/announcements/index.xml</link>
-    <description>Recent content in Announcements-rsses on db@uoit</description>
+    <title>Announcements on db@uoit</title>
+    <link>http://db.science.uoit.ca/announcements/</link>
+    <description>Recent content in Announcements on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://db.science.uoit.ca/announcements/index.xml" rel="self" type="application/rss+xml" />
@@ -19,6 +19,12 @@
 &lt;h1 id=&#34;bulletin-board&#34;&gt;Bulletin board&lt;/h1&gt;
 
 &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;(Feb 1, 2017): &lt;strong&gt;Congratulations&lt;/strong&gt; to Michael&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Michael has successfully defended his Master&amp;rsquo;s thesis.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
 &lt;li&gt;&lt;p&gt;(Jan 3, 2017): &lt;strong&gt;Research leave&lt;/strong&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;

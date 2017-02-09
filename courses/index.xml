@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Courses-rsses on db@uoit</title>
-    <link>http://db.science.uoit.ca/courses/index.xml</link>
-    <description>Recent content in Courses-rsses on db@uoit</description>
+    <title>Courses on db@uoit</title>
+    <link>http://db.science.uoit.ca/courses/</link>
+    <description>Recent content in Courses on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 22 Nov 2016 00:00:00 +0000</lastBuildDate>

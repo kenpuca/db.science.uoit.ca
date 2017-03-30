@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Peoples on db@uoit</title>
-    <link>http://db.science.uoit.ca/people/</link>
+    <link>http://db.science.uoit.ca/people/index.xml</link>
     <description>Recent content in Peoples on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -148,6 +148,22 @@ vision applications.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Honours Thesis in Bachelor of Science (Computer Science):&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Supporting function-variables to logical programming&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://db.science.uoit.ca/people/beirami/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://db.science.uoit.ca/people/beirami/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Amin Beirami&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Master in Computer Science&lt;/p&gt;
+
+&lt;p&gt;To be decided.&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>
     </item>

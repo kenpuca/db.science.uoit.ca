@@ -2,8 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://db.science.uoit.ca/</loc>
-    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
+    <loc>http://db.science.uoit.ca/projects/mobile-recommender/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/pixel-packing/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/vision-pipeline/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/constraint-db/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/helala/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/ferron/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/hedrick/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/lo/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/milayhov/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/pacewicz/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/phillips/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/beirami/</loc>
   </url>
   
   <url>
@@ -67,6 +110,11 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/announcements/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/big-o/</loc>
   </url>
   
@@ -92,6 +140,12 @@
   
   <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/clojure-language/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/courses/</loc>
+    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -135,7 +189,17 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/people/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/projects/</loc>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -155,6 +219,12 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/slides/</loc>
+    <lastmod>2016-09-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/algorithms/sorting-numbers/</loc>
   </url>
   
@@ -167,47 +237,15 @@
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/projects/mobile-recommender/</loc>
+    <loc>http://db.science.uoit.ca/writings/</loc>
+    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://db.science.uoit.ca/projects/pixel-packing/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/projects/vision-pipeline/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/projects/constraint-db/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/helala/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/ferron/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/hedrick/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/lo/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/milayhov/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/pacewicz/</loc>
-  </url>
-  
-  <url>
-    <loc>http://db.science.uoit.ca/people/phillips/</loc>
+    <loc>http://db.science.uoit.ca/</loc>
+    <lastmod>2016-11-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>

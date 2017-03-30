@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Announcements on db@uoit</title>
-    <link>http://db.science.uoit.ca/announcements/</link>
+    <link>http://db.science.uoit.ca/announcements/index.xml</link>
     <description>Recent content in Announcements on db@uoit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -19,6 +19,8 @@
 &lt;h1 id=&#34;bulletin-board&#34;&gt;Bulletin board&lt;/h1&gt;
 
 &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;(March 1, 2017): &lt;strong&gt;Welcome&lt;/strong&gt; to Amin to the group&lt;/p&gt;&lt;/li&gt;
+
 &lt;li&gt;&lt;p&gt;(Feb 1, 2017): &lt;strong&gt;Congratulations&lt;/strong&gt; to Michael&lt;/p&gt;
 
 &lt;blockquote&gt;

@@ -14,8 +14,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://db.science.uoit.ca/projects/open-data/</guid>
-      <description>&lt;p&gt;Open Data is the hottest addition to the Web.  Back by various nations and
-governments, millions of open data sets are being released by authoritative
+      <description>&lt;p&gt;Open Data is the hottest addition to the Web.
+Millions of open data sets are being released by authoritative
 sources.  This is a vastly valuable opportunity for data scientists to gain
 greater insights into a multitude of social and economic issues.&lt;/p&gt;
 
@@ -38,38 +38,6 @@ therefore, it should be able to make better recommendations that it&amp;rsquo;s 
 &lt;p&gt;In this project, we are building a new mobile based recommender system that can
 safely and privately observe its environment, deduce the situational context,
 and make more sensible recommendations to the user.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Pixel level visualization</title>
-      <link>http://db.science.uoit.ca/projects/pixel-packing/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/projects/pixel-packing/</guid>
-      <description>&lt;p&gt;There are over 1.5 million IMDB movie entries, and roughly the same number of
-pixels on a mobile device.  Is it possible to build an algorithm to map each
-movie to a single pixel for the purpose of data visualization?&lt;/p&gt;
-
-&lt;p&gt;We are looking into ways of discovering graph structures based on a relational
-database, and then use the graph structure to generate a pixel level data
-visualization of (up to) millions of relational entities.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Stream algebra for computer vision</title>
-      <link>http://db.science.uoit.ca/projects/vision-pipeline/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://db.science.uoit.ca/projects/vision-pipeline/</guid>
-      <description>&lt;p&gt;Computer Vision algorithms are challenging to implement. The data input is a big
-data stream, and the intermediate processors often require fine tuning.&lt;/p&gt;
-
-&lt;p&gt;We are investigating the applications of streaming database technology to enable
-rapid development, deployment and tuning of computer vision workflow by the
-means of formal streaming algebra and structural optimization of algebraic
-expressions.&lt;/p&gt;
 </description>
     </item>
     

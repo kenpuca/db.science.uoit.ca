@@ -50,6 +50,14 @@
   </url>
   
   <url>
+    <loc>http://db.science.uoit.ca/people/lemmon/</loc>
+  </url>
+  
+  <url>
+    <loc>http://db.science.uoit.ca/people/stoica/</loc>
+  </url>
+  
+  <url>
     <loc>http://db.science.uoit.ca/courses/programming-languages/concurrency/</loc>
     <lastmod>2016-11-22T00:00:00+00:00</lastmod>
   </url>
